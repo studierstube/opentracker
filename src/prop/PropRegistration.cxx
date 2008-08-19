@@ -265,7 +265,7 @@ namespace ot {
       }
 
 /* begin test */
-	  TNT::Matrix<double> blubbMatrix(3,3);
+	/*  TNT::Matrix<double> blubbMatrix(3,3);
 
 	  blubbMatrix[0][0]=1;
 	  blubbMatrix[0][1]=0;
@@ -275,26 +275,26 @@ namespace ot {
 	  blubbMatrix[1][2]=0;
 	  blubbMatrix[2][0]=2;
 	  blubbMatrix[2][1]=1;
-	  blubbMatrix[2][2]=0;
+	  blubbMatrix[2][2]=0;*/
 /*
  end test
 */
 
 	  //transpose(real_prop_point_list,aMatrix);
-	  transpose(blubbMatrix,aMatrix);
-	  transpose(virtual_prop_point_list,bMatrix);
+//     transpose(blubbMatrix,aMatrix);
+//	  transpose(virtual_prop_point_list,bMatrix);
 
-	  writeEquation(aMatrix,bMatrix,"Equationfile.txt");
+//	  writeEquation(aMatrix,bMatrix,"Equationfile.txt");
 	  
 	  // diagonalize the real prop matrix and create a QR factorization
 	  // here we use Gram-Schmidt-Orthogonalization
 
 	  //ab jetzt transponiert !!!
 
-	  gramSchmidt(aMatrix, qMatrix, rMatrix, aMatrix.num_rows(), aMatrix.num_cols());
+//	  gramSchmidt(aMatrix, qMatrix, rMatrix, aMatrix.num_rows(), aMatrix.num_cols());
 //	  gramSchmidt(real_prop_point_list, qMatrix, rMatrix, real_prop_point_list.num_rows(), real_prop_point_list.num_cols());
-	  writeMatrix (rMatrix,"rMatrix.txt");
-
+//	  writeMatrix (rMatrix,"rMatrix.txt");
+/*
 	  gaussJordan(rMatrix,rInvert);
 
 	  writeMatrix (rInvert,"rInvert.txt");
@@ -311,7 +311,7 @@ namespace ot {
 	  //      multiply Rinvert * result; 
 		
 	  writeMatrix(transposedMa,"rTransposed.txt");
-
+*/
 	  /*
       RigidTransform rigid_transform(real_prop_point_list,virtual_prop_point_list);
 
@@ -765,7 +765,7 @@ void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> &
 	return;
 }
 
-void PropRegistration::writeEquation(TNT::Matrix<double> &bla,TNT::Matrix<double> &blubb, 
+/*void PropRegistration::writeEquation(TNT::Matrix<double> &bla,TNT::Matrix<double> &blubb, 
 									 const char *filename)
 {
 	std::ofstream file;
@@ -792,9 +792,9 @@ void PropRegistration::writeEquation(TNT::Matrix<double> &bla,TNT::Matrix<double
 	file << "\n\nEquation: \n realPoints * x = virtualPoints";
 	file.close();
 	return;
-}
+}*/
 
-void PropRegistration::writeMatrix (TNT::Matrix<double> &mat, const char *filename)
+/*void PropRegistration::writeMatrix (TNT::Matrix<double> &mat, const char *filename)
 {
 	std::ofstream file;
 	int i;
@@ -807,9 +807,9 @@ void PropRegistration::writeMatrix (TNT::Matrix<double> &mat, const char *filena
 	
 	file.close();
 	return;
-}
+}*/
 
-void PropRegistration::gramSchmidt(TNT::Matrix<double> &a,TNT::Matrix<double> &q,TNT::Matrix<double> &r, 
+/*void PropRegistration::gramSchmidt(TNT::Matrix<double> &a,TNT::Matrix<double> &q,TNT::Matrix<double> &r, 
 								   int n, int m)
 {
 	int i,j,k; 
@@ -910,9 +910,9 @@ void PropRegistration::gaussJordan(TNT::Matrix<double> &a,TNT::Matrix<double> &i
     inverted[0][0]= 1/a[0][0];
 	
 return;
-}
+}*/
 
-void PropRegistration::transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &out)
+/*void PropRegistration::transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &out)
 {
 	int i,j;
 
@@ -922,9 +922,9 @@ void PropRegistration::transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &
 	
 	return;
 
-}
+}*/ 
 
-void PropRegistration::multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<double> &rightMa, TNT::Matrix<double> &resultMa)
+/*void PropRegistration::multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<double> &rightMa, TNT::Matrix<double> &resultMa)
 {
 	int i,j,k;
 
@@ -937,7 +937,7 @@ void PropRegistration::multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<doub
 		}
 
 	return;
-}
+}*/
 
 
 } // namespace ot
