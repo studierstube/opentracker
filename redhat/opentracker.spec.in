@@ -42,7 +42,8 @@ cmake \
 -DCMAKE_INSTALL_LIBDIR:PATH=%{_libdir} \
 .
 make
-#make doc
+cd doc
+doxygen opentracker.dxy
 
 %install
 #scons --cache-disable DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir} install
@@ -50,6 +51,8 @@ make
 #mkdir -p $RPM_BUILD_ROOT/%{_datadir}
 #cp -a share $RPM_BUILD_ROOT/%{_datadir}/%{name}
 DESTDIR=$RPM_BUILD_ROOT make install
+mkdir -p $RPM_BUILD_ROOT/%{_docdir}/%{name}
+cp -a doc/html $RPM_BUILD_ROOT/%{_docdir}/%{name}
 
 %clean
 #scons -c
@@ -67,6 +70,7 @@ Summary:	Open Tracker header and include files
 Group:		Development/Libraries
 Requires:	%{name} = %{version} ICGBuilder ACE-devel Xerces-c-devel boost-devel ARToolKitPlus-devel
 
+
 %description devel
 This package contains header files and include files that are needed for development using the OpenTracker library.
 
@@ -75,3 +79,16 @@ This package contains header files and include files that are needed for develop
 %{_datadir}/cmake/Modules/*
 %{_libdir}/pkgconfig/*
 %{_prefix}/include/OpenTracker
+
+
+%package doc
+Summary:	OpenTracker documentation
+Group:		Development/Libraries
+Requires:	%{name} = %{version}
+
+%description doc
+OpenTracker documentation
+
+%files doc
+%defattr(-,root,root)
+%{_docdir}/*
