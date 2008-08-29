@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="newmat"
 	ProjectGUID="{F801C564-768B-4767-BD06-80BC19DF0867}"
 	RootNamespace="newmat"
@@ -242,6 +242,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\ARTDataTrackerChomp.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\extras\newmat10\boolean.h"
 				>

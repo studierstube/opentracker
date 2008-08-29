@@ -101,8 +101,8 @@
 #include <StbTracker/Features/MarkerDetectorDataMatrix.h>
 #include <StbTracker/Features/MarkerDetectorDataMatrixFixed.h>
 #include <StbTracker/Features/MarkerDetectorSplitFixed.h>
-#include <StbTracker/Features/PoseEstimatorLM.h>
-#include <StbTracker/Features/PoseEstimatorLMFixed32.h>
+//#include <StbTracker/Features/PoseEstimatorLM.h>
+//#include <StbTracker/Features/PoseEstimatorLMFixed32.h>
 #include <StbTracker/Features/PoseEstimatorNull.h>
 #include <StbTracker/Features/PoseEstimatorRPPSingle.h>
 #include <StbTracker/Features/PoseEstimatorRPPMulti.h>
