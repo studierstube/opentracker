@@ -69,8 +69,8 @@ def excludeDuplicates(_list):
 ################################################################################
 #     libraries, defines and source files required for minimal build           #
 ################################################################################
-_libs = ['xerces-c', 'ACE', 'curses']
-_defines = []
+_libs = ['xerces-c', 'ACE', 'ncurses']
+_defines = ['USE_NCURSES', 'OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT', 'OT_NO_STYLUSMODULE_SUPPORT']
 
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
@@ -82,6 +82,8 @@ misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx'), 'EEG
 misc_files = [join('src', 'misc', file) for file in misc]
 input_files = [join('src', 'input', file) for file in ['ARTDataTrackerChomp.cxx', 'ARTDataTrackerModule.cxx', 'ARTDataTrackerSource.cxx', 'ARToolKitModule.cxx', 'ARToolKitPlusModule.cxx', 'CyberMouseModule.cxx', 'DGPSIP_Handler.cxx', 'DGPSMirror_Handler.cxx', 'DynaSightModule.cxx', 'FastTrakModule.cxx', 'FOBModule.cxx', 'GoGoModule.cxx', 'GoGoSinkSource.cxx', 'GPSDriver.cxx', 'GPSGarminCompass.cxx', 'GPS_Handler.cxx', 'GPSModule.cxx', 'GPSParser.cxx', 'ICubeXModule.cxx', 'InterSenseModule.cxx', 'JoystickModule.cxx', 'Lanc.cxx', 'MagicYModule.cxx', 'MidiModule.cxx', 'MidiSink.cxx', 'MidiSource.cxx', 'MobilabDriver.cxx', 'Mobilab_Handler.cxx', 'MobilabModule.cxx', 'MulticastInputModule.cxx', 'OpenVideoModule.cxx', 'OrientationModule.cxx', 'P5GloveModule.cxx', 'PanTiltUnitModule.cxx', 'PanTiltUnitSinkSource.cxx', 'PhantomModule.cxx', 'PhantomSinkModule.cxx', 'PhantomSourceModule.cxx', 'PtuCallback.cxx', 'RawInputModule.cxx', 'RawInputSource.cxx', 'SpaceDeviceModule.cxx', 'SpeechCore.cxx', 'SpeechModule.cxx', 'SpeechSet.cxx', 'SpeechSource.cxx', 'SpeechVoice.cxx', 'SpeechVoiceModule.cxx', 'SysMouseModule.cxx', 'UbisenseModule.cxx', 'UbisenseSource.cxx', 'UltraTrakModule.cxx', 'WacomGraphireModule.cxx', 'WiiHandler.cpp', 'WiiModule.cxx', 'WiiSink.cxx', 'WiiSource.cxx', 'XSensModule.cxx','XSensSource.cxx']]
 input_files.append(join('extras','intersense','isense.c'))
+prop_files  = [join('src', 'prop', _file) for _file in ['PropRegistration.cxx','PropRegistrationModule.cxx','StylusCalibration.cxx','StylusModule.cxx']]
+prop_files += [join('src', 'prop', 'rigidTransform', _file) for _file in ['RigidTransform.cxx']]
 python_files = []
 jars = []
 
@@ -133,6 +135,7 @@ if sys.platform == 'darwin':
 	#env.Append(LIBS=['MallocDebug'])
     if env['ENABLE_CORBA']:
 	env.Append(CPPDEFINES=["__x86__", "__darwin__", "__OSVERSION__=1"])
+    env.Append(CPPDEFINES=["__APPLE__"])
 elif sys.platform.startswith('linux'):
     print "Linux specific configuration"
     if os.getenv("ACEROOT"):
@@ -189,6 +192,7 @@ else:
 if env['ENABLE_VRPN']:
     env.Append(CPPDEFINES='USE_VRPN')
     env.Append(LIBS=['vrpnserver'])
+    extra_files += [join(os.getcwd(), 'src', 'network', _file) for _file in['VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
 else:
     pass # do nothing
 #*********************************#
@@ -203,7 +207,7 @@ if env['ENABLE_CORBA']:
     env.Append(CPPDEFINES='USE_CORBA')
     env.Append(LIBS=['omniORB4', 'COSDynamic4', 'COS4', 'omniDynamic4', 'omnithread'])
     env.Append(CPPPATH=[join(os.getcwd(),'idl'), join(os.getcwd(),'idl', 'COS')])
-    extra_files += [join(os.getcwd(),'src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx', 'DwarfModule.cxx', 'NetworkSinkModule.cxx', 'NetworkSourceModule.cxx','OldOTNetworkSourceModule.cxx', 'TCPModule.cxx', 'VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
+    extra_files += [join(os.getcwd(),'src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx', 'DwarfModule.cxx', 'NetworkSinkModule.cxx', 'NetworkSourceModule.cxx','OldOTNetworkSourceModule.cxx', 'TCPModule.cxx']]
     if env['ENABLE_JAVA']:
 	import IDLJBuilder
 	IDLJBuilder.generate(env)
@@ -531,7 +535,7 @@ env.Append(BUILDERS = {'PackageConfig': pkgconfigbld})
 #     set targets                                                              #
 ################################################################################
 pkgcfg = env.PackageConfig('opentracker.pc','opentracker.pc.in')
-otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files)
+otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files + prop_files)
 # Copy otlib sources
 #env.Install( join('build', 'src'), essential_core_files + common_files + input_files + extra_files )
 

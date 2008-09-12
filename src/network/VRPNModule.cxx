@@ -143,9 +143,9 @@ void VRPNModule::start()
     }
 
     if( ip.compare("") == 0 )
-        connection = new vrpn_Connection( port );
+        connection = new vrpn_Connection_IP( port );
     else
-        connection = new vrpn_Connection( port, NULL, NULL, ip.c_str() );
+        connection = new vrpn_Connection_IP( port, NULL, NULL, ip.c_str() );
 
     VRPNSinkVector::iterator it2;
     for( it2 = sinks.begin(); it2 != sinks.end(); it2++ )

@@ -1,4 +1,4 @@
-
+#ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
 #include <OpenTracker/prop/PropRegistration.h>
 #include <OpenTracker/prop/rigidTransform/RigidTransform.h>
 
@@ -942,3 +942,4 @@ return;
 
 } // namespace ot
 
+#endif //OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT

@@ -4,7 +4,10 @@
  * @author Stefan Mooslechner
  */
 
+#ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
+
 #include <OpenTracker/prop/rigidTransform/RigidTransform.h>
+
 
 
 
@@ -141,3 +144,4 @@ TNT::Matrix<double> RigidTransform::getT()
 }
 
 
+#endif //OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
