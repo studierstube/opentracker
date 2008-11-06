@@ -1,3 +1,9 @@
+libopentracker (2.0a-26) unstable; urgency=low
+
+  * new version built using CMake 
+
+ -- Alexander Bornik <bornik@zarathustra.icg.tu-graz.ac.at>  Thu, 06 Nov 2008 11:25:06 +0100
+
 libopentracker (2.0a-25) unstable; urgency=low
 
   * new version 

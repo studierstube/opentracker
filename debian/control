@@ -2,7 +2,7 @@ Source: libopentracker
 Section: libs
 Priority: optional
 Maintainer: Alexander Bornik <bornik@icg.tu-graz.ac.at>
-Build-Depends: d-shlibs (>= 0.18), debhelper (>= 4.1.0), dh-buildinfo, pkg-config, scons (>= 0.96), sed (>= 4.1), libcurses-dev
+Build-Depends: d-shlibs (>= 0.18), debhelper (>= 4.1.0), dh-buildinfo, pkg-config, scons (>= 0.96), sed (>= 4.1), libncurses5-dev 
 Standards-Version: 3.6.1
 
 Package: libopentracker2-dev
