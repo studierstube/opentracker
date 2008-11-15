@@ -255,7 +255,8 @@ namespace ot {
 	  TNT::Matrix<double> rMatrix(real_prop_point_list.num_rows(),real_prop_point_list.num_rows());
 	  TNT::Matrix<double> rInvert(rMatrix.num_rows(),rMatrix.num_cols());
 	  TNT::Matrix<double> transposedMa(qMatrix.num_cols(),qMatrix.num_rows());
-	  TNT::Matrix<double> resultMa(transposedMa.num_cols(),virtual_prop_point_list.num_rows());
+	  TNT::Matrix<double> intermediateMa(transposedMa.num_cols(),virtual_prop_point_list.num_rows());
+	  TNT::Matrix<double> resultMa(rInvert.num_cols(),intermediateMa.num_rows());
 
       if (real_prop_point_list.num_cols() != number_of_prop_points)
       {
@@ -264,8 +265,64 @@ namespace ot {
          return;
       }
 
-/* begin test */
-	/*  TNT::Matrix<double> blubbMatrix(3,3);
+// judith: first look into translation: compute the center of mass for both point sets respectively 
+// the translation between both is the translation that has to be ignored in finding the rotation
+
+// compute the center of all values for the virtual prop and subtract that vector out of the virtual prop list
+// and store it in virtual prop points matrix
+	  // for all rows=0,1,2 sum all cols -> middle
+	  double average0=0;
+	  double average1=0;
+	  double average2=0;
+	  for(int i=0; i<real_prop_point_list.num_cols();i++)
+	  {
+		  average0+=real_prop_point_list[0][i];
+		  average1+=real_prop_point_list[1][i];
+		  average2+=real_prop_point_list[2][i];
+	  }
+	  TNT::Matrix<double> realPropCenterOfMass(3,1);
+	  realPropCenterOfMass[0][0]= average0/real_prop_point_list.num_cols();
+	  realPropCenterOfMass[1][0]=average1/real_prop_point_list.num_cols();
+	  realPropCenterOfMass[2][0]=average2/real_prop_point_list.num_cols();
+	  
+	  // for all rows subtract respective average
+	  for(int i=0; i<real_prop_point_list.num_cols();i++)
+	  {
+		  real_prop_point_list[0][i]-=realPropCenterOfMass[0][0];
+		  real_prop_point_list[1][i]-=realPropCenterOfMass[1][0];
+		  real_prop_point_list[2][i]-=realPropCenterOfMass[2][0];
+	  }
+
+	  writeEquation(real_prop_point_list, realPropCenterOfMass, "realCM.txt");
+	  // same for virtual point list
+	  TNT::Matrix<double> virtualPropCenterOfMass(3,1);
+
+	  average0=0;
+	  average1=0;
+	  average2=0;
+	  for(int i=0; i<virtual_prop_point_list.num_cols();i++)
+	  {
+		  average0+=virtual_prop_point_list[0][i];
+		  average1+=virtual_prop_point_list[1][i];
+		  average2+=virtual_prop_point_list[2][i];
+	  }
+	  virtualPropCenterOfMass[0][0]=average0/virtual_prop_point_list.num_cols();
+	  virtualPropCenterOfMass[1][0]=average1/virtual_prop_point_list.num_cols();
+	  virtualPropCenterOfMass[2][0]=average2/virtual_prop_point_list.num_cols();
+	  // for all rows subtract respective average
+	  for(int i=0; i<virtual_prop_point_list.num_cols();i++)
+	  {
+		  virtual_prop_point_list[0][i]-=virtualPropCenterOfMass[0][0];
+		  virtual_prop_point_list[1][i]-=virtualPropCenterOfMass[1][0];
+		  virtual_prop_point_list[2][i]-=virtualPropCenterOfMass[2][0];
+	  }
+
+	  writeEquation(virtual_prop_point_list, virtualPropCenterOfMass, "virtualCM.txt");// from now on we have to transpose matrices to compute as they were acquired transposed
+
+// create aMatrix and bMatrix
+
+/* begin test */ /*
+	  TNT::Matrix<double> blubbMatrix(3,3);
 
 	  blubbMatrix[0][0]=1;
 	  blubbMatrix[0][1]=0;
@@ -275,26 +332,24 @@ namespace ot {
 	  blubbMatrix[1][2]=0;
 	  blubbMatrix[2][0]=2;
 	  blubbMatrix[2][1]=1;
-	  blubbMatrix[2][2]=0;*/
+	  blubbMatrix[2][2]=0; */
 /*
  end test
 */
 
-	  //transpose(real_prop_point_list,aMatrix);
-//     transpose(blubbMatrix,aMatrix);
-//	  transpose(virtual_prop_point_list,bMatrix);
+	 transpose(real_prop_point_list,aMatrix);
+     //transpose(blubbMatrix,aMatrix);
+	 transpose(virtual_prop_point_list,bMatrix);
 
-//	  writeEquation(aMatrix,bMatrix,"Equationfile.txt");
+	  writeEquation(aMatrix,bMatrix,"Equationfile.txt");
 	  
 	  // diagonalize the real prop matrix and create a QR factorization
 	  // here we use Gram-Schmidt-Orthogonalization
 
-	  //ab jetzt transponiert !!!
+	  gramSchmidt(aMatrix, qMatrix, rMatrix, aMatrix.num_rows(), aMatrix.num_cols());
+	  gramSchmidt(real_prop_point_list, qMatrix, rMatrix, real_prop_point_list.num_rows(), real_prop_point_list.num_cols());
+	  writeMatrix (rMatrix,"rMatrix.txt");
 
-//	  gramSchmidt(aMatrix, qMatrix, rMatrix, aMatrix.num_rows(), aMatrix.num_cols());
-//	  gramSchmidt(real_prop_point_list, qMatrix, rMatrix, real_prop_point_list.num_rows(), real_prop_point_list.num_cols());
-//	  writeMatrix (rMatrix,"rMatrix.txt");
-/*
 	  gaussJordan(rMatrix,rInvert);
 
 	  writeMatrix (rInvert,"rInvert.txt");
@@ -303,20 +358,29 @@ namespace ot {
 
 	  writeEquation(qMatrix,transposedMa,"qTransposed.txt");
 
-	  writeMatrix(transposedMa,"rTransposed.txt");
+	  // ??? writeMatrix(transposedMa,"rTransposed.txt");
 
-	  multiplyMxN(transposedMa,bMatrix,resultMa);
+	  multiplyMxN(transposedMa,bMatrix,intermediateMa);
 
 	  //      multiply QT * virtual = result
 	  //      multiply Rinvert * result; 
+	  
+	  multiplyMxN(rInvert,intermediateMa, resultMa);
 		
-	  writeMatrix(transposedMa,"rTransposed.txt");
-*/
+	  // ??? writeMatrix(transposedMa,"rTransposed.txt");
+
 	  /*
       RigidTransform rigid_transform(real_prop_point_list,virtual_prop_point_list);
 
       rotation = rigid_transform.getR();
       translation = rigid_transform.getT();
+	  */
+
+	  rotation = resultMa;
+	  for (int i=0; i<3;i++)
+		  translation[i][0] = -realPropCenterOfMass[i][0]+virtualPropCenterOfMass[i][0]+null_point[i][0];
+
+	  writeEquation(rotation,translation,"theEnd.txt");
 
       if (change_null_point) // modify DTrack file and we need no translation in the .iv file
       {
@@ -345,11 +409,9 @@ namespace ot {
       std::cout << rotation[2][0] << " " << rotation[2][1] << " " << rotation[2][2] << " 0" << std::endl;
       std::cout << "0 0 0 1" << std::endl;
       std::cout << "}" << std::endl << std::endl;
-      
 
       calculateMeanError();
       allFinished();
-	  */
    }
  
    //---------------------------------------------------------------------------
@@ -358,8 +420,7 @@ namespace ot {
    {    
       if (antagonist ==  0)
       {
-		  // should probably be 'comparison' not 'competition'
-         logPrintE("PropRegistration::storePoint() - No antagonist -> No competition\n");
+         logPrintE("PropRegistration::storePoint() - No antagonist -> No comparison\n");
          return;
       }
 
@@ -373,7 +434,7 @@ namespace ot {
       }         
 
       double time_diff = event.time - antagonist->prop_event_time;
-       if (time_diff > 250.0)  //if the stored point is 'older' than a quater second
+       if (time_diff > 250.0)  //if the stored point is 'older' than a quarter second
       {
          logPrintW("Time difference between the two events was to long.\n");
          logPrintW("Maybe the prop is not visible?\n");
@@ -390,6 +451,7 @@ namespace ot {
       diff_pos[1][0] = event.getPosition()[1];
       diff_pos[2][0] = event.getPosition()[2];
 
+	  // change by Judith (crucify Judith if this is not right)
 	  // what needs to be done is putting the positions into the prop coordinate system
 	  // this is an operation of type 'coordinate system transformation'
 	  // so there exists a coordinate system which is fixed to the prop and which can be calculated by the actual
@@ -402,12 +464,12 @@ namespace ot {
 	  // stylus point will sit in some digitized spot referring to the coordinate system which holds the prop in perfect 
 	  // alignment. 
 
-	  // so we subtract the position of the antagonists
+	  // so we subtract the position of the antagonist
 	  translated_pos [0][0]= event.getPosition()[0] - antagonist->prop_event_pos[0][0]; 
 	  translated_pos [1][0]= event.getPosition()[1] - antagonist->prop_event_pos[1][0]; 
 	  translated_pos [2][0]= event.getPosition()[2] - antagonist->prop_event_pos[2][0]; 
 	
-	  // get the antagonists rotation and create a unit quaternion from it
+	  // get the antagonist's rotation and create a unit quaternion from it
 	  TNT::Matrix<double> quaternion (1,4);
 	  quaternion[0][0]=antagonist->prop_event_orient[0][0];
 	  quaternion[0][1]=antagonist->prop_event_orient[0][1];
@@ -444,11 +506,6 @@ namespace ot {
       rotated_pos [0][0] = rot[0][0]*translated_pos[0][0]+rot[1][0]*translated_pos[1][0]+rot[2][0]*translated_pos[2][0];
 	  rotated_pos [1][0] = rot[0][1]*translated_pos[0][0]+rot[1][1]*translated_pos[1][0]+rot[2][1]*translated_pos[2][0];
 	  rotated_pos [2][0] = rot[0][2]*translated_pos[0][0]+rot[1][2]*translated_pos[1][0]+rot[2][2]*translated_pos[2][0];
-
-	  // old: judith is pretty sure that this is the wrong order. do translate first and rotate later and the plot looks
-	  // really not so good
-      //inverted_orient = invertOrientation(antagonist->prop_event_orient);
-      //translated_pos = calcRotationWithQuarternion(diff_pos, inverted_orient);
 
 	  // make space for one more point stored
       TNT::Matrix<double> tmp(3,real_prop_point_list.num_cols()+1);
@@ -765,7 +822,7 @@ void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> &
 	return;
 }
 
-/*void PropRegistration::writeEquation(TNT::Matrix<double> &bla,TNT::Matrix<double> &blubb, 
+void PropRegistration::writeEquation(TNT::Matrix<double> &bla,TNT::Matrix<double> &blubb, 
 									 const char *filename)
 {
 	std::ofstream file;
@@ -792,9 +849,9 @@ void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> &
 	file << "\n\nEquation: \n realPoints * x = virtualPoints";
 	file.close();
 	return;
-}*/
+}
 
-/*void PropRegistration::writeMatrix (TNT::Matrix<double> &mat, const char *filename)
+void PropRegistration::writeMatrix (TNT::Matrix<double> &mat, const char *filename)
 {
 	std::ofstream file;
 	int i;
@@ -807,9 +864,9 @@ void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> &
 	
 	file.close();
 	return;
-}*/
+}
 
-/*void PropRegistration::gramSchmidt(TNT::Matrix<double> &a,TNT::Matrix<double> &q,TNT::Matrix<double> &r, 
+void PropRegistration::gramSchmidt(TNT::Matrix<double> &a,TNT::Matrix<double> &q,TNT::Matrix<double> &r, 
 								   int n, int m)
 {
 	int i,j,k; 
@@ -839,11 +896,6 @@ void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> &
 			// compute dot product of q_k and a_j 
 			for( i = 0; i <m; i++ )
 				proj_len += q[k][i] * a[j][i];
-	//		sprintf(str,"A_j: %f %f %f, j: %d\n",a[j][0],a[j][1],a[j][2],j);
-	//		logPrintI(str);
-	//		sprintf(str,"Q_k: %f %f %f, k: %d\nproj_len%f\n",q[k][0],q[k][1],q[k][2],k,proj_len);
-	//		logPrintI(str);
-
 			
 			// subtract the component parallel to q[k] from q[j]
 			for (i=0;i<m;i++)
@@ -888,7 +940,9 @@ void PropRegistration::showPoints (int & number_of_points, TNT::Matrix<double> &
 
 void PropRegistration::gaussJordan(TNT::Matrix<double> &a,TNT::Matrix<double> &inverted)
 {
-	// compare p43./p44.
+	// only second half implemented. For the registration we start with a diagonalized matrix, so we don't need the 
+	// beginning.
+	// compare p43./p44. Linear Angebra book.
 
 	// initialize inverted to be identity matrix
 	inverted[0][0]=1;
@@ -910,9 +964,9 @@ void PropRegistration::gaussJordan(TNT::Matrix<double> &a,TNT::Matrix<double> &i
     inverted[0][0]= 1/a[0][0];
 	
 return;
-}*/
+}
 
-/*void PropRegistration::transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &out)
+void PropRegistration::transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &out)
 {
 	int i,j;
 
@@ -922,9 +976,9 @@ return;
 	
 	return;
 
-}*/ 
+} 
 
-/*void PropRegistration::multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<double> &rightMa, TNT::Matrix<double> &resultMa)
+void PropRegistration::multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<double> &rightMa, TNT::Matrix<double> &resultMa)
 {
 	int i,j,k;
 
@@ -937,7 +991,7 @@ return;
 		}
 
 	return;
-}*/
+}
 
 
 } // namespace ot

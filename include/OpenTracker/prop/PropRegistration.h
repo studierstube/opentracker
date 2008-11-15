@@ -192,6 +192,27 @@ namespace ot {
 	  /* show recorded points in iv for debug purposes */
 	  void showPoints (int & number_of_points, TNT::Matrix<double> & points, const char *text);
 
+// here starts judith's construction area
+	  /* write the equation to solve into a text file for debug reasons */
+	  void writeEquation(TNT::Matrix<double> &realPoints,TNT::Matrix<double> &virtualPoints, const char *filename);
+
+	  /* Gram-Schmidt-Orthogonalization to compute QR Factorization. Take a look at Strang "Linear Algebra and its 
+	     Applications, p. 172 ff. */
+	  void gramSchmidt(TNT::Matrix<double> &aMatrix, TNT::Matrix<double> &qMatrix, TNT::Matrix<double> &rMatrix, 
+		  int, int);
+
+	  /* Gauss-Jordan to invert upper triangular 3x3 matrix */
+	  void gaussJordan(TNT::Matrix<double> &a,TNT::Matrix<double> &inverted );
+
+	  /* write 3x3 Matrix to file*/
+	  void writeMatrix (TNT::Matrix<double> &, const char *);
+
+	  void transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &out);
+
+	  void multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<double> &rightMa, TNT::Matrix<double> &resultMa);
+
+// end of judith's mess
+
 // methods for stylus node: 
       /** Loads the point from 'prop_file' and stores them to virtual_prop_point_list. 
        *  \n(Method just used by stylus-node.) */ 
