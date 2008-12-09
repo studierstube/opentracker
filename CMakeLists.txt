@@ -93,6 +93,7 @@ OPTION(OT_USE_MIDI  "Build OT to compile support for the MIDI library." OFF)
 OPTION(OT_OLD_NETWORK_SUPPORT   "Build OT to compile support for old (1.1) Opentracker node." OFF)
 OPTION(OT_USE_PYTHON  "Build OT to compile support for Python." OFF)
 OPTION(OT_USE_OTQT  "Build OT  to compile support for the OTQt." OFF)
+OPTION(OT_USE_LASERPOINTER  "Build OT  to compile support for the laser pointer." OFF)
 
 
 IF(OT_PRESENCCIA_BUILD)
