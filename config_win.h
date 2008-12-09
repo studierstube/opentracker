@@ -141,12 +141,12 @@
 //#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-#define USE_ARTOOLKITPLUS 1
+//#define USE_ARTOOLKITPLUS 1
 
 //#define USE_STBTRACKER 1
 
 /** uncomment the following line to compile and link against the DLL version of ARToolKitPlus */
-#define ARTOOLKITPLUS_DLL 1
+//#define ARTOOLKITPLUS_DLL 1
 
 
 /** uncomment the following line to build with an integrated OpenVideo server
