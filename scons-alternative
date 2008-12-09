@@ -213,7 +213,7 @@ if env['ENABLE_CORBA']:
 	IDLJBuilder.generate(env)
 	# Use PKGTRANSLATE 2-tuples to e.g. convert from 'CosEventComm' -> 'org.omg.CosEventComm'
 	env.Append(PKGTRANSLATE=[(_type, 'org.omg.' + _type) for _type in ['CosEventComm', 'CosLifeCycle', 'CosLifeCycle', 'CosNaming']])
-	env.Append(PKGTRANSLATE=[(_type, 'org.studierstube.opentracker.' + _type) for _type in ['OTGraph', 'Shared']])
+	env.Append(PKGTRANSLATE=[(_type, 'org.studierstube.opentracker.' + _type) for _type in ['OTGraph', 'Graph', 'OT_EventChannel', 'Shared']])
 	env.Append(IDL_INCLUDE_PATH=[join(os.getcwd(),'idl'), join(os.getcwd(),'idl', 'COS')])
 	env['IDL_INSTALL_DIRECTORY'] = 'src_java'
 	env.Append(SOURCEDIR='src_java')
@@ -284,7 +284,9 @@ if env['ENABLE_LIVE']:
 # extract corba c++ stubs and skeletons sources and headers          #
 #********************************************************************#
 if env['ENABLE_CORBA']: 
-    extra_files += filterCppSources(stub_generator.cxx)
+    #extra_files += filterCppSources(stub_generator.cxx)
+    otstubs_sources = filterCppSources(stub_generator.cxx)
+    otstubs = env.SharedLibrary(join('lib', 'otstubs'), otstubs_sources)
     for header in filterHeaders(stub_generator.cxx):
 	additional_headers += env.Command(join('include','OpenTracker', 'skeletons', basename(str(header))), header, Copy("$TARGET", "$SOURCE"))
     python_files += stub_generator.python
@@ -535,13 +537,16 @@ env.Append(BUILDERS = {'PackageConfig': pkgconfigbld})
 #     set targets                                                              #
 ################################################################################
 pkgcfg = env.PackageConfig('opentracker.pc','opentracker.pc.in')
-otlib = env.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files + prop_files)
+libenv = env.Clone()
+if env['ENABLE_LIVE']:
+    libenv.Append(LIBS=['otstubs'])
+otlib = libenv.SharedLibrary(join('lib', 'opentracker'), essential_core_files + common_files + input_files + extra_files + misc_files + prop_files)
 # Copy otlib sources
 #env.Install( join('build', 'src'), essential_core_files + common_files + input_files + extra_files )
 
 
 # create new environment for building executables
-prgenv = env.Copy()
+prgenv = libenv.Clone()
 prgenv.Append(LIBS='opentracker')
 executables  =  prgenv.Program(join('bin','opentracker'), join('src','standalones','main.cxx'))
 executables += prgenv.Program(join('bin','middleware'), join('src','standalones','middleware.cxx'))
@@ -559,7 +564,10 @@ if env['ENABLE_CALLFORWARD'] and env['ENABLE_CALLBACK']:
 prefix = ARGUMENTS.get('PREFIX')
 if prefix:
     bin_inst = env.Install(join(prefix, 'bin'), executables)
-    lib_inst = env.Install(join(prefix, 'lib'), [otlib])
+    if env['ENABLE_LIVE']:
+        lib_inst = env.Install(join(prefix, 'lib'), [otlib])
+    else:
+        lib_inst = env.Install(join(prefix, 'lib'), [otlib, otstubs])
     pkg_inst = env.Install(join(prefix, 'lib', 'pkgconfig'), pkgcfg)
     header_files = []
     walk('include', gatherHeaders, header_files)
