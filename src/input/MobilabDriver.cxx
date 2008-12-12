@@ -164,8 +164,11 @@ namespace ot {
             //params.baudrate = 38400;
             params.databits = 8;
             params.stopbits = 1;
+#if ACE_MAJOR_VERSION * 10000 + ACE_MINOR_VERSION * 100 + ACE_BETA_VERSION >= 50607
+            params.paritymode = 0;
+#else
             params.parityenb = false;
-
+#endif
             params.dtrdisable = false;
             params.rtsenb = 1;
             params.ctsenb = false;

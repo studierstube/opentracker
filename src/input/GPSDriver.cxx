@@ -119,7 +119,11 @@ namespace ot {
             params.baudrate = baud;
             params.databits = 8;
             params.stopbits = 1;
-            params.parityenb = 0;
+#if ACE_MAJOR_VERSION * 10000 + ACE_MINOR_VERSION * 100 + ACE_BETA_VERSION >= 50607
+            params.paritymode = 0;
+#else
+            params.parityenb = false;
+#endif
             params.ctsenb = 0;
             params.rcvenb = 1;
             params.rtsenb = 1;
@@ -177,7 +181,11 @@ namespace ot {
             params.baudrate = baud;
             params.databits = 8;
             params.stopbits = 1;
-            params.parityenb = 0;
+#if ACE_MAJOR_VERSION * 10000 + ACE_MINOR_VERSION * 100 + ACE_BETA_VERSION >= 50607
+            params.paritymode = 0;
+#else
+            params.parityenb = false;
+#endif
             params.ctsenb = 0;
             params.rcvenb = 1;
             params.rtsenb = 1;

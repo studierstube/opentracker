@@ -12,8 +12,8 @@ Vendor:		Institute for Computer Graphics and Vision, Graz University of Technolo
 Packager:	Institute for Computer Graphics and Vision, Graz University of Technology, Austria
 Prefix:		/usr
 BuildRoot: 	%{_tmppath}/buildroot-%{name}-%{version}
-Requires:	ACE >= 5.5.6 Xerces-c boost ncurses ARToolKitPlus
-BuildRequires:	ICGBuilder ACE-devel >= 5.5.6 Xerces-c-devel boost-devel ncurses-devel ARToolKitPlus-devel
+Requires:	ace >= 5.5.6 Xerces-c boost ncurses ARToolKitPlus
+BuildRequires:	ace-devel >= 5.5.6 Xerces-c-devel boost-devel ncurses-devel ARToolKitPlus-devel
 
 %description
 OpenTracker is developed to be generic solution to the different tasks
@@ -68,7 +68,7 @@ make clean
 %package devel
 Summary:	Open Tracker header and include files
 Group:		Development/Libraries
-Requires:	%{name} = %{version} ICGBuilder ACE-devel Xerces-c-devel boost-devel ARToolKitPlus-devel
+Requires:	%{name} = %{version} ace-devel Xerces-c-devel boost-devel ARToolKitPlus-devel
 
 
 %description devel
