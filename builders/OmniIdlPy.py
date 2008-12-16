@@ -9,7 +9,7 @@ import SCons.Scanner
 #import _omniidl
 #from omniidl.main import *
 import popen2, re
-modules_re = re.compile(r'_exported_modules\s\=\s\(\s([\d\s\w\",]*)\)', re.M)
+modules_re = re.compile(r'_exported_modules\s=\s\(\s([\"\,\w\s\.]*)', re.M)
 
 def getModules(env, idl_file):
     include_args = ''
@@ -29,13 +29,24 @@ def getModules(env, idl_file):
     output.close()
     input.close()
     try:
+        print modules_re.findall(text)
+        raw_input("george")
         recovered_modules = modules_re.findall(text)[0]
-        parsed_modules = recovered_modules.replace('"','').replace(' ', '').split(',')
-        parsed_modules.remove('')
+        parsed_modules = recovered_modules.replace('"','').replace(' ', '')
+        parsed_modules = parsed_modules.split(',')
+        parsed_modules = [m.split('.') for m in parsed_modules]
+        print "parsed_modules = ", parsed_modules
+        raw_input('pause')
+        try:
+            parsed_modules.remove([''])
+        except ValueError:
+            pass # do nothing
         print "modules extracted from idl file " + str(idl_file) + " = ", parsed_modules
         return parsed_modules
     except IndexError:
         print "could not extract any modules from idl file", str(idl_file)
+        print text
+        raw_input('fred')
         return []
 
 def omniidl_emitter(target, source, env):
@@ -49,11 +60,16 @@ def omniidl_emitter(target, source, env):
         #idl = parseOmniIdlArgs(include_args + [idl_file])
         #modules = [instance for instance in idl.declarations() if (instance.__class__==idlast.Module) and (instance.file()==idl_file)]
         modules = getModules(env, idl_file)
+        print "modules = ", modules
+        raw_input("pause")
         tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], os.path.basename(idl_file)[:-4] + '_idl.py'))
         for module_name in modules:
-            #module_name = module.scopedName()[0]
-            tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], module_name, '__init__.py'))
-            tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], module_name + '__POA', '__init__.py'))
+            print "module_name = ", module_name
+            tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], os.path.join(*module_name), '__init__.py'))
+            try:
+                tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], module_name[0] + '__POA', os.path.join(*module_name[1:]), '__init__.py'))
+            except TypeError:
+                tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], module_name[0] + '__POA', '__init__.py'))
         #idlast.clear()
         #idltype.clear()
         #_omniidl.clear()

@@ -85,7 +85,7 @@ namespace ot {
       cerr << "LiveContext:: Constructor" << endl;
       corba_module = (CORBAModule*) modules["CORBAConfig"].item();
       StringTable st;
-      st.put("endPoint", endPoint);
+      st.put("endPoints", endPoint);
       st.put("persistent", "true");
       
       corba_module->init(st, NULL);

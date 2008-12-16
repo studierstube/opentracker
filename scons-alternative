@@ -27,6 +27,8 @@ class CORBAStubs:
 
     def addPythonStubs(self, idl_file):
 	self.python += env.OMNIIDLPY(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.python_install_directory)
+        print "self.python = ", [str(p) for p in self.python]
+        raw_input("pause")
 
     def addJavaStubs(self, idl_file, pkgprefix=None):
 	if pkgprefix is None:
@@ -565,8 +567,6 @@ prefix = ARGUMENTS.get('PREFIX')
 if prefix:
     bin_inst = env.Install(join(prefix, 'bin'), executables)
     if env['ENABLE_LIVE']:
-        lib_inst = env.Install(join(prefix, 'lib'), [otlib])
-    else:
         lib_inst = env.Install(join(prefix, 'lib'), [otlib, otstubs])
     pkg_inst = env.Install(join(prefix, 'lib', 'pkgconfig'), pkgcfg)
     header_files = []
@@ -583,11 +583,12 @@ if prefix:
         for idl_file in additional_idl_files + stub_generator.idl_files:
             print (join(prefix,'share', dirname(idl_file)), idl_file)
             idl_inst.append(env.Install(join(prefix,'share', dirname(idl_file)), idl_file))
-    # python files to install in PREFIX/lib/python2.4/site-packages
+    # python files to install in PREFIX/lib/pythonx.y/site-packages
     py_inst, libpythondirstrlen = [], len(python_local_dir)+1
     site_package_directory = join(prefix, 'lib', 'python%d.%d' % tuple(sys.version_info[0:2]), 'site-packages')
     for _destination, _source in [( str(f)[libpythondirstrlen:] , f) for f in python_files]:
-	py_inst.append(env.InstallAs(join(site_package_directory, _destination), _source))
+	py_inst += env.InstallAs(join(site_package_directory, _destination), _source)
+    print "py_inst = ", [str(f) for f in py_inst]
     # jar files to install
     jar_inst = env.Install(join(prefix, 'lib'), jars)
     # all files to be installed
