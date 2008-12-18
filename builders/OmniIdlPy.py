@@ -30,13 +30,11 @@ def getModules(env, idl_file):
     input.close()
     try:
         print modules_re.findall(text)
-        raw_input("george")
         recovered_modules = modules_re.findall(text)[0]
         parsed_modules = recovered_modules.replace('"','').replace(' ', '')
         parsed_modules = parsed_modules.split(',')
         parsed_modules = [m.split('.') for m in parsed_modules]
         print "parsed_modules = ", parsed_modules
-        raw_input('pause')
         try:
             parsed_modules.remove([''])
         except ValueError:
@@ -46,7 +44,6 @@ def getModules(env, idl_file):
     except IndexError:
         print "could not extract any modules from idl file", str(idl_file)
         print text
-        raw_input('fred')
         return []
 
 def omniidl_emitter(target, source, env):
@@ -61,7 +58,6 @@ def omniidl_emitter(target, source, env):
         #modules = [instance for instance in idl.declarations() if (instance.__class__==idlast.Module) and (instance.file()==idl_file)]
         modules = getModules(env, idl_file)
         print "modules = ", modules
-        raw_input("pause")
         tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], os.path.basename(idl_file)[:-4] + '_idl.py'))
         for module_name in modules:
             print "module_name = ", module_name
