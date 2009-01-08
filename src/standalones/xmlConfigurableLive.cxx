@@ -110,9 +110,9 @@ int main(int argc, char **argv)
 
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup(argv[2]);
       CORBAUtils::bindObjectReferenceToName(orb, obj, string_name);
-      //context_impl->runAtRate(100);
+      context_impl->runAtRate(100);
       //context_impl->runOnDemand();
-      orb->run();
+      //orb->run();
 
     }
     catch(CORBA::SystemException&) {
