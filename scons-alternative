@@ -192,7 +192,7 @@ else:
 #*********************************#
 if env['ENABLE_VRPN']:
     env.Append(CPPDEFINES='USE_VRPN')
-    env.Append(LIBS=['vrpnserver'])
+    env.Append(LIBS=['vrpnserver'])#, 'vrpn', 'vrpnatmel'])
     extra_files += [join(os.getcwd(), 'src', 'network', _file) for _file in['VRPNModule.cxx', 'VRPNSink.cxx', 'VRPNSource.cxx']]
 else:
     pass # do nothing
