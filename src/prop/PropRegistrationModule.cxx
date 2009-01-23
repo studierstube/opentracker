@@ -1,10 +1,8 @@
 
+#ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
 
 #include <OpenTracker/prop/PropRegistrationModule.h>
 #include <OpenTracker/prop/PropRegistrationSink.h>
-
-
-#ifndef OT_NO_PROPREGISTRATIONMOUDLE_SUPPORT
 
 namespace ot {
 	OT_MODULE_REGISTER_FUNC(PropRegistrationModule){

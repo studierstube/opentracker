@@ -219,14 +219,14 @@ int setDCB(DCB *dcb, SerialParams *params)
     dcb->fNull = FALSE;
     dcb->fAbortOnError = FALSE;
 
-
+    return 0;
 }
 
 int openSerialPort(SerialPort *port, SerialParams *params)
 {
     COMMTIMEOUTS timeout;
     DCB dcb;
-    DWORD baud;
+    //DWORD baud;
 
     port->handle = CreateFileA(params->pathname,
                                GENERIC_READ | GENERIC_WRITE,
