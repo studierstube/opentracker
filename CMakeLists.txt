@@ -197,15 +197,7 @@ INCLUDE_DIRECTORIES(include extras)
 
 ADD_SUBDIRECTORY(src)
 
-# better create "OpenTrackerConfig.cmake" instead, but for now install "FindOpenTracker.cmake"
-# to avoid breaking existing installations:
-IF(UNIX)
-  INSTALL(FILES FindOpenTracker.cmake DESTINATION ${CMAKE_INSTALL_DATADIR}/cmake/Modules)
-ENDIF(UNIX)
-
-#IF(WIN32)
-#  INSTALL(FILES FindOpenTracker.cmake DESTINATION $ENV{CMAKE_MODULE_PATH})
-#ENDIF(WIN32)
+INSTALL(FILES OpenTrackerConfig.cmake DESTINATION lib/OpenTracker)
 
 ## packaging:
 IF(WIN32 AND NOT CYGWIN)

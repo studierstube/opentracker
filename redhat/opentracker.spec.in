@@ -27,15 +27,9 @@ development.
 %prep
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 %setup
-#sed -i 's/curses/ncurses/' SConstruct
 sed -i 's/\@\@/\@/g' opentracker.pc.in
 
 %build
-#%ifarch x86_64
-#export CFLAGS=-DUSE_64_BIT
-#export CXXFLAGS=-DUSE_64_BIT
-#%endif
-#scons
 cmake \
 -DCMAKE_BUILD_TYPE:STRING=%{build_type} \
 -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
@@ -46,24 +40,19 @@ cd doc
 doxygen opentracker.dxy
 
 %install
-#scons --cache-disable DESTDIR=$RPM_BUILD_ROOT PREFIX=%{_prefix} LIBDIR=%{_libdir} install
-## this should better be handled by the scons install procedure:
-#mkdir -p $RPM_BUILD_ROOT/%{_datadir}
-#cp -a share $RPM_BUILD_ROOT/%{_datadir}/%{name}
 DESTDIR=$RPM_BUILD_ROOT make install
 mkdir -p $RPM_BUILD_ROOT/%{_docdir}/%{name}
 cp -a doc/html $RPM_BUILD_ROOT/%{_docdir}/%{name}
 
 %clean
-#scons -c
 make clean
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_libdir}/*.so*
 %{_bindir}/*
 %{_datadir}/%{name}
+%{_libdir}/*.so.*
 
 %package devel
 Summary:	Open Tracker header and include files
@@ -76,9 +65,10 @@ This package contains header files and include files that are needed for develop
 
 %files devel
 %defattr(-,root,root)
-%{_datadir}/cmake/Modules/*
+%{_libdir}/*.so
 %{_libdir}/pkgconfig/*
 %{_prefix}/include/OpenTracker
+%{_prefix}/lib/OpenTracker
 
 
 %package doc
