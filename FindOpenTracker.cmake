@@ -8,7 +8,7 @@
 #  OPENTRACKER_DEFINITIONS - Compiler switches required for using opentracker
 #
 
-meessage(FATAL "This file is obsolete! Remove it from your CMAKE_MODULE_PATH and use OpenTrackerConfig.cmake instead (i.e., write \"find_package(OpenTracker)\" in your \"CMakeLists.txt\".")
+message(FATAL "This file is obsolete! Remove it from your CMAKE_MODULE_PATH and use OpenTrackerConfig.cmake instead (i.e., write \"find_package(OpenTracker)\" in your \"CMakeLists.txt\".")
 
 if (OPENTRACKER_INCLUDE_DIR AND OPENTRACKER_LIBRARIES)
 
