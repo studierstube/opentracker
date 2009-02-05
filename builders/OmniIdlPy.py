@@ -29,38 +29,38 @@ def getModules(env, idl_file):
     output.close()
     input.close()
     try:
-        print modules_re.findall(text)
+        #print modules_re.findall(text)
         recovered_modules = modules_re.findall(text)[0]
         parsed_modules = recovered_modules.replace('"','').replace(' ', '')
         parsed_modules = parsed_modules.split(',')
         parsed_modules = [m.split('.') for m in parsed_modules]
-        print "parsed_modules = ", parsed_modules
+        #print "parsed_modules = ", parsed_modules
         try:
             parsed_modules.remove([''])
         except ValueError:
             pass # do nothing
-        print "modules extracted from idl file " + str(idl_file) + " = ", parsed_modules
+        #print "modules extracted from idl file " + str(idl_file) + " = ", parsed_modules
         return parsed_modules
     except IndexError:
         print "could not extract any modules from idl file", str(idl_file)
-        print text
+        #print text
         return []
 
 def omniidl_emitter(target, source, env):
-    print "omniidl_emitter start"
+    #print "omniidl_emitter start"
     tlist, slist = [], source # source list is unchanged
     for src in source:
         trgs = []
         idl_file = str(src)
         include_args = ['-I' + directory for directory in env['CPPPATH']]
-        print include_args + [idl_file]
+        #print include_args + [idl_file]
         #idl = parseOmniIdlArgs(include_args + [idl_file])
         #modules = [instance for instance in idl.declarations() if (instance.__class__==idlast.Module) and (instance.file()==idl_file)]
         modules = getModules(env, idl_file)
-        print "modules = ", modules
+        #print "modules = ", modules
         tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], os.path.basename(idl_file)[:-4] + '_idl.py'))
         for module_name in modules:
-            print "module_name = ", module_name
+            #print "module_name = ", module_name
             tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], os.path.join(*module_name), '__init__.py'))
             try:
                 tlist.append(os.path.join(env['OMNIIDL_INSTALL_DIRECTORY'], module_name[0] + '__POA', os.path.join(*module_name[1:]), '__init__.py'))
@@ -69,7 +69,7 @@ def omniidl_emitter(target, source, env):
         #idlast.clear()
         #idltype.clear()
         #_omniidl.clear()
-    print "omniidl_emitter end"
+    #print "omniidl_emitter end"
     return tlist, slist
 
 def filterOutComments(contents):

@@ -27,7 +27,6 @@ class CORBAStubs:
 
     def addPythonStubs(self, idl_file):
 	self.python += env.OMNIIDLPY(idl_file, OMNIIDL_INSTALL_DIRECTORY=self.python_install_directory)
-        print "self.python = ", [str(p) for p in self.python]
 
     def addJavaStubs(self, idl_file, pkgprefix=None):
 	if pkgprefix is None:

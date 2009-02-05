@@ -1,4 +1,4 @@
-/* ======================================================================== 
+/* ========================================================================
  * Copyright (C) 2006  Graz University of Technology
  *
  * This framework is free software; you can redistribute it and/or modify
@@ -15,10 +15,10 @@
  * along with this framework; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * For further information please contact 
+ * For further information please contact
  * Dieter Schmalstieg
  * <schmalstieg@icg.tu-graz.ac.at>
- * Graz University of Technology, 
+ * Graz University of Technology,
  * Institut for Computer Graphics and Vision,
  * Inffeldgasse 16a, 8010 Graz, Austria.
  * ========================================================================
@@ -72,7 +72,7 @@ namespace ot {
 
 	OT_MODULE_REGISTER_FUNC(CORBAModule){
 		OT_MODULE_REGISTRATION_DEFAULT(CORBAModule, "CORBAConfig" );
-	}	
+	}
 
 
  PortableServer::POAManager_var CORBAModule::pman;
@@ -110,17 +110,17 @@ void CORBAModule::destroyORB()
   }
 }
 
-  CORBA::ORB_var CORBAModule::getORB() { 
+  CORBA::ORB_var CORBAModule::getORB() {
     CORBA::ORB_var _orb = orb;
     return CORBA::ORB::_duplicate(_orb);
   }
 
-  PortableServer::POA_var CORBAModule::getPOA() { 
-    return PortableServer::POA::_duplicate(CORBAModule::poa); 
+  PortableServer::POA_var CORBAModule::getPOA() {
+    return PortableServer::POA::_duplicate(CORBAModule::poa);
   }
 
-  PortableServer::POA_var CORBAModule::getRootPOA() { 
-    return PortableServer::POA::_duplicate(CORBAModule::root_poa); 
+  PortableServer::POA_var CORBAModule::getRootPOA() {
+    return PortableServer::POA::_duplicate(CORBAModule::root_poa);
   }
 
   PortableServer::POA_var CORBAModule::getINSPOA() {
@@ -128,11 +128,11 @@ void CORBAModule::destroyORB()
     return PortableServer::POA::_narrow(obj);
   }
 
-  PortableServer::POAManager_var CORBAModule::getPOAManager() { 
-    return PortableServer::POAManager::_duplicate(pman); 
+  PortableServer::POAManager_var CORBAModule::getPOAManager() {
+    return PortableServer::POAManager::_duplicate(pman);
   }
 
-  PortableServer::POAManager_var CORBAModule::getINSPOAManager() { 
+  PortableServer::POAManager_var CORBAModule::getINSPOAManager() {
     return getINSPOA()->the_POAManager();
   }
 
@@ -152,13 +152,13 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
       logPrintI("Orb successfully initialised\n");
     }
     CORBAModule::initialised = true;
-    
+
     // Initialise the POA.
     CORBA::Object_var objref = orb->resolve_initial_references("RootPOA");
     CORBAModule::root_poa = PortableServer::POA::_narrow(objref);
     pman = root_poa->the_POAManager();
     pman->activate();
-    
+
     if (CORBAModule::persistent) {
       // Create a new POA with the persistent lifespan policy.
       CORBA::PolicyList pl;
@@ -182,7 +182,7 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
   }
   catch(CORBA::Exception&) {
     logPrintE("Caught CORBA::Exception.");
-  } 
+  }
   catch(omniORB::fatalException& fe) {
     logPrintE("Caught omniORB::fatalException:");
     logPrintE("  file: %s", fe.file());
@@ -198,14 +198,14 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
 
   CORBAModule::~CORBAModule()
   {
-    
+
     //sinks.clear();
     clear();
     //if (initialised) {
     //  destroyORB();
     //}
   }
-  
+
   void CORBAModule::init(StringTable& attributes,  ConfigNode * localTree)
   {
     logPrintI("CORBAModule is being initialised\n");
@@ -271,7 +271,7 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
       }
     //#endif
   }
-    
+
   void CORBAModule::removeNode(Node * node) {
     logPrintI("CORBAModule::removeNode\n");
     if ((node->getType().compare("CORBASink") == 0) || (node->getType().compare("CORBATransform") == 0)) {
@@ -291,14 +291,14 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
 	//OT_CORBA::OTSource_var corba_source_ref = result->second;
 	// deactivate object
 	//PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
-	
+
 	//delete result->first;
 	sources.erase( result );
       } else {
 	logPrintE("Node not present in CORBASourceVector");
       }
       return;
-    } 
+    }
 #ifdef USE_OMNIEVENTS
     else if (node->getType().compare("PushSupp") == 0) {
       // TODO: handle removal of PushSupp nodes...
@@ -318,7 +318,7 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
 	//delete *result;
 	return;
       }
-    } 
+    }
 #endif
     else if (node->getType().compare("PushCons") == 0) {
       // TODO: handle removal of PushCons nodes...
@@ -332,7 +332,7 @@ void CORBAModule::initializeORB(int& argc, char**& argv)
       	//delete *result;
       }
     }
-#endif //USE_OMNIEVENTS 
+#endif //USE_OMNIEVENTS
   }
 
 // This method is called to remove all nodes
@@ -344,13 +344,13 @@ void CORBAModule::clear()
 //       delete *it;
 //     }
   sinks.clear();
-  // for (SourceNodeMap::iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it) 
+  // for (SourceNodeMap::iterator source_it=sources.begin(); source_it!=sources.end(); ++source_it)
 //     {
 //       OT_CORBA::OTSource_var corba_source_ref = source_it->second;
 //       // deactivate object
 //       PortableServer::ObjectId_var corba_source_id = getPOA()->reference_to_id(corba_source_ref);
-      
-      
+
+
 //       delete source_it->first;
 //       //have to sort out reference counting - it may be sufficient to delete the servant
 //       //delete source_it->second; //have to sort out reference counting
@@ -371,14 +371,14 @@ void CORBAModule::clear()
     }
   pushconsumers.clear();
   proxy_pushsupplier_map.clear();
-  
+
 #endif //USE_OMNIEVENTS
 }
 
 // This method is called to construct a new Node.
   Node * CORBAModule::createNode( const std::string& name, const StringTable& attributes) {
     StringTable xattributes(attributes);
-    
+
     CORBA::Object_var obj = CORBA::Object::_nil();
     if (xattributes.containsKey("name")) {
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
@@ -414,8 +414,8 @@ void CORBAModule::clear()
       sinks.push_back( sink );
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASink node\n")));
       return sink;
-    } 
-    else if( name.compare("CORBATransform") == 0 ) 
+    }
+    else if( name.compare("CORBATransform") == 0 )
       {
 	CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
 	CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
@@ -424,21 +424,21 @@ void CORBAModule::clear()
 	exit(-1);
       }
         OTGraph::Network::TransformNode_var sink_ref = OTGraph::Network::TransformNode::_narrow(obj);
-      
+
       CORBATransform * transform = new CORBATransform( sink_ref );
       sinks.push_back( transform );
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBATransform node\n")));
       return transform;
     } else if (name.compare("CORBASource") == 0 ) {
       CosNaming::NamingContextExt::StringName_var name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
-      CORBASource * source_impl = new CORBASource( );    
+      CORBASource * source_impl = new CORBASource( );
       source_impl->setContext(context);
       sources.push_back(source_impl);
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build CORBASource node\n")));
       return source_impl;
     }
 #ifdef USE_OMNIEVENTS
-  else if (name.compare("PushCons") == 0 ) 
+  else if (name.compare("PushCons") == 0 )
     {
       logPrintI("creating PushCons node\n");
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
@@ -481,11 +481,11 @@ void CORBAModule::clear()
       //      PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(string_id);
       //      logPrintI("got object id");
       //      poa->activate_object_with_id(corba_id, pushcons_source);
-      //PortableServer::ObjectId_var corba_source_id = 
+      //PortableServer::ObjectId_var corba_source_id =
       //	poa->activate_object(pushcons_source);
-      //      OT_EventChannel::PushConsNode_var pushcons_ref = 
+      //      OT_EventChannel::PushConsNode_var pushcons_ref =
       //	pushcons_source->_this();
-      CosEventComm::PushConsumer_var consumer_ref = 
+      CosEventComm::PushConsumer_var consumer_ref =
 	CosEventComm::PushConsumer::_narrow(pushcons_ref);
       if (CORBA::is_nil(consumer_ref)) {
 	logPrintE("Could not narrow down to CosEventComm::PushConsumer\n");
@@ -497,7 +497,7 @@ void CORBAModule::clear()
       pushconsumers.push_back( pushcons_impl );
       return pushcons_impl;
     }
-  else if (name.compare("PushSupp") == 0 ) 
+  else if (name.compare("PushSupp") == 0 )
     {
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
@@ -506,14 +506,14 @@ void CORBAModule::clear()
 	exit(-1);
       }
       CosEventChannelAdmin::EventChannel_var channel;
-      channel = CosEventChannelAdmin::EventChannel::_narrow(obj);      
+      channel = CosEventChannelAdmin::EventChannel::_narrow(obj);
       PushSupp * pushsupp = new PushSupp( channel );
       pushsupps.push_back( pushsupp );
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build PushSupp node\n")));
       return pushsupp;
-    }   
+    }
 #ifdef USE_SHARED
-  else if (name.compare("SharedEngineNode") == 0 ) 
+  else if (name.compare("SharedEngineNode") == 0 )
     {
       CosNaming::NamingContextExt::StringName_var string_name = CORBA::string_dup((const char*) xattributes.get("name").c_str());
       CORBA::Object_var obj = CORBAUtils::getObjectReference(orb, string_name);
@@ -522,7 +522,7 @@ void CORBAModule::clear()
 	exit(-1);
       }
       CosEventChannelAdmin::EventChannel_var channel;
-      channel = CosEventChannelAdmin::EventChannel::_narrow(obj);      
+      channel = CosEventChannelAdmin::EventChannel::_narrow(obj);
       SharedEngineNode * shared_engine = new SharedEngineNode( channel );
       sharedengines.push_back( shared_engine );
       ACE_DEBUG((LM_DEBUG, ACE_TEXT("ot:Build SharedEngineNode node\n")));
@@ -543,7 +543,7 @@ void CORBAModule::clear()
     lock();
 
     update=newevent;
-    if (update) 
+    if (update)
       {
 	updevent = event;
 	newevent = false;
@@ -558,8 +558,8 @@ void CORBAModule::clear()
       }
   }
 
-    //  void CORBASource::setEvent(const OTGraph::Event& corba_event, const OTGraph::Network::OTEventSource_var& generator) 
-  void CORBASource::setEvent(const OTGraph::Event& corba_event, OTGraph::Network::OTEventSource_ptr generator) 
+    //  void CORBASource::setEvent(const OTGraph::Event& corba_event, const OTGraph::Network::OTEventSource_var& generator)
+  void CORBASource::setEvent(const OTGraph::Event& corba_event, OTGraph::Network::OTEventSource_ptr generator)
   {
 
     //_lock();
@@ -574,13 +574,13 @@ void CORBAModule::clear()
     unlock();
 
     if (context != NULL)
-      { 
+      {
 	if (context->doSynchronization())
 	  {
 	    context->dataSignal();
 	    context->consumedWait();
 	  }
-      } 
+      }
 
     //updateObservers( event );
     //_unlock();
@@ -606,12 +606,12 @@ void CORBAModule::clear()
   }
 
 #ifdef USE_OMNIEVENTS
-  void PushCons::disconnect_push_consumer () 
+  void PushCons::disconnect_push_consumer ()
   {
     logPrintI("Push Consumer: disconnected.\n");
   }
 
-  void PushCons::push(const CORBA::Any& data) 
+  void PushCons::push(const CORBA::Any& data)
   {
     //logPrintI("data received\n");
     const OTGraph::Event* new_event;
@@ -624,13 +624,13 @@ void CORBAModule::clear()
       //      event = Event(copy_of_new_event);
     }
   }
-  
+
 #endif //USE_OMNIEVENTS
 
 } //namespace ot
 #endif //USE_CORBA
 
-/* 
+/*
  * ------------------------------------------------------------
  *   End of CORBAModule.h
  * ------------------------------------------------------------
@@ -643,5 +643,5 @@ void CORBAModule::clear()
  *   eval: (c-set-offset 'statement 'c-lineup-runin-statements)
  *   eval: (setq indent-tabs-mode nil)
  *   End:
- * ------------------------------------------------------------ 
+ * ------------------------------------------------------------
  */
