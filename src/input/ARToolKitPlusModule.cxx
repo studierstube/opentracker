@@ -386,7 +386,7 @@ namespace ot {
             }
             else
             {
-                logPrintE("ARToolKit Error reading multi-cfg %s\n");
+                logPrintE("ARToolKit Error reading multi-cfg %s\n", filename.c_str());
                 return NULL;
             }
 	}
