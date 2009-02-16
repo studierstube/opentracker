@@ -101,6 +101,7 @@ int main(int argc, char **argv)
 
     // initializes the modules and starts the tracker main loop
     context.runOnDemand();
+    //context.runAtRate(80);
     printf("OT |INFO : Context closed\n");
     OSUtils::sleep(1000);
     return 0;

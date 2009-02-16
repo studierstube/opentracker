@@ -135,6 +135,8 @@
 #include <OpenTracker/network/PackedOTNetworkSourceModule.h>
 #include <OpenTracker/otpy/PythonModule.h>
 #include <OpenTracker/input/VideoLocationModule.h>
+#include <OpenTracker/input/NFTrackerModule.h>
+
 
 #include <OpenTracker/input/PhantomModule.h>
 #include <OpenTracker/input/PhantomSourceModule.h>
@@ -263,6 +265,10 @@ namespace ot {
 
 #ifdef USE_VIDEOLOCATION
         OT_REGISTER_MODULE(VideoLocationModule, NULL);
+#endif
+
+#ifdef USE_NFTRACKER
+        OT_REGISTER_MODULE(NFTrackerModule, NULL);
 #endif
 
 #ifdef USE_STBTRACKER
