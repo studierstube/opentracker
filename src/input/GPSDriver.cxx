@@ -110,7 +110,8 @@ namespace ot {
 	// open the serial port the the GPS receiver
 	receiver = new GPS_Handler( this );
 	GPS_Connector gpsconnect( reactor );
-	result = gpsconnect.connect( receiver, ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(device.c_str())));
+
+	result = gpsconnect.connect( receiver, ACE_DEV_Addr(ACE_TEXT_CHAR_TO_TCHAR(("\\\\.\\" + device).c_str())));
 	if( result == 0)
 	{
             // set the appropriate parameters
