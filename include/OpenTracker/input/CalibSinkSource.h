@@ -43,14 +43,43 @@
 
 /**
  * @page Nodes Node Reference
- * @section PosOrientCalibSinkSource PosOrientCalibSinkSource
- * The PosOrientCalibSinkSource node is a simple EventGenerator that outputs the
- * current position and button state of the SpaceMouse. It is driven by
- * the @ref PosOrientCalibModule. 
+ * @section CalibSinkSource CalibSinkSource
+ * The CalibSinkSource node is a simple EventGenerator that outputs a calibrated
+ * position and orientation. calibration is done using an EventKeyboardSource.
+ * It is driven by the @ref CalibModule. 
  *
  * An example element looks like this :
  * @verbatim
-<PosOrientCalibSinkSource/>@endverbatim
+ <PosOrientCalibSinkSource samplingFreq="20">
+     <CalibTrigger>               
+     <EventKeyboardSource number="8" DEF="keyboard"/>               
+     </CalibTrigger>
+
+     <CameraOffset> 
+         <EventTransform scale="1 1 1" translation="0 0 0" rotationtype="euler" rotation="0.0 0.0 0.0">
+            <TestSource/>
+         </EventTransform>
+     </CameraOffset>
+
+     <CoordFrameOffset>
+         <EventTransform scale="1 1 1" translation="0 0 0" rotationtype="euler" rotation="0.0 0.0 0.0">
+            <TestSource/>
+         </EventTransform>
+     </CoordFrameOffset>
+
+     <Position>                
+         <EventTransform scale=1 1 1" translation="0 0 0" rotationtype="euler" rotation="0.0 0.0 0.0">
+             <Ref USE="keyboard"/> 
+         </EventTransform>                
+     </Position>
+
+     <Orientation>
+         <EventTransform scale="1 1 1" translation="0 0 0" rotationtype="euler" rotation="0.0 0.0 0.0">
+            <Ref USE="keyboard"/>
+         </EventTransform> 
+     </Orientation> 
+ </PosOrientCalibSinkSource>
+ @endverbatim
  */
 
 #ifndef _CALIBSINKSOURCE_H
