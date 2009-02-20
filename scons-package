@@ -1,0 +1,283 @@
+# This build script is targeted specifically towards Windows XP, 
+# using Microsoft Visual Studio 2005
+# Dependencies are copied from their source directories to
+# the project directory
+
+import sys, os
+from glob import glob
+from os.path import join, basename, dirname
+sys.path.append('builders')
+#########################################
+# extend path to include SCons builders #
+#########################################
+
+def filterFiles(files, suffixes):
+    for file in files:
+        for suffix in suffixes:
+            if str(file).endswith(suffix):
+                yield file
+
+def findRelativePath(root, target):
+    # replace root with blank empty string
+    relative_path = target.replace(root, "", 1) 
+    if relative_path.startswith(os.sep):
+        return relative_path[1:] # omit first separator
+    return relative_path
+
+env = Environment (ENV = os.environ)
+# This is the project directory to install everything in
+prefix = ARGUMENTS.get('PREFIX')
+if prefix is None:
+    print "No PREFIX has been specified"
+    sys.exit(-1)
+
+try:
+    omniorb_root_dir = env['ENV']['OMNIORBROOT']
+except KeyError:
+    print "No OMNIORBROOT has been specified"
+    sys.exit(-1)
+try:
+    omniorbpy_root_dir = env['ENV']['OMNIORBPYROOT']
+except KeyError:
+    print "No OMNIORBPYROOT has been specified"
+    sys.exit(-1)
+
+def testSuffix(filename, suffixes):
+    for suffix in suffixes:
+        if filename.endswith(suffix):
+            return True
+    return False
+
+def installRelativeFiles(install_dir, relative_dir, target_dir, suffixes, exclude_dirs=[]):
+    _files = []
+    for dirpath, dirnames, filenames in os.walk(join(relative_dir, target_dir)):
+        for _dir in exclude_dirs:
+            try:
+                dirnames.remove(_dir)
+            except ValueError:
+                pass
+        relpath =  findRelativePath(relative_dir, dirpath)
+        for filename in filenames:
+            if testSuffix(filename, suffixes):
+                #print join(install_dir, relpath, filename), join(dirpath, filename)
+                _files += env.InstallAs(join(install_dir, relpath, filename), join(dirpath, filename))
+    return _files
+
+def installFiles(install_dir, target_dir, suffixes):
+    _files = []
+    filenames = glob(join(target_dir, '*'))
+    for filename in filenames:
+        if testSuffix(filename, suffixes):
+            _files += env.Install(install_dir, filename)
+    return _files
+
+#########################################
+# Install the ACE headers and libraries #
+#########################################
+try:
+    ace_root_dir = env['ENV']['ACEROOT']
+except KeyError:
+    print "No ACEROOT has been specified"
+ace_headers = installRelativeFiles(join(prefix, 'include'), ace_root_dir, 'ACE', ['.cpp', '.h', '.inl'])
+ace_dlls = installFiles(join(prefix, 'bin'), join(ace_root_dir, 'lib'), ['.dll', '.pdb'])
+ace_libs = installFiles(join(prefix, 'lib'), join(ace_root_dir, 'lib'), ['.lib'])
+
+############################################
+# Install the Xerces headers and libraries #
+############################################
+try:
+    xercesc_root_dir = env['ENV']['XERCESCROOT']
+except KeyError:
+    print "No XERCESCROOT has been specified"
+
+xercesc_headers = installRelativeFiles(join(prefix, 'include'), join(xercesc_root_dir, 'src'), 'xercesc', ['.hpp','.c'])
+for release in ['Debug', 'Release']:
+    installFiles(join(prefix, 'bin'), join(xercesc_root_dir, 'Build', 'Win32', 'VC8', release), ['.dll', '.pdb'])
+    installFiles(join(prefix, 'lib'), join(xercesc_root_dir, 'Build', 'Win32', 'VC8', release), ['.lib'])
+
+############################################
+#        Install the OmniORB files         #
+############################################
+omniorb_headers = installRelativeFiles(prefix, omniorb_root_dir, 'include', ['.h', '.hh'])
+installRelativeFiles(prefix, omniorb_root_dir, 'lib', ['.py', '.pyc'])
+installRelativeFiles(prefix, omniorb_root_dir, 'idl', ['.idl'])
+installFiles(join(prefix, 'bin'), join(omniorb_root_dir, 'bin', 'x86_win32'), ['.dll', '.exe', '.pdb'])
+installFiles(join(prefix, 'bin'), join(omniorb_root_dir, 'bin', 'scripts'), ['.py'])
+installFiles(join(prefix, 'lib'), join(omniorb_root_dir, 'lib', 'x86_win32'), ['.lib'])
+
+installRelativeFiles(prefix, omniorbpy_root_dir, 'lib', ['.py', '.pyc', '.pyd'], exclude_dirs=['omniidl', 'omniidl_be', 'x86_win32'])
+installFiles(join(prefix, 'lib', 'python'), join(omniorbpy_root_dir, 'lib', 'x86_win32'), ['.pyd'])
+# Install python back-end
+python_py = join('lib','python','omniidl_be','python.py')
+env.InstallAs(join(prefix, python_py), join(omniorbpy_root_dir, python_py))
+installFiles(join(prefix, 'bin'), join(omniorbpy_root_dir, 'bin', 'x86_win32'), ['.dll', '.pdb'])
+
+########################
+# Install Python files #
+########################
+stubs_and_skeletons = []
+python_stubs_and_skeletons = []
+import OmniIdlPy, OmniIdlCxx, MakeDefFile
+OmniIdlCxx.generate(env)
+OmniIdlPy.generate(env)
+MakeDefFile.generate(env)
+
+idl_files  = [join('idl', _file) for _file in ['Graph.idl', 'OTGraph.idl', 'OT_EventChannel.idl']]
+for idl_file in idl_files:
+    stubs_and_skeletons += env.OMNIIDLCXX(idl_file, OMNIIDL_INSTALL_DIRECTORY=join('idl', 'skeletons'), CPPPATH=['idl'])
+    python_stubs_and_skeletons += env.OMNIIDLPY(idl_file, OMNIIDL_INSTALL_DIRECTORY=join(prefix, 'lib', 'python'), CPPPATH=['idl'])
+# Install IDL files 
+env.Install(join(prefix, 'idl'), idl_files)
+
+sysdep_h = join('include', 'OpenTracker', 'skeletons', 'OT_sysdep.h')
+installed_sysdep_h = join(prefix, sysdep_h)
+installed_config_win_h = env.Install(prefix, 'config_win.h')
+#env.InstallAs(installed_sysdep_h, sysdep_h)
+ot_headers = installRelativeFiles(join(prefix, 'include'), 'include', 'OpenTracker', ['.h'])
+env.Append(CPPPATH=[join(prefix, _dir) for _dir in ['include', join('include', 'OpenTracker', 'skeletons'), join('include', 'COS')]])
+##############################################
+#         OMNIORB specific settings          #
+##############################################
+env.Append(LIBPATH=[join(prefix, 'lib')])
+env.Append(CPPDEFINES=['__x86__', '__NT__', '__OSVERSION__=4', '__WIN32__', '_WIN32_WINNT=0x0400'])
+env.Append(LIBS = ['odbc32', 'odbccp32', 'kernel32', 'user32', 'gdi32',
+                   'winspool', 'comdlg32', 'advapi32', 'shell32', 'ole32'
+                   , 'oleaut32', 'uuid','odbc32', 'odbccp32',
+                   'ws2_32.lib', 'mswsock.lib'])
+env.Append(LIBS=['omnithread_rtd', 'omniORB4_rtd', 'omniDynamic4_rtd', 'omniCodeSets4_rtd', 'omnisslTP4_rtd', 'COS4_rtd', 'COSDynamic4_rtd'])
+
+dllenv, libenv = env.Clone(), env.Clone()
+
+dllenv.Append(CCFLAGS=['/Od','/W3', '/EHsc', '/MD', '/Z7', '/FD', '/TP', '/GR'])
+libenv.Append(CCFLAGS=['/Od','/W3', '/EHsc', '/MD', '/Z7', '/GR'])
+
+dllenv.Append(CPPDEFINES=['"WIN32"', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL_',
+                          '__x86__','_CRT_SECURE_NO_DEPRECATE', "_WINDLL", "_MBCS"])
+libenv.Append(CPPDEFINES=['"WIN32"', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL_',
+                          '__x86__','_CRT_SECURE_NO_DEPRECATE', "_WINDLL", "_MBCS"])
+
+# Clone the dll environment to be used to build the OT library
+prgenv = dllenv.Clone()
+dllenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO', '/DEBUG', 
+                         '/SUBSYSTEM:WINDOWS', '/OPT:REF', '/OPT:ICF', 
+                         '/MACHINE:X86'])
+otenv = dllenv.Clone()
+dllenv.Append(CPPDEFINES=['_OT_LIBRARY'])
+libenv.Append(CPPDEFINES=['_OT_LIBRARY'])
+
+
+# Sort out stubs and skeletons
+skeletons = []
+for header in filterFiles(stubs_and_skeletons, ['.hh']):
+    skeletons += env.Install(join(prefix,'include','OpenTracker','skeletons'), header)
+stubs_cxx  = [stub for stub in filterFiles(stubs_and_skeletons, ['.cc'])]
+stubs_copy = env.Install(join('build', 'win32'), stubs_cxx)
+env.Install(join('build', 'win32'), skeletons)
+
+############################################
+#        Build static library              #
+############################################
+static_lib = libenv.StaticLibrary(join(prefix,'lib', 'otstubs_static'), stubs_copy)
+stubs_def = env.MAKEDEFFILE(join(prefix, 'lib', 'otstubs.def'), static_lib)
+dllenv.Append(LINKFLAGS=['-def:'+str(_def) for _def in stubs_def])
+
+############################################
+#            Build otstubs DLL             #
+############################################
+otstubs = dllenv.SharedLibrary(join('lib', 'win32', 'otstubs'), stubs_cxx)
+# Add explicit dependency on def file
+dllenv.Depends(otstubs, stubs_def)
+otstubs_bin_install = dllenv.Install(join(prefix,'bin'), [_dll for _dll in filterFiles(otstubs, ['.dll', '.pdb'])])
+otstubs_lib_install = dllenv.Install(join(prefix,'lib'), [_dll for _dll in filterFiles(otstubs, ['.lib'])])
+
+####################################
+# Make sure manifests get embedded #
+####################################
+dllenv.AddPostAction(otstubs, 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;2')
+
+#######################################
+# Copy config files                   #
+#######################################
+config_files = installRelativeFiles(prefix, '.', 'share', ['.xml', '.dtd', '.cfg'])
+
+#######################################
+# Explicitly add certain dependencies #
+#######################################
+omniidl_files  = [join(prefix, 'lib', 'python', _dir) for _dir in ['omniidl', 'omniidl_be']]
+omniidl_files += [join(prefix, 'bin', 'python15.dll'), join(prefix, 'bin', 'omniidl.exe'), join(prefix, 'lib', 'python1.5')]
+env.Depends(stubs_and_skeletons, omniidl_files + omniorb_headers + [installed_sysdep_h])
+env.Depends(stubs_def, join(prefix, 'bin', 'makedeffile.py'))
+
+######################################
+#        Sort out defines            #
+######################################
+ot_defines = ['OT_NO_FOB_SUPPORT', 'OT_NO_GPS_SUPPORT', 
+              'OT_NO_NETWORK_SUPPORT', 'OT_NO_FILEMODULE_SUPPORT', 
+              'OT_NO_TIMEMODULE_SUPPORT', 'OT_NO_XSENS_SUPPORT',
+              'OT_NO_MAGICY_SUPPORT', 'OT_NO_SPEECH_SUPPORT', 
+              'OT_NO_CONSOLE_SUPPORT', 'OT_NO_CALLBACKMODULE_SUPPORT', 
+              'OT_NO_FASTTRACK_SUPPORT', 'OT_NO_DYNASIGHT_SUPPORT', 
+              'OT_NO_GROUPGATE_SUPPORT', 'OT_NO_ULTRATRACK_SUPPORT', 
+              'OT_NO_INTERSENSE_SUPPORT', 'OT_NO_ORIENTATION_SUPPORT', 
+              'OT_NO_INTERPORLATORMODULE_SUPPORT', 
+              'OT_NO_ARTDATATRACKER_SUPPORT', 
+              'OT_NO_BUTTON_SUPPORT', 'OT_NO_PARBUTTON_SUPPORT',
+              'OT_NO_CONFIDENCE_SUPPORT', 
+              'OT_NO_TIMEGATE_SUPPORT', 
+              'OT_NO_TIMESTAMPGENERATOR_SUPPORT', 
+              'OT_NO_CALLFORWARDMODULE_SUPPORT', 
+              'OT_BACKUP_ON_RECONFIG', 'EXCLUDE_MOBILAB_SUPPORT',
+              'OT_NO_MOBILAB_SUPPORT', 'NO_USE_WII', 'USE_XERCES',
+              'USE_CORBA', 'USE_OMNIEVENTS', 'USE_LIVE']
+# generate a header file to be used by "client" projects
+ot_presenccia_h = join('include', 'OpenTracker', 'ot_presenccia.h')
+f = open(ot_presenccia_h, 'w')
+f.write("#ifndef _OT_PRESENCCIA_H\n")
+f.write("#define _OT_PRESENCCIA_H\n\n\n")
+for _def in ot_defines:
+    f.write("#define " + _def + "\n")
+f.write("#endif //_OT_PRESENCCIA_H\n")
+f.close()
+otenv.Append(CPPDEFINES= ot_defines+['PRESENCCIA'])
+otenv.InstallAs(join(prefix, ot_presenccia_h), ot_presenccia_h)
+
+############################################
+#            Get list of sources           #
+############################################
+essential_core_files = glob(join('src', 'core', '*.cxx')) + \
+    [join('src', 'misc', 'OpenTracker.cxx')] + \
+    [join('src', 'tool', 'OT_ACE_Log.cxx')]
+#common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'DynamicVirtualTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx', 'GKTransformNode.cxx', 'EEGFilterNode.cxx']
+#common_files = [join('src', 'common', file) for file in common]
+common_files = glob(join('src', 'common', '*.cxx'))
+input_files  = glob(join('src', 'input', '*.cxx'))
+misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx'), 'EEGSub.cxx', 'EEGLas.cxx', 'ButterworthFive.cxx']
+misc_files = [join('src', 'misc', file) for file in misc]
+extra_files = [join('extras','intersense','isense.c')]
+# Add CORBA-specific files
+extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
+
+otenv.Append(LIBS=['xerces-c_2D', 'ACEd', 'otstubs'])
+otenv.Append(CPPDEFINES='OPENTRACKER_EXPORTS')
+otenv.Append(CPPPATH=join('extras', 'intersense'))
+
+otlib = otenv.SharedLibrary(join('lib', 'win32', 'ot_reconfigurable'), essential_core_files + common_files + input_files + extra_files + misc_files)
+# Ensure manifest is embedded
+otenv.AddPostAction(otlib, 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;2')
+
+otlib_bin_install = dllenv.Install(join(prefix,'bin'), [_dll for _dll in filterFiles(otlib, ['.dll', '.pdb'])])
+otlib_lib_install = dllenv.Install(join(prefix,'lib'), [_dll for _dll in filterFiles(otlib, ['.lib'])])
+
+#################################################
+#             Build an executable               #
+#################################################
+prgenv.Append(CPPDEFINES='PRESENCCIA')
+prgenv.Append(CCFLAGS=['/Od','/Ob1', '/GF', '/Gy', '/W3', '/FD', '/EHsc', '/MD', '/GR'])
+prgenv.Append(LINKFLAGS=['/INCREMENTAL:NO', '/NOLOGO',
+                         '/SUBSYSTEM:CONSOLE', '/MACHINE:X86'])
+prgenv.Append(LIBS=['ot_reconfigurable', 'otstubs', 'ACEd', 'xerces-c_2D'])
+xml_reconfigurable = prgenv.Program(join('bin', 'xml_reconfigurable'), join('src','standalones','xmlConfigurableLive.cxx'))
+xml_reconfigurable_bin_install = prgenv.Install(join(prefix,'bin'), [_dll for _dll in filterFiles(xml_reconfigurable, ['.exe','.pdb'])])
+# Ensure manifest is embedded
+prgenv.AddPostAction(xml_reconfigurable, 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;2')
+
