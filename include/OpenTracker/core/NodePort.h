@@ -98,6 +98,7 @@ namespace ot {
 		friend class GoGoModule;
 		friend class SysMouseModule;
 		friend class ThreeToTwoDimFilterModule;
+        friend class CalibModule;
     };
 
 } // namespace ot

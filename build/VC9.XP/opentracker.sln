@@ -1,0 +1,91 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentracker", "opentracker.vcproj", "{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F801C564-768B-4767-BD06-80BC19DF0867} = {F801C564-768B-4767-BD06-80BC19DF0867}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opentrackerlib", "opentrackerlib.vcproj", "{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "standaloneConfigurable", "configurable.vcproj", "{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61} = {1CBF1469-D772-4F78-ACC2-6831B48B9C61}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "newmat", "newmat.vcproj", "{F801C564-768B-4767-BD06-80BC19DF0867}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "otpy", "otpy.vcproj", "{9DAEFA31-3346-474E-963D-254AE1F0BC00}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61} = {1CBF1469-D772-4F78-ACC2-6831B48B9C61}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "standalone", "standalone.vcproj", "{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61} = {1CBF1469-D772-4F78-ACC2-6831B48B9C61}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "standaloneOnDemand", "standaloneOnDemand.vcproj", "{BE7D1104-64FA-4A53-AB4F-BC49936C9DDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Debug|Win32.Build.0 = Debug|Win32
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Release|Win32.ActiveCfg = Release|Win32
+		{1CBF1469-D772-4F78-ACC2-6831B48B9C61}.Release|Win32.Build.0 = Release|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Debug|Win32.Build.0 = Debug|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Release|Win32.ActiveCfg = Release|Win32
+		{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}.Release|Win32.Build.0 = Release|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Debug|Win32.Build.0 = Debug|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Release|Win32.ActiveCfg = Release|Win32
+		{FE098F57-7EB7-4AFE-8D90-754A9A5D14DB}.Release|Win32.Build.0 = Release|Win32
+		{F801C564-768B-4767-BD06-80BC19DF0867}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F801C564-768B-4767-BD06-80BC19DF0867}.Debug|Win32.Build.0 = Debug|Win32
+		{F801C564-768B-4767-BD06-80BC19DF0867}.Release|Win32.ActiveCfg = Release|Win32
+		{F801C564-768B-4767-BD06-80BC19DF0867}.Release|Win32.Build.0 = Release|Win32
+		{9DAEFA31-3346-474E-963D-254AE1F0BC00}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9DAEFA31-3346-474E-963D-254AE1F0BC00}.Debug|Win32.Build.0 = Debug|Win32
+		{9DAEFA31-3346-474E-963D-254AE1F0BC00}.Release|Win32.ActiveCfg = Release|Win32
+		{9DAEFA31-3346-474E-963D-254AE1F0BC00}.Release|Win32.Build.0 = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}.Debug|Win32.Build.0 = Debug|Win32
+		{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}.Release|Win32.ActiveCfg = Release|Win32
+		{9ED363E2-1473-4BDA-BCFE-07076AAB1FE1}.Release|Win32.Build.0 = Release|Win32
+		{BE7D1104-64FA-4A53-AB4F-BC49936C9DDB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BE7D1104-64FA-4A53-AB4F-BC49936C9DDB}.Debug|Win32.Build.0 = Debug|Win32
+		{BE7D1104-64FA-4A53-AB4F-BC49936C9DDB}.Release|Win32.ActiveCfg = Release|Win32
+		{BE7D1104-64FA-4A53-AB4F-BC49936C9DDB}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+EndGlobal

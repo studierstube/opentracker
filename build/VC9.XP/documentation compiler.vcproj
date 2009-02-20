@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="documentation compiler"
+	ProjectGUID="{4FE68F22-9175-41DB-8A89-18B127F3E121}"
+	RootNamespace="documentation compiler"
+	Keyword="MakeFileProj"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory=".doc"
+			IntermediateDirectory=".doc"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="..\..\doc\build_and_clean_doxygen.bat build"
+				ReBuildCommandLine=""
+				CleanCommandLine="..\..\doc\build_and_clean_doxygen.bat clean"
+				Output=""
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				IncludeSearchPath=""
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".Doc"
+			IntermediateDirectory=".Doc"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="..\misc\build-docs.bat dll debug msvc8 coin2"
+				ReBuildCommandLine="..\misc\build-docs.bat dll debug msvc8 coin2"
+				CleanCommandLine=""
+				Output="documentation.exe"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				IncludeSearchPath=""
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			>
+			<File
+				RelativePath="..\..\doc\build_and_clean_doxygen.bat"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\footer.php"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\header.php"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\index.php"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\opentracker.dxy"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\opentracker_local.dxy"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\opentracker_site.dxy"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\ot.css"
+				>
+			</File>
+			<File
+				RelativePath="..\..\doc\ot3.css"
+				>
+			</File>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

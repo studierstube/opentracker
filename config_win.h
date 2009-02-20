@@ -141,7 +141,7 @@
 //#define USE_ARTOOLKIT 1
 
 /** uncomment the following line to compile support for the ARToolKitPlus library */
-//#define USE_ARTOOLKITPLUS 1
+#define USE_ARTOOLKITPLUS 1
 
 //#define USE_STBTRACKER 1
 
@@ -152,6 +152,8 @@
 /** uncomment the following line to build with an integrated OpenVideo server
     NOTE: this is not required for Studierstube 4, since Stb4 creates its oen OpenVideo instance! */
 //#define USE_OPENVIDEO 1
+
+#define USE_VIDEOLOCATION 1
 
 
 /** We use TinyXML as standard library */
@@ -188,11 +190,16 @@
 
 
 /** uncomment the following line to compile support for GoGo interaction support. */
-//#define USE_GOGO 1
+#define USE_GOGO 1
 
 /** uncomment the following line to compile support for Pan Tilt Units.
  * Support for this is only available on windows at the moment. */
-//#define USE_PANTILTUNIT 1
+#define USE_PANTILTUNIT 1
+
+/**
+ * uncomment the following to add the CalibModule to open tracker.
+ */
+#define USE_CALIBMODULE 1
 
 //#define USE_THREETOTWODIMFILTER 1
 
