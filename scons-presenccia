@@ -199,7 +199,7 @@ env.Append(CPPDEFINES=['WIN32', '__WIN32__','NDEBUG', '_WINDOWS', '_USRDLL'
 essential_core_files = glob(join('src', 'core', '*.cxx')) + \
     [join('src', 'misc', 'OpenTracker.cxx')] + \
     [join('src', 'tool', 'OT_ACE_Log.cxx')]
-common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'DynamicVirtualTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx', 'GKTransformNode.cxx', 'EEGFilterNode.cxx']
+common = ['ButtonOpNode.cxx', 'CommonNodeFactory.cxx', 'LogModule.cxx', 'FilterNode.cxx', 'SelectionNode.cxx', 'DESPFilterNode.cxx', 'Transformation.cxx', 'RangeFilterNode.cxx', 'EventUtilityNode.cxx', 'PositionFilterNode.cxx', 'ThresholdFilterNode.cxx', 'MatrixTransformation.cxx', 'VirtualTransformation.cxx', 'StaticTransformation.cxx', 'DynamicTransformation.cxx', 'DynamicVirtualTransformation.cxx', 'EllipsoidTransformNode.cxx', 'TriangulateOrientationNode.cxx', 'DifferenceNode.cxx', 'EventQueueNode.cxx', 'InvertTransformation.cxx', 'MergeNode.cxx', 'DESP.cxx', 'HeartrateFilterNode.cxx', 'GKTransformNode.cxx', 'EEGFilterNode.cxx', 'ExchangeAxisTransformation.cxx']
 common_files = [join('src', 'common', file) for file in common]
 input_files  = []
 misc = [join('xml','XercesXMLWriter.cxx'), join('xml','TinyXMLWriter.cxx'), 'EEGSub.cxx', 'EEGLas.cxx', 'ButterworthFive.cxx']
@@ -259,8 +259,8 @@ if env['ENABLE_CORBA']:
     
     env.Append(LIBS=['ws2_32', 'mswsock', 'advapi32', 'omniORB410_rt', 'omniDynamic410_rt', 'omnithread33_rt'])
     env.Append(CPPPATH=['idl', join('idl', 'COS')])
-    for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
-	stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
+    #for idl_file in [join('idl', _file) for _file in ['OT_CORBA.idl']]:
+	#stub_generator.addStubsAndSkeletons(idl_file, pkgprefix='org.studierstube.opentracker')
 
     extra_files += [join('src', 'network', file) for file in ['CORBAUtils.cxx', 'CORBAModule.cxx', 'CORBASink.cxx']]
 #**************************************#
@@ -289,6 +289,7 @@ if env['ENABLE_LIVE']:
     env.Append(CPPDEFINES='USE_LIVE');
     env.Append(CPPPATH=[join(prefix, 'include', 'OpenTracker', 'skeletons')])
     stub_generator.addStubsAndSkeletons(join('idl', 'OTGraph.idl'), pkgprefix='org.studierstube.opentracker')
+    stub_generator.addStubsAndSkeletons(join('idl', 'Graph.idl'), pkgprefix='org.studierstube.opentracker')
 extra_files += [cxx_file for cxx_file in filterFiles(stub_generator.cxx, ['.cc'])]
 skeletons = []
 for header in filterFiles(stub_generator.cxx, ['.hh']):
