@@ -119,6 +119,7 @@
 #include <OpenTracker/input/PanTiltUnitModule.h>
 #include <OpenTracker/input/CalibModule.h>
 #include <OpenTracker/input/LaserPointerModule.h>
+#include <OpenTracker/input/LaserDotTrackerModule.h>
 #include <OpenTracker/input/SysMouseModule.h>
 #include <OpenTracker/common/ThreeToTwoDimFilterModule.h>
 #include <OpenTracker/common/VirtualKeyModule.h>
@@ -329,6 +330,10 @@ namespace ot {
 
 #ifdef USE_LASERPOINTER
         OT_REGISTER_MODULE(LaserPointerModule, NULL);
+#endif	
+
+#ifdef USE_LASERDOTTRACKER
+        OT_REGISTER_MODULE(LaserDotTrackerModule, NULL);
 #endif	
 
 #ifdef USE_SYSMOUSE

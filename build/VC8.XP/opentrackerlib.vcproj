@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="opentrackerlib"
 	ProjectGUID="{CD8B9C9E-B747-466A-943A-54A4E7E91EC2}"
 	RootNamespace="opentrackerlib"
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;USE_QT4;TINYXML_MOD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -104,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;&quot;$(TINYXMLROOT)&quot;;&quot;$(TINYXMLROOT)\include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
+				AdditionalIncludeDirectories="../../include;&quot;$(ACEROOT)&quot;;&quot;$(XERCESCROOT)/include&quot;;&quot;$(TINYXMLMODROOT)/include&quot;;../../extras;../../extras/intersense;&quot;$(ARTOOLKITROOT)/include&quot;;&quot;$(ARTOOLKITPLUSROOT)/include&quot;;&quot;$(OPENVIDEOROOT)/include&quot;;&quot;$(3DCONNEXIONROOT)/include&quot;;&quot;$(PTUROOT)/include&quot;;&quot;$(VRPNROOT)/vrpn&quot;;&quot;$(QTDIR)\include&quot;;&quot;$(PYTHONROOT)/include&quot;;&quot;$(STBTRACKERROOT)/include&quot;;&quot;$(STBMATHROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;OPENTRACKER_STATIC;OT_DO_NOT_LINK_ARTOOLKITPLUS;__WIN32__;__x86__;_CRT_NON_CONFORMING_SWPRINTFS;_CRT_SECURE_NO_DEPRECATE;TINYXML_MOD_DLL;USE_QT4;TINYXML_MOD"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
