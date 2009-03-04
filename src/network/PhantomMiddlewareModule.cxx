@@ -70,7 +70,7 @@ namespace ot {
     logPrintI("PhantomMiddlewareModule::init\n");
   } // init
 
-  Node * PhantomMiddlewareModule::createNode( const std::string & name, StringTable & attributes )
+  Node * PhantomMiddlewareModule::createNode( const std::string& name, const StringTable& attributes )
   {
     if( name.compare("PhantomLocationSink") == 0 ) 
       {
