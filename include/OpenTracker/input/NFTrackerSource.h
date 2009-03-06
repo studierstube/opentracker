@@ -67,7 +67,7 @@
 
 namespace ot {
  
-    class OPENTRACKER_API NFTrackerSource : public Node
+    class OPENTRACKER_API NFTrackerSource : public Node, public VideoUser
     {
     public:        
 
@@ -90,15 +90,22 @@ namespace ot {
 		}
         void pullEvent(){}
 
+		void newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat, void* trackingData)
+		{
+			if( !initialized ) init();
+			coreImageBuffer->setPixels((void*)frameData, newSizeX, newSizeY, StbCore::PIXEL_FORMAT_BGR);
+			process();
+			return;
+		}
+
     protected:
 	/// protected constructor so it is only accessible by the module
 	friend class NFTrackerModule;
 
 	bool initialized;
 
-	NFTrackerSource(std::string camCalib) : Node()
+	NFTrackerSource() : Node()
     { 
-		cameraCalib = camCalib;
 		tracker = new NFTracker();
 		coreImageBuffer = StbCore::Image::create();
 		lumBuffer=NULL;
@@ -119,10 +126,21 @@ namespace ot {
 			lumBuffer = new unsigned char[coreImageBuffer->getWidth()*coreImageBuffer->getHeight()];
 		imageTool->convertImageToLum(coreImageBuffer, lumBuffer, NULL);
 		
-		StbCV::Image camImage;
+		StbCV::Image camImage, camImageHalf;
 		camImage.setPixels(lumBuffer, coreImageBuffer->getWidth(), coreImageBuffer->getHeight());
+		camImageHalf.downSampleToHalfFrom(camImage);
 		//camImage.saveRaw("camera_image.raw");
-		tracker->update(camImage);
+		tracker->update(camImageHalf);
+		//////// convert to lum image
+		//////StbTracker::ImageTool *imageTool = new StbTracker::ImageTool(NULL);
+		//////if (lumBuffer == NULL)
+		//////	lumBuffer = new unsigned char[coreImageBuffer->getWidth()*coreImageBuffer->getHeight()];
+		//////imageTool->convertImageToLum(coreImageBuffer, lumBuffer, NULL);
+		//////
+		//////StbCV::Image camImage;
+		//////camImage.setPixels(lumBuffer, coreImageBuffer->getWidth(), coreImageBuffer->getHeight());
+		////////camImage.saveRaw("camera_image.raw");
+		//////tracker->update(camImage);
 
 		const StbCV::PoseF& pose = tracker->getPose();
     

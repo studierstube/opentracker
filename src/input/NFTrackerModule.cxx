@@ -80,7 +80,6 @@ namespace ot {
         NFTrackerModule *nftTrack = new NFTrackerModule;
         context->addFactory( * nftTrack );
         context->addModule( "NFTrackerConfig", *nftTrack );
-        context->registerVideoUser(nftTrack);
     }
 
     NFTrackerModule::NFTrackerModule() : NodeFactory()
@@ -89,7 +88,6 @@ namespace ot {
 
 	void NFTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 	{
-		cameraCalib = attributes.get("camera-calib");
 	}
 
     NFTrackerModule::~NFTrackerModule()
@@ -103,35 +101,23 @@ namespace ot {
     {
         if(name.compare("NFTrackerSource") == 0 )
         {
-			NFTrackerSource* source = new NFTrackerSource(cameraCalib);
+			NFTrackerSource* source = new NFTrackerSource();
 
             if ( !attributes.get("ovSink").empty() )
-                openVideoSinkName = attributes.get("ovSink").c_str();
+                source->openVideoSinkName = attributes.get("ovSink").c_str();
 			if ( !attributes.get("target").empty() )
                 source->target = attributes.get("target").c_str();
 			if ( !attributes.get("configDb").empty() )
                 source->configDb = attributes.get("configDb").c_str();
+			if ( !attributes.get("camera-calib").empty() )
+				source->cameraCalib = attributes.get("camera-calib");
   
             sources.push_back( source );
+			context->registerVideoUser(source);
             return source;
         }
 
         return NULL;
-    }
-
-    void
-    NFTrackerModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat, void* trackingData)
-    {
-	    if(sources.size() <= 0) return;
-        
-        for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-        {
-            NFTrackerSource * source = (NFTrackerSource *)((Node *)*it);
-			if( !source->initialized ) source->init();
-			source->coreImageBuffer->setPixels((void*)frameData, newSizeX, newSizeY, StbCore::PIXEL_FORMAT_BGR);
-			source->process();
-        }
-	    return;
     }
 
 

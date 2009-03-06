@@ -79,7 +79,7 @@ typedef std::vector<Node::Ptr> NodeVector;
 * Source nodes via the NodeFactory interface and pushes events into
 * the tracker tree according to the nodes configuration.
 */
-class OPENTRACKER_API NFTrackerModule : public NodeFactory, public VideoUser, public ThreadModule
+class OPENTRACKER_API NFTrackerModule : public NodeFactory, public ThreadModule
 {
   // Members
 protected:
@@ -108,8 +108,6 @@ public:
 	* pushes events into the tracker tree. 
 	*/
 	virtual void pushEvent(); 
-
-	void newVideoFrame(const unsigned char* image, int width, int height, PIXEL_FORMAT format, void* trackingData);
 
 };
 
