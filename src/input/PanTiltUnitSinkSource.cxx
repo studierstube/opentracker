@@ -135,17 +135,11 @@ namespace ot {
 
             return;
         }
-        // picking calculation
-        if (generator.getName().compare("PickMouse") == 0) {
-            // store input event from sink		
-            pickMouse=event;		
-            return;
-        }
+
         // the top offset
         if (generator.getName().compare("TopOffset") == 0) {
             // store input event from sink		
-            topOffset=event;
-            process=true;			
+            topOffset=event;	
             return;
         }
         // the pysical location of the ptu
@@ -194,10 +188,7 @@ namespace ot {
                 // button 1-4 pressed simultainiously
                 if (relativeInput.getButton()== 15) // reset and recalibrate ptu
                     SerialOut(UNIT_RESET);
-            }
-            // handle lanc control
-            lanc->Zoom(relativeInput.getPosition()[2]);
-            process=true;	
+            }	
         }
     }
 
@@ -219,17 +210,7 @@ namespace ot {
         lock();
         if (process||movingPan||movingTilt)
         {
-            //source->delay = source->delayEvent;
-
-            //if((cycle + source->offset) % source->frequency == 0 )
-            //{
-            //	source->push();
-            //}
-				
-            //source->publishEvent = false;
-
             process = false;
-            //OSUtils::sleep(source->delayEvent);
 					
             push();
             unlock();
@@ -313,36 +294,13 @@ namespace ot {
         }
 		
         // put extra attributes into event
-        float fov = lanc->getFieldOfView();
-        event.setAttribute<float>("fieldOfView", fov);
-        float tp = (float)lanc->timePos;
-        event.setAttribute<float>("timePos", tp );
-        float zf = (float)lanc->zoomFactor;
-        event.setAttribute<float>("zoomFactor", zf );
         event.timeStamp();
-		
-        // this queue is meant as delay mechanism
-		
-        // push result event into queue
-        //delayQueue.push(event);
-
-        //// delayEvent = length of queue
-
-        //// pop event from queue
-
-        //if (delayQueue.size()>delayEvent)
-        //{
-        //	event = delayQueue.front();
-        //	delayQueue.pop();
-        //	event.timeStamp();
-        //	updateObservers( event );
-        //}
     }
 
 	
     PanTiltUnitSinkSource::~PanTiltUnitSinkSource()
     {
-        // Destructor method
+		closeComPort();
     }
 	
 }

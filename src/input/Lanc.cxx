@@ -53,7 +53,7 @@
 
 #include <OpenTracker/input/Lanc.h>
 
-#ifdef USE_PANTILTUNIT
+#ifdef USE_ZOOM
 #include <OpenTracker/core/OSUtils.h>
 
 
@@ -62,11 +62,16 @@ namespace ot {
 	//constructor
 	Lanc::Lanc():zoomout(false),
 		zoomin(false),
-		offsetFactor(1.f),
 		wideAngle(37.1f),
 		startTime(0),
-		maxTimePos(8000),
-		initLanc(false)
+		maxTimePos(8000.f),
+		initLanc(false),
+		shuttle(false),
+		setTimePos(0),
+		zoomFactor(1.),
+		relativeIn(false),
+		relativeOut(false),
+		emitEvent(false)
 	{
 		timePos=maxTimePos;
 		#ifdef WIN32
@@ -108,79 +113,143 @@ namespace ot {
 
 	float Lanc::getFieldOfView()
 	{
-		//float fieldOfView = teleAngle*(float)timePos*offsetFactor;
-		//return fieldOfView;
 		zoomFactor = (timePos/maxTimePos);
 		float fieldOfView = wideAngle*(float)zoomFactor;
 		return fieldOfView;
 	}
 
+	void Lanc::noShuttle()
+	{
+		shuttle = false;
+	}
+
+	bool Lanc::isShutteling()
+	{
+		return shuttle;
+	}
+
+	void Lanc::adjustToZoomFactor(float zoomFactor)
+	{
+		setTimePos = zoomFactor * maxTimePos;
+		if (setTimePos < 200.f) setTimePos = 200.f;
+		if (setTimePos > maxTimePos) setTimePos = maxTimePos;
+		if (setTimePos == timePos) return;
+		shuttle = true;
+	}
+
+	void Lanc::relativeZoom(float speed)
+	{
+		relativeZooming = true;
+		
+		if (speed > 0.2f){
+			relativeIn = true;
+			shuttle=true;
+			return;
+		}
+		if (speed < -0.2f){
+			relativeOut = true;
+			shuttle=true;
+			return;
+		}
+		relativeIn = false;
+		relativeOut = false;
+		shuttle=false;
+	}
+
 	void Lanc::updateTimePos()
 	{
+		double time = OSUtils::currentTime();
+		double diff = (time-startTime);
+		startTime = time;
+
 		if( zoomin )
 		{
-			double time = OSUtils::currentTime();
-			timePos -= (time-startTime);
-			if (timePos < 200) timePos = 200;
-			startTime = time;
+			timePos -= diff;
+			if (timePos < 200.f){
+				timePos = 200.f;
+				shuttle= false;
+			}
 		}
 		if( zoomout )
 		{
-			double time = OSUtils::currentTime();
-			timePos += (time-startTime);
-			if (timePos > maxTimePos) timePos = maxTimePos;
-			startTime = time;
+			timePos += diff;
+			if (timePos > maxTimePos) {
+				timePos = maxTimePos;
+				shuttle = false;
+			}
 		}
+
+		if(relativeIn)setTimePos=maxTimePos;
+		if(relativeOut)setTimePos=0;
+		
+		printf("set: %f  timepos: %f\n",setTimePos, timePos);
+
+		if( (setTimePos < timePos && shuttle) || (setTimePos > timePos && shuttle) )
+		{
+			double precision = 50;
+			if(setTimePos < timePos-precision){ 
+				Zoom( 0.2f ); 
+				return;
+			}
+			if(setTimePos > timePos+precision){ 
+				Zoom( -0.2f );
+				return;
+			}
+		}
+		
+		shuttle = false;
+		Zoom( 0.f );
+		emitEvent=true;
 	}
 
 	bool Lanc::isZooming()
 	{
-		if( zoomin || zoomout ) return true;
+		if( zoomin || zoomout || shuttle) return true;
 		return false;
 	}
 
 	// mapping: 1 > zoominspeed8-1 > 0.2 stop -0.2 > zoomoutspeed1-8 > -1
     void Lanc::Zoom( float speed )         
     {
-		// todo: some focalDistance calculation based on timestamps etc.
-		
-		//speed *= 0.8f; // do some speed scaling
         #ifdef WIN32
 
-		if ( (speed<0.2) && (speed>-0.2) )   // zoom stop
+		if ( (speed<0.2f) && (speed>-0.2f) )   // zoom stop
 		{
+			relativeZooming = false;
 			if(initLanc)
 				if (!SendLancCommand(lancDevice,  0, 0)) 
 					std::cerr << "LANC Device Not Responding" << std::endl;
 			double time = OSUtils::currentTime();
 			if (zoomin)
 			{
-				timePos -= (time-startTime);
-				if (timePos < 200) timePos = 200;
+				//timePos -= (time-startTime);
+				//if (timePos < 200.f) timePos = 200.f;
 				zoomin=false;
 			}
 			if (zoomout)
 			{
-				timePos += (time-startTime);
-				if (timePos > maxTimePos) timePos = maxTimePos;
+				//timePos += (time-startTime);
+				//if (timePos > maxTimePos) timePos = maxTimePos;
 				zoomout=false;
 			}
 		}
-		if (speed>=0.2)
+		if (speed>=0.2f)
 		{
 			if(initLanc)
 				if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_IN_SLOW, NULL)) 
 					std::cerr << "LANC Device Not Responding" << std::endl;
 			startTime = OSUtils::currentTime();
 			zoomin=true;
+			zoomout=false;
 		}
-		if (speed<=-0.2)
+		if (speed<=-0.2f)
 		{
 			if(initLanc)
 				if (!SendContinuousLancCommand(lancDevice,  COMMANDTYPE_CAMERA, COMMAND_ZOOM_OUT_SLOW, NULL)) 
 					std::cerr << "LANC Device Not Responding" << std::endl;
 			startTime = OSUtils::currentTime();
 			zoomout=true;
+			zoomin=false;
 		}
 
 		/////////////////////////// multiple speeds mapping +8/-8
@@ -274,4 +343,4 @@ namespace ot {
     }
 }
 
-#endif //USE_PANTILTUNIT
+#endif //USE_ZOOM

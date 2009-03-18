@@ -53,7 +53,7 @@
 
 #include "../OpenTracker.h"
 
-#ifdef USE_PANTILTUNIT
+#ifdef USE_ZOOM
 
 #include <windows.h>
 #include <iostream> 
@@ -81,7 +81,6 @@ public:
      /** destructor*/
 	~Lanc();
 	
-	void Zoom( float speed );
 
 	float getFieldOfView();
 
@@ -89,11 +88,21 @@ public:
 	
 	void setWideAngle(float);
 
-	double timePos, zoomFactor;
+	double timePos, zoomFactor, setTimePos;
+	bool emitEvent;
 
 	void updateTimePos();
+	
+	void adjustToZoomFactor(float zoomFactor);
+
 
 	bool isZooming();
+
+	void noShuttle();
+
+	bool isShutteling();
+
+	void relativeZoom(float);
 	
 protected:
 
@@ -104,14 +113,16 @@ private:
 	LANCUSBID usb_id;
 	#endif
 
-	bool initLanc, zoomout, zoomin;
-	float wideAngle, teleAngle, offsetFactor;
-	double startTime, maxTimePos;
+	bool initLanc, zoomout, zoomin, shuttle, relativeZooming, relativeIn, relativeOut;
+	float wideAngle, teleAngle, maxTimePos;
+	double startTime;
+
+	void Zoom( float speed );
 	
 };
 
 }  // namespace ot
 
-#endif //USE_PANTILTUNIT
+#endif //USE_ZOOM
 
 #endif //_LANC_H

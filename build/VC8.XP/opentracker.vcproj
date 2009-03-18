@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
@@ -911,6 +911,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\XSensSource.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\ZoomModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\ZoomSinkSource.cxx"
 				>
 			</File>
 		</Filter>
@@ -3090,6 +3098,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\OpenTracker\input\PanTiltUnitModule.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\OpenTracker\input\PanTiltUnitSinkSource.h"
 				>
 			</File>
@@ -3807,6 +3819,14 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\XSensSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\ZoomModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\ZoomSinkSource.h"
 				>
 			</File>
 		</Filter>

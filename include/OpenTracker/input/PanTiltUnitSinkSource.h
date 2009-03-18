@@ -68,7 +68,6 @@
 #include <ptuDll.h>
 #pragma comment(lib,"ptudlld")
 
-#include "Lanc.h"
 #include "PtuCallback.h"
 
 
@@ -102,8 +101,6 @@ public:
 
 	// The COM port where the PTU is connected
 	bool initComPort(int comPort);
-
-	void closeComPort();
 	
 	PtuCallback* ptuCallback;
 
@@ -114,8 +111,6 @@ public:
 		movingTilt(false),
 		process(false)
 	{
-
-		lanc = new Lanc;
 		float initOri[4]={0.0f, 0.0f, 0.0f, 1.0f};
 		float initPos[3]={0.0f, 0.0f, 0.0f};
 		topOffset.setPosition(initPos);
@@ -128,6 +123,8 @@ public:
 	}
 
 	~PanTiltUnitSinkSource();
+	
+
 	
 
 virtual void onEventGenerated( Event& event, Node& generator);
@@ -158,13 +155,13 @@ private:
 	Event ptuLocation;
 	// This Event defines the absolute orientation of the PTU axis
 	Event absoluteInput;
-	Event pickMouse;
+	Event setZoomFactor;
 
 	portstream_fd COMstream;
 	
 	double panResolution, tiltResolution;
 
-	Lanc* lanc;
+	void closeComPort();
 
 	std::queue<Event> delayQueue;
 

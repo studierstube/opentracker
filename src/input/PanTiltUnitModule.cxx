@@ -69,6 +69,8 @@ namespace ot {
     OT_MODULE_REGISTER_FUNC(PanTiltUnitModule){
         OT_MODULE_REGISTRATION_DEFAULT(PanTiltUnitModule, "PanTiltUnitConfig");
     }
+
+
     // Destructor method
     PanTiltUnitModule::~PanTiltUnitModule()
     {
@@ -82,12 +84,9 @@ namespace ot {
         {       
             PanTiltUnitSinkSource * source = new PanTiltUnitSinkSource;
             source->event.addAttribute("float", "fieldOfView", "0");
-            source->event.addAttribute("float", "timePos", "0");
-            source->event.addAttribute("float", "zoomFactor", "0");
             source->event.addAttribute("vector<float>", "ptuOri", "0");
             source->event.addAttribute("float", "ptuPan", "0");
             source->event.addAttribute("float", "ptuTilt", "0");
-            source->event.addAttribute("int", "absoluteSpeed", "500");
             // read values from xml config file and initialize PTU
             if ( !attributes.get("comPort").empty() ) {
                 int comPort = atoi(attributes.get("comPort").c_str());
@@ -101,11 +100,10 @@ namespace ot {
             source->event.setConfidence( 1.0f );
             nodes.push_back( source );
             logPrintS("Built PanTiltUnitSinkSource node\n");
-            initialized = 1;
             return source;
         }
-        if( (name.compare("PtuLocation") == 0) ||(name.compare("SetPtuOrientation") == 0) || 
-            (name.compare("RelativeInput") == 0) || (name.compare("TopOffset") == 0)) 
+        if( (name.compare("PtuLocation") == 0) ||(name.compare("SetPtuOrientation") == 0) 
+			||(name.compare("RelativeInput") == 0) || (name.compare("TopOffset") == 0)) 
         {
             // create just a pass-through node
             NodePort *np = new NodePort();
@@ -117,100 +115,10 @@ namespace ot {
         return NULL;
     }
 
-    // starts the ptu thread
-    void PanTiltUnitModule::start()
-    {
-        if( isInitialized() == 1 && !nodes.empty())
-        {
-            ThreadModule::start();
-        }
-    }
-
-    // stops the ptu thread and closes all COM port streams
-    void PanTiltUnitModule::close()
-    {
-        // stop thread
-        lockLoop();
-        stop = true;
-        unlockLoop();
-
-        if( isInitialized() == 1 && !nodes.empty()) 
-        {
-            PanTiltUnitSinkSource * source;
-            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-            {
-                source = (PanTiltUnitSinkSource *) ((Node*)*it);
-                source->closeComPort();
-            }
-        }
-    }
-
-
-    void PanTiltUnitModule::run()
-    {
-        static int init = 0;
-
-        if( init == 0 )
-        {
-            initialized = 1;
-            init = 1;
-        }
-        while(1)
-        {
-            lockLoop();
-            if (stop == true) 
-            {
-                unlockLoop();
-                break;
-            }
-            else
-            {
-                unlockLoop();
-            }
-
-            processLoop();
-        }
-
-        lockLoop();
-        stop = 0;
-        unlockLoop();
-    }
-
 
     void PanTiltUnitModule::pushEvent()
     {
 		
-    }
-
-    void PanTiltUnitModule::processLoop()
-    {
-        if( isInitialized() == 1 )
-        {
-            bool newdata = false;
-            PanTiltUnitSinkSource *source;
-            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-            {
-                source = (PanTiltUnitSinkSource *) ((Node*)*it);
-                source->lock();
-                if( source->lanc->isZooming() )
-                {
-                    source->lanc->updateTimePos();
-                    source->process = true;
-                    newdata = true;
-                }
-                source->unlock();
-            }	
-
-            if (newdata && context != NULL)
-            {
-                if (context->doSynchronization())
-                {
-                    context->dataSignal();
-                    context->consumedWait();
-                }
-            }
-        }
-        ACE_OS::sleep(ACE_Time_Value(0, 500));
     }
 
 } // namespace ot

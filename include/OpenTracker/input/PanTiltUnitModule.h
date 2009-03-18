@@ -76,7 +76,7 @@
 
 namespace ot {
 
-class OPENTRACKER_API PanTiltUnitModule : public ThreadModule, public NodeFactory
+class OPENTRACKER_API PanTiltUnitModule : public NodeFactory, public ThreadModule
 {
 
 protected:
@@ -85,7 +85,7 @@ protected:
 
 public:
     /** constructor method. */
-    PanTiltUnitModule() : ThreadModule(), NodeFactory(), stop(false)
+    PanTiltUnitModule() : NodeFactory()
     {};
 
     /** Destructor method, clears nodes member.
@@ -102,25 +102,6 @@ public:
 	 */
     virtual Node * createNode( const std::string& name,  const StringTable& attributes);
 
-	/**
-     * stop the ptu thread
-	 */
-    virtual void close();
-
-    /**
-	 *  starts the ptu thread
-     */
-    virtual void start();
-
-	/**
-	 *  the ptu thread
-	 */
-	virtual void run();
-
-	/**
-	 *  flag to stop the ptu thread
-	 */
-    bool stop;
 
     /**
      * pushes events into the tracker tree. Checks all PanTiltUnitSources and
@@ -129,11 +110,15 @@ public:
      */
     virtual void pushEvent();
 
+	virtual void close(){}
+
+	virtual void start(){}
+
+	virtual void run(){}
+
 
 private:
 
-	// 
-	void processLoop();
 
 };
 OT_MODULE(PanTiltUnitModule);

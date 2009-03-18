@@ -117,6 +117,7 @@
 #include <OpenTracker/input/SpaceDeviceModule.h>
 #include <OpenTracker/input/GoGoModule.h>
 #include <OpenTracker/input/PanTiltUnitModule.h>
+#include <OpenTracker/input/ZoomModule.h>
 #include <OpenTracker/input/CalibModule.h>
 #include <OpenTracker/input/LaserPointerModule.h>
 #include <OpenTracker/input/LaserDotTrackerModule.h>
@@ -324,6 +325,9 @@ namespace ot {
 		OT_REGISTER_MODULE(PanTiltUnitModule, NULL);
 #endif	
 
+#ifdef USE_ZOOM
+		OT_REGISTER_MODULE(ZoomModule, NULL);
+#endif	
 #ifdef USE_CALIBMODULE
         OT_REGISTER_MODULE(CalibModule, NULL);
 #endif
