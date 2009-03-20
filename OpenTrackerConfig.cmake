@@ -29,6 +29,7 @@ else(OPENTRACKER_INCLUDE_DIRS AND OPENTRACKER_LIBRARY_DIRS)
 
   # search for the library (if we are in the source tree, it might not exist):
   find_library(OPENTRACKER_LIBRARY_PATH "${OPENTRACKER_LIBRARIES}" PATHS
+    "${OPENTRACKER_ROOT}/src"
     "${OPENTRACKER_ROOT}/lib"
     "${OPENTRACKER_ROOT}/lib/Release"
     "${OPENTRACKER_ROOT}/lib${LIBSUFFIX}"
