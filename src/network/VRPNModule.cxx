@@ -57,6 +57,9 @@
 
 #include <vrpn_Connection.h>
 
+#include <algorithm>
+
+
 using namespace std;
 
 namespace ot {
