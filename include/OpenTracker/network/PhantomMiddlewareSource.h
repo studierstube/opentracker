@@ -91,9 +91,10 @@ protected:
      * @param multicast_group_ the multicast group on which the node should
      * broadcast events */
   PhantomMiddlewareSource( const char* multicast_group ) :
-    Node()
+  Node()
       {
 	mu = new ACE_Thread_Mutex("phantommiddlewaresource");
+	type = "PhantomMiddlewareSource";
       }      
     bool modified;
     virtual ~PhantomMiddlewareSource() {
@@ -128,6 +129,7 @@ private:
     
     friend class PhantomMiddlewareModule;
     friend class PhantomListener;
+    friend class PhantomLocationListener;
 };
 
 

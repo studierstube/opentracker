@@ -120,6 +120,8 @@ namespace ot {
          *         allocated with new ! */
         virtual Node * createNode( const std::string& name, const StringTable& attributes);
 
+        virtual void removeNode(Node* n);
+
         virtual void start();
 
         virtual void pullEvent();

@@ -110,7 +110,7 @@ Node * VRPNModule::createNode( const std::string& name, const StringTable& attri
         attributes.get("station", &stationVal);
         VRPNSource * source = new VRPNSource;
         source->name = nameVal;
-        source->type = typeVal;
+        source->_type = typeVal;
         source->station = stationVal;
         sources.push_back( source );
         return source;
@@ -131,6 +131,16 @@ Node * VRPNModule::createNode( const std::string& name, const StringTable& attri
         return sink;
     }
     return NULL;
+}
+
+void VRPNModule::removeNode(Node* node) {
+    if ((node->getType().compare("VRPNSource")) == 0) {
+        VRPNSourceVector::iterator result = std::find( sources.begin(), sources.end(), node);
+        if (result != sources.end()) {
+            std::cerr << "removing VRPNSource node" << node << std::endl;
+            sources.erase( result );
+        }
+    }
 }
 
 void VRPNModule::start()

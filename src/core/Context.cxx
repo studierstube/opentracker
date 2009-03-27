@@ -867,6 +867,7 @@ namespace ot {
             corba_sink->_ref = OTGraph::Network::OTSink::_narrow(poa->id_to_reference(corba_id));
             tie_node->_remove_ref();
         } else {
+            std::cerr << std::endl << "activating node" << node << std::endl;
             POA_OTGraph::Node_tie<Node>* tie_node = new POA_OTGraph::Node_tie<Node>(node, (CORBA::Boolean) 1);
             corba_id = poa->activate_object(tie_node);
             tie_node->_remove_ref();
@@ -917,6 +918,7 @@ namespace ot {
             corba_sink->_ref = OTGraph::Network::OTSink::_narrow(poa->id_to_reference(corba_id));
             tie_node->_remove_ref();
         } else {
+            std::cerr << std::endl << "activating node with id " << stringid << " " << node << std::endl;
             POA_OTGraph::Node_tie<Node>* tie_node = new POA_OTGraph::Node_tie<Node>(node);//, (CORBA::Boolean) 1);
             PortableServer::ObjectId_var corba_id = PortableServer::string_to_ObjectId(stringid.c_str());
             poa->activate_object_with_id(corba_id, tie_node);

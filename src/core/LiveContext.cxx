@@ -104,6 +104,7 @@ namespace ot {
       StringTable attributes(_attributes);
       lock();
       Node* value = createNode(name, attributes);
+      value->start(); // start the node (whatever this involves) - important for VRPNSource
       // Add node to the name-Node mapping
       logPrintI("just about to getNode(value)\n");
 
@@ -215,20 +216,15 @@ namespace ot {
             Node* upstreamNode =   it->first;
             Node* downstreamNode = it->second;
             std::string upstream_id = getIDFromNode(upstreamNode);
-                std::string downstream_id = getIDFromNode(downstreamNode);
-                dot += std::string("\t") + upstream_id + " -> " + downstream_id + std::string(";\n");
+            std::string downstream_id = getIDFromNode(downstreamNode);
+            dot += std::string("\t") + upstream_id + " -> " + downstream_id + std::string(";\n");
         }
         for (NodeIDMapIterator it=node_id_map.begin(); it != node_id_map.end(); ++it) 
         {
             Node* node = it->first;
             std::string id = it->second;
-            //std::string type = node->getType();
-            //dot += std::string("\t") + id + std::string(" [label=\"") + 
-            //    node->getType() + std::string("\\n") + id + std::string("\"];\n");
             dot += std::string("\t") + id + std::string(" [label=\"") + 
                 node->getType() + std::string("\\n") + id + std::string("\"];\n");
-            //node_refs[i] = getNodeRefFromID(it->second);	
-            //i++;
         } 
 
         dot += "}";

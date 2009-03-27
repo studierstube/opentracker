@@ -113,10 +113,11 @@ void buttonChangeCallback( void * userdata, const vrpn_BUTTONCB info )
 VRPNSource::VRPNSource():
     Node(), 
     name( ""),
-    type( TRACKER ),
+    _type( TRACKER ),
     station( 0 ),
     trackerObj( NULL )
 {
+    type = "VRPNSource";
 }
 
 VRPNSource::~VRPNSource()
@@ -134,7 +135,7 @@ void VRPNSource::start()
     vrpn_Tracker_Remote * tracker = NULL;
     vrpn_Button_Remote * button = NULL;
 
-    switch(type){
+    switch(_type){
         case TRACKER:
             tracker = new vrpn_Tracker_Remote( name.c_str());
             tracker->register_change_handler( this, trackerPosOriCallback);
@@ -152,7 +153,13 @@ void VRPNSource::start()
 
 void VRPNSource::mainloop()
 {
-    trackerObj->mainloop();
+#ifdef USE_LIVE
+    ACE_Thread_Mutex* m = this->getMutex();
+    ACE_Guard<ACE_Thread_Mutex> mutexlock(*m);
+#endif
+    if (trackerObj != NULL) {
+        trackerObj->mainloop();
+    }
 }
 
 #else

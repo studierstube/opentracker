@@ -415,6 +415,7 @@ namespace ot {
         virtual OTGraph::Event* get_event() {
             throw OTGraph::Unimplemented();
         }
+        virtual void start() {  };
 #endif
         
 

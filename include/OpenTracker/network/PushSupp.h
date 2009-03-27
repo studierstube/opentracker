@@ -92,7 +92,6 @@ public:
   CosEventComm::PushSupplier_var sptr;
   Supplier_i* supplier;
   int cycle;
-    
 
 // Methods
 protected:

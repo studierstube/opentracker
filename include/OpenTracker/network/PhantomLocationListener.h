@@ -33,11 +33,12 @@ namespace ot {
       PidSourceMultiMapIterator it = range_it.first;
       while (it != range_it.second) {
 	PidSourceMultiMapIterator _it = it;
-	it++;
 	if (_it->second == node) {
 	  pid_node_mapping->erase(_it);
-	  delete (PhantomLocationSource*) node;
+	  //delete (PhantomLocationSource*) node;
+	  delete node;
 	}
+	it++;
       }
       unlock();
     }

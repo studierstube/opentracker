@@ -62,6 +62,7 @@ namespace ot {
   // destructor cleans up any allocated memory
   PhantomMiddlewareModule::~PhantomMiddlewareModule()
   {
+    delete _mutex;
     logPrintI("PhantomMiddlewareModule destructor\n");
   }
 
@@ -141,6 +142,7 @@ namespace ot {
   };
 
   void PhantomMiddlewareModule::removeNode(Node* node) {
+    ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
     if (node->getType().compare("PhantomLocationSink") == 0) {
       PhantomMiddlewareSinkVector::iterator result = std::find( sinks.begin(), sinks.end(), node );
         if( result != sinks.end())
@@ -184,6 +186,7 @@ namespace ot {
 
   void PhantomMiddlewareModule::pushEvent()
   {        
+    ACE_Guard<ACE_Thread_Mutex> mutexlock(*_mutex);
     for (GroupLocationListenerMap::const_iterator listener_it = location_listeners.begin(); listener_it != location_listeners.end(); ++listener_it) {
       listener_it->second->pushEvent();
     }

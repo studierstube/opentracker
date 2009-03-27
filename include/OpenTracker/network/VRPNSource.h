@@ -68,6 +68,11 @@
 
 #ifdef USE_VRPN
 
+#ifdef USE_LIVE
+#include <ace/Thread.h>
+#include <ace/Synch.h>
+#endif
+
 class vrpn_BaseClass;
 
 namespace ot {
@@ -84,7 +89,7 @@ namespace ot {
         /// name
         std::string name;
         /// type of connection
-        enum Type { TRACKER, BUTTON } type;
+        enum Type { TRACKER, BUTTON } _type;
         /// station number of station to report
         int station;
         /// event object for data flow
@@ -101,7 +106,7 @@ namespace ot {
         /** Opens connection to the VRPN server. Only for internal use
          * by the associated module. 
          */
-        void start();
+        virtual void start();
 
         /** Executes the vrpn object's mainloop. Only for internal use
          * by the associated module. 

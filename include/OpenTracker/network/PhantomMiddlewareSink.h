@@ -107,6 +107,7 @@ protected:
       {
 	mss = new Phantom::Utils::MulticastSocketSender(multicast_group);
 	src = src_;
+	type = "PhantomMiddlewareSink";
       }
     
       PhantomMiddlewareSink( const char* multicast_group, int frequency_, int pid_, short eid_):
@@ -118,7 +119,8 @@ protected:
       eid ( eid_ )
 	{
 	mss = new Phantom::Utils::MulticastSocketSender(multicast_group);
-	src = "";	  
+	src = "";
+	type = "PhantomMiddlewareSink";
 	}
 
     virtual ~PhantomMiddlewareSink() {

@@ -92,7 +92,7 @@ protected:
     /** constructor method. */
  PhantomMiddlewareModule() : Module(), NodeFactory()
     {
-      // Empty constructor
+      _mutex = new ACE_Thread_Mutex("context_mutex");
     };
     /** Destructor method, clears nodes member. */
     virtual ~PhantomMiddlewareModule();
@@ -128,6 +128,10 @@ protected:
     virtual void pushEvent();
 
     virtual void removeNode(Node *);
+
+    /// used for synchronization between the main loop and the reconfiguration scheme
+    ACE_Thread_Mutex* _mutex;
+
  private:
 };
 
