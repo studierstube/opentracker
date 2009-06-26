@@ -257,7 +257,7 @@ namespace ot {
                                       {0, sin(tiltAngle), cos(tiltAngle), 0},{0, 0, 0, 1}};               
         MathUtils::Matrix4x4 mPan = {{cos(panAngle), 0, sin(panAngle), 0}, {0, 1, 0, 0},
                                      {-sin(panAngle), 0, cos(panAngle), 0},{0, 0, 0, 1}};
-        MathUtils::matrixMultiply(mTilt, mPan, mPtu);
+        MathUtils::matrixMultiply(mPan, mTilt, mPtu);
         // convert the current ptu orientation for output
         double qPtuOri[4];
         MathUtils::matrixToQuaternion(mPtu, qPtuOri);
