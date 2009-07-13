@@ -1,1 +1,1 @@
-ADD_SUBDIRECTORY(OpenTracker)
+add_subdirectory(OpenTracker)

@@ -1,5 +1,5 @@
- PROJECT(newmat)
- FILE(GLOB_RECURSE SOURCES *.cpp)
+ project(newmat)
+ file(GLOB_RECURSE SOURCES *.cpp)
  
- ADD_DEFINITIONS(-DWIN32 -D_LIB -DNDEBUG)
- ADD_LIBRARY(newmat STATIC ${SOURCES})
+ add_definitions(-DWIN32 -D_LIB -DNDEBUG)
+ add_library(newmat STATIC ${SOURCES})

@@ -1,1 +1,1 @@
-ADD_SUBDIRECTORY(newmat10)
+add_subdirectory(newmat10)

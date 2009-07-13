@@ -1,11 +1,11 @@
-LINK_LIBRARIES(opentracker)
+link_libraries(opentracker)
 
-ADD_EXECUTABLE(middleware middleware.cxx)
-TARGET_LINK_LIBRARIES(middleware ${ARToolkitPlus_LIBRARY}) 
-ADD_EXECUTABLE(opentracker-bin main.cxx)
-#ADD_EXECUTABLE(opentracker2c) ???
-ADD_EXECUTABLE(opentrackerdemand main_ondemand.cxx)
-TARGET_LINK_LIBRARIES(opentrackerdemand ${ARToolkitPlus_LIBRARY}) 
-#ADD_EXECUTABLE(opentrackerubitrack main_ubitrack.cxx) ???
+add_executable(middleware middleware.cxx)
+target_link_libraries(middleware ${ARToolkitPlus_LIBRARY}) 
+add_executable(opentracker-bin main.cxx)
+#add_executable(opentracker2c) ???
+add_executable(opentrackerdemand main_ondemand.cxx)
+target_link_libraries(opentrackerdemand ${ARToolkitPlus_LIBRARY}) 
+#add_executable(opentrackerubitrack main_ubitrack.cxx) ???
 
-INSTALL(TARGETS middleware opentracker-bin opentrackerdemand DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS middleware opentracker-bin opentrackerdemand DESTINATION ${CMAKE_INSTALL_BINDIR})
