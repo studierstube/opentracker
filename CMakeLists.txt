@@ -18,7 +18,7 @@ if(UNIX)
 endif(UNIX)
 
 find_package(ACE REQUIRED)
-find_package(ARToolKitPlus REQUIRED)
+find_package(ARToolKitPlus)
 find_package(OpenGL REQUIRED)
 
 find_package(Xercesc)
