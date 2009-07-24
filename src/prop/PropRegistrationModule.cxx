@@ -48,14 +48,14 @@ namespace ot {
                logPrintE("'isStylus=\"true\"' and 'isProp=\"true\"' found in one tag.\n");
                exit (-1);
             }
-            if ( attributes.containsKey("propfile") || attributes.containsKey("dtrack") )
+            if ( attributes.containsKey("propfile"))
             {
-               logPrintW("In prop node: \"propfile\" or \"dtrack\" found.\n");
+               logPrintW("In prop node: \"propfile\"found.\n");
                logPrintW("This attributes are ignored.\n");
             }
 
             is_prop = true;  
-            prop_registration = new PropRegistration(false, other_prop_registration, "", "");
+            prop_registration = new PropRegistration(false, other_prop_registration, "", attributes.get("dtrack"));
          }
          else // error - not a stylus node and not a prop node
          {
