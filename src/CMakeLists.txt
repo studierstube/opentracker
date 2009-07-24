@@ -28,7 +28,6 @@ file(GLOB_RECURSE OPENTRACKER_HEADERS
   ../extras/xsens/*.h
 )
 
-
 if(WIN32)
   file(GLOB_RECURSE OPENTRACKER_SOURCES
     ${OPENTRACKER_SOURCES}
@@ -142,8 +141,11 @@ if(OT_USE_OTQT)
   add_definitions(-DUSE_OTQT -DUSE_THREETOTWODIMFILTER)
   find_package(Qt4 REQUIRED)
   include(${QT_USE_FILE})
+    
+FILE(GLOB_RECURSE OTQT_Sources otqt/*.cxx)
+FILE(GLOB_RECURSE OTQT_header ../include/OpenTracker/otqt/*.h)
   
-  qt4_wrap_cpp(OT_MOC_SRCS ${OT_QT_HEADERS})
+  qt4_wrap_cpp(OT_MOC_SRCS ${OT_QT_HEADERS} ${OTQT_header})
   message("preparing for moc ${OT_QT_HEADERS} to ${OT_MOC_SRCS}")
 endif(OT_USE_OTQT)
 
@@ -197,7 +199,7 @@ if(WIN32 AND BUILD_SHARED_LIBS)
 endif(WIN32 AND BUILD_SHARED_LIBS)
 
 if(OT_USE_OTQT)
-  add_library(opentracker ${OT_MOC_SRCS} ${OPENTRACKER_HEADERS} ${OPENTRACKER_SOURCES})
+  add_library(opentracker ${OT_MOC_SRCS} ${OTQT_Sources} ${OPENTRACKER_HEADERS} ${OPENTRACKER_SOURCES})
   target_link_libraries(opentracker ${QT_LIBRARIES})
 else(OT_USE_OTQT)
   add_library(opentracker ${OPENTRACKER_HEADERS} ${OPENTRACKER_SOURCES})
