@@ -219,8 +219,7 @@ namespace ot {
          return;
       }
     
-      writeMatrix(real_prop_point_list, "pointlists/real_points.txt");
-      writeMatrix(virtual_prop_point_list, "pointlists/virtual_points.txt");
+    
 
       
       calculateResultNewVersion();
@@ -297,10 +296,7 @@ namespace ot {
        virtual_prop_point_list[2][i]-=virtualPropCenterOfMass[2][0];
      }
 
-     //writeEquation(virtual_prop_point_list, virtualPropCenterOfMass, "virtualCM.txt");
-     writeMatrix(realPropCenterOfMass,"pointlists/real_center_mass.txt");
-     writeMatrix(virtualPropCenterOfMass,"pointlists/virtual_center_mass.txt");
-
+     
      real_c_m = realPropCenterOfMass;
      virtual_c_m = virtualPropCenterOfMass;
    }
@@ -312,8 +308,43 @@ namespace ot {
   {
     TNT::Matrix<double> real_prop_center_of_mass(3,1);
     TNT::Matrix<double> virtual_prop_center_of_mass(3,1);
+    
+    //writeMatrix(real_prop_point_list, "pointlists/rp_before.txt");
+    //writeMatrix(virtual_prop_point_list, "pointlists/vp_before.txt");
+ /*
+       
+        TNT::Matrix<double> color(3,1);
+        color(1,1) = 1;
+        color(2,1) = 0;
+        color(3,1) = 0;
+        writeIVPointCloud(color, "pointlists/rp_before.iv", real_prop_point_list);
+        color(1,1) = 0;
+        color(2,1) = 1;
+        color(3,1) = 0;
+        writeIVPointCloud(color, "pointlists/vp_before.iv", virtual_prop_point_list);
+        */
+    
      
     moveToCenterOfMass(real_prop_center_of_mass, virtual_prop_center_of_mass);
+    /*
+
+    writeMatrix(real_prop_center_of_mass, "pointlists/rpcm.txt");
+    writeMatrix(virtual_prop_center_of_mass, "pointlists/vpcm.txt");
+
+    writeMatrix(real_prop_point_list, "pointlists/rp_after.txt");
+    writeMatrix(virtual_prop_point_list, "pointlists/vp_after.txt");
+
+    color(1,1) = 1;
+    color(2,1) = 1;
+    color(3,1) = 0;
+    writeIVPointCloud(color, "pointlists/rp_after.iv", real_prop_point_list);
+    color(1,1) = 0;
+    color(2,1) = 1;
+    color(3,1) = 1;
+    writeIVPointCloud(color, "pointlists/vp_after.iv", virtual_prop_point_list);
+
+*/
+
     
     //correlating the corresponding point's products
     TNT::Matrix<double> correlation_H(3,3);
@@ -322,8 +353,9 @@ namespace ot {
     
     for(int i = 1 ; i <= real_prop_point_list.num_cols() ; i++)
     {
-      TNT::Matrix<double> real_cur_vec(3,1);
-      TNT::Matrix<double> virt_cur_vec(1,3);
+      TNT::Matrix<double> real_cur_vec(1,3);
+      TNT::Matrix<double> virt_cur_vec(3,1);
+/*
       
       real_cur_vec(1,1) = real_prop_point_list(1,i);
       real_cur_vec(2,1) = real_prop_point_list(2,i);
@@ -335,8 +367,21 @@ namespace ot {
       
       multiplyMxN(real_cur_vec, virt_cur_vec, additive);
       correlation_H = correlation_H + additive;
+*/
+      real_cur_vec(1,1) = real_prop_point_list(1,i);
+      real_cur_vec(1,2) = real_prop_point_list(2,i);
+      real_cur_vec(1,3) = real_prop_point_list(3,i);
+
+      virt_cur_vec(1,1) = virtual_prop_point_list(1,i);
+      virt_cur_vec(2,1) = virtual_prop_point_list(2,i);
+      virt_cur_vec(3,1) = virtual_prop_point_list(3,i);
+
+      multiplyMxN(virt_cur_vec, real_cur_vec, additive);
+      correlation_H = correlation_H + additive;
+
     }
     
+    //writeMatrix(correlation_H, "pointlists/correlation.txt");
     
     //now calculating the svd of the correlation matrix
     //first, converting the matrix to be decomposed into
@@ -379,11 +424,21 @@ namespace ot {
       }
     }
     
+    
+    
     //transposing the two matrices from the svd
     //to be able to calculate : rot = v * u^t
     transpose(tnt_svd_u, tnt_svd_u_t);   
     transpose(tnt_svd_v_t, tnt_svd_v);   
     
+/*
+    
+    writeMatrix(tnt_svd_u, "pointlists/svd_u.txt");
+    writeMatrix(tnt_svd_v, "pointlists/svd_v.txt");
+    writeMatrix(tnt_svd_u_t, "pointlists/svd_u_t.txt");
+    writeMatrix(tnt_svd_v_t, "pointlists/svd_v_t.txt");
+    
+*/
     //and finally calculating the rotation:
     rotation.newsize(3,3);
     multiplyMxN(tnt_svd_v, tnt_svd_u_t, rotation);
@@ -392,13 +447,28 @@ namespace ot {
                  - rotation(2,1) * ( rotation(1,2) * rotation(3,3) - rotation(1,3) * rotation(3,2) )
                  + rotation(3,1) * ( rotation(1,2) * rotation(2,3) - rotation(1,3) * rotation(2,2) );
     
+    //writeMatrix(rotation, "pointlists/rotation.txt");
     
     //calculating the translation:
     translation.newsize(3,1);
-    translation = real_prop_center_of_mass + virtual_prop_center_of_mass;    
+    //translation = real_prop_center_of_mass + virtual_prop_center_of_mass;    
+    TNT::Matrix<double> temp(3,1);
+    multiplyMxN(rotation, virtual_prop_center_of_mass, temp);
+    translation = real_prop_center_of_mass - temp;
+    //writeMatrix(temp, "pointlists/rot_cross_vpcm.txt");
     
+    //for using the rotation in an iv file, invert it
+    TNT::Matrix<double> temp_rot(3,3);
+    transpose(rotation, temp_rot);
+    for(int i = 1 ; i <=3 ; i++)
+    {
+      for(int j = 0 ; j <=3 ; j++)
+      {
+        rotation(i,j) = temp_rot(i,j);
+      }
+    }
     
-   }        
+  }        
  
   //---------------------------------------------------------------------------
   //---------------------------------------------------------------------------
@@ -467,11 +537,11 @@ namespace ot {
          stylus_pos(1,1) = event.getPosition()[0];
          stylus_pos(2,1) = event.getPosition()[1];
          stylus_pos(3,1) = event.getPosition()[2];
-         writeMatrix(stylus_pos,"debug/stylus_pos.txt");            
+         //writeMatrix(stylus_pos,"debug/stylus_pos.txt");            
          //next, get position and orientation of the prop:
          TNT::Matrix<double> prop_trans(3,1);
          prop_trans = antagonist->prop_event_pos;
-         writeMatrix(prop_trans,"debug/prop_trans.txt");      
+         //writeMatrix(prop_trans,"debug/prop_trans.txt");      
          //now, calculate the position of the stylus point
          //relative to the null point of the prop
          //yielding a vector in prop coordinates
@@ -480,7 +550,7 @@ namespace ot {
          relative_pos(1,1) = stylus_pos(1,1) - prop_trans(1,1);
          relative_pos(2,1) = stylus_pos(2,1) - prop_trans(2,1);
          relative_pos(3,1) = stylus_pos(3,1) - prop_trans(3,1);
-         writeMatrix(relative_pos,"debug/relative_pos.txt");            
+         //writeMatrix(relative_pos,"debug/relative_pos.txt");            
 
          //rotate vector back to world coordinates
          TNT::Matrix<double> prop_rotation(1,4);
@@ -513,15 +583,15 @@ namespace ot {
          mat_prop_rotation(2,3) = 2*c*d - 2*a*b;
          mat_prop_rotation(3,3) = a*a - b*b - c*c + d*d;
 
-         writeMatrix(mat_prop_rotation,"debug/mat_prop_rotation.txt");      
+         //writeMatrix(mat_prop_rotation,"debug/mat_prop_rotation.txt");      
          //transposed matrix is at the same time inverted matrix      
          TNT::Matrix<double> mat_prop_rotation_inverse(3,3);
          transpose(mat_prop_rotation, mat_prop_rotation_inverse);
-         writeMatrix(mat_prop_rotation_inverse,"debug/mat_prop_rotation_inverse.txt");      
+         //writeMatrix(mat_prop_rotation_inverse,"debug/mat_prop_rotation_inverse.txt");      
 
          TNT::Matrix<double> final_vector(3,1);
          multiplyMxN(mat_prop_rotation_inverse, relative_pos, final_vector);
-         writeMatrix(final_vector,"debug/final_vector.txt");            
+         //writeMatrix(final_vector,"debug/final_vector.txt");            
 
          //store the new vector
          TNT::Matrix<double> temp_point_list(3,real_prop_point_list.num_cols()+1);
@@ -906,6 +976,25 @@ void PropRegistration::writeMatrix (TNT::Matrix<double> &mat, const char *filena
 	
 	file.close();
 	return;
+}
+
+void PropRegistration::writeIVPointCloud(TNT::Matrix<double> color, std::string filename, TNT::Matrix<double> pointcloud )
+{
+  std::ofstream file;
+  file.open(filename.c_str());
+  file << "#Inventor V2.1 ascii\n";
+  file << "Separator {\n  Material{\n    diffuseColor " << color(1,1) << " " << color(2,1) << " " << color(3,1) << "\n}\n" ;
+  file << "  Transform{\n" << "    translation " << "0 0 0" << "\n}\n";
+  file << "  Sphere{radius 5}\n";
+  file << "  Material{ \n    diffuseColor 1 1 1\n  }\n  Transform{\n  translation 10 0 0\n  }\n  Text3{string \"0\"}\n}";
+  for(int i = 1 ; i <= pointcloud.num_cols() ; i++){
+    file << "Separator {\n" << "  Material{\n" << "    diffuseColor " << color(1,1) << " " << color(2,1) << " " << color(3,1) << "\n}\n" ;
+    file << "  Transform{\n" << "    translation " << pointcloud(1,i) << " " << pointcloud(2,i) << " " << pointcloud(3,i) << "\n}\n";
+    file << "  Sphere{radius 5}\n";
+    file << "  Material{ \n    diffuseColor 1 1 1\n  }\n  Transform{\n  translation 10 0 0\n  }\n  Text3{string \""<< i <<"\"}\n}\n";
+  }
+  
+  file.close();
 }
 
 

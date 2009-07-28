@@ -225,6 +225,7 @@ namespace ot {
     void multiplyMxN(TNT::Matrix<double> &leftMa, TNT::Matrix<double> &rightMa, TNT::Matrix<double> &resultMa);
     void writeMatrix (TNT::Matrix<double> &, const char *);
     void transpose (TNT::Matrix<double> &in, TNT::Matrix<double> &out);
+    void writeIVPointCloud(TNT::Matrix<double> color, std::string filename, TNT::Matrix<double> pointcloud );
 // end of judith's mess
 
 // methods for stylus node: 
