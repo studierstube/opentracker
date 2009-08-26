@@ -101,12 +101,27 @@ namespace ot {
 				sink->xFactor = atof(attributes.get("xFactor").c_str());
 			if ( !attributes.get("yFactor").empty() ) 
 				sink->yFactor = atof(attributes.get("yFactor").c_str());
+
+            if ( !attributes.get("xOffsetRaw").empty() ) 
+                sink->xOffsetRaw = atof(attributes.get("xOffsetRaw").c_str());
+            if ( !attributes.get("yOffsetRaw").empty() ) 
+                sink->yOffsetRaw = atof(attributes.get("yOffsetRaw").c_str());
+            if ( !attributes.get("widthRaw").empty() ) 
+                sink->widthRaw = atof(attributes.get("widthRaw").c_str());
+            if ( !attributes.get("heightRaw").empty() ) 
+                sink->heightRaw = atof(attributes.get("heightRaw").c_str());
+            if ( !attributes.get("minZRaw").empty() ) 
+                sink->minZRaw = atof(attributes.get("minZRaw").c_str());
+            if ( !attributes.get("maxZRaw").empty() ) 
+                sink->maxZRaw = atof(attributes.get("maxZRaw").c_str());
 			nodes.push_back( sink );
 			logPrintS("Built SysMouseSink node\n");
 			initialized = 1;
 			return sink;
 		}
-		if( (name.compare("AbsoluteInput") == 0) || (name.compare("RelativeInput") == 0) ) 
+		if(    (name.compare("AbsoluteInput") == 0) 
+            || (name.compare("RelativeInput") == 0) 
+            || (name.compare("RawInput") == 0) ) 
 		{	
 			// create just a pass-through node
 			NodePort *np = new NodePort();
@@ -149,18 +164,18 @@ namespace ot {
 
 	void SysMouseModule::run()
 	{
-		static int init = 0;
+		//static int init = 0;
 
-		if( init == 0 )
-		{
-			initialized = 1;
-			init = 1;
-		}
-		while(stop == 0)
-		{
-			processLoop();
+		//if( init == 0 )
+		//{
+		//	initialized = 1;
+		//	init = 1;
+		//}
+		//while(stop == 0)
+		//{
+		//	processLoop();
 
-		}
+		//}
 	}
 
 
@@ -172,7 +187,7 @@ namespace ot {
 			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
 			{
 				sink = (SysMouseSink *) ((Node*)*it);
-#ifdef DONTUSE				
+			
 				if( sink->changedRelative )
 				{
                     if(!resetAbs)
@@ -209,7 +224,7 @@ namespace ot {
 					sink->changedRelative = 1;
 					resetAbs = true;
 				}				
-//#ifdef WIN32
+#ifdef WIN32
 
 				mouseInputPtr->dx = mouseX;
 				mouseInputPtr->dy = mouseY;

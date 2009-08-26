@@ -182,17 +182,19 @@ namespace ot {
 		if(relativeIn)setTimePos=maxTimePos;
 		if(relativeOut)setTimePos=0;
 		
-		printf("set: %f  timepos: %f\n",setTimePos, timePos);
+		//printf("set: %f  timepos: %f\n",setTimePos, timePos);
 
 		if( (setTimePos < timePos && shuttle) || (setTimePos > timePos && shuttle) )
 		{
 			double precision = 50;
 			if(setTimePos < timePos-precision){ 
-				Zoom( 0.2f ); 
+				Zoom( 0.2f );
+                emitEvent=true;
 				return;
 			}
 			if(setTimePos > timePos+precision){ 
 				Zoom( -0.2f );
+                emitEvent=true;
 				return;
 			}
 		}

@@ -91,6 +91,9 @@ public:
 	int xOffset, yOffset;
 	float xFactor, yFactor;
 
+    float xOffsetRaw, yOffsetRaw, widthRaw, heightRaw;
+    float lastXpos, lastYpos, maxZRaw, minZRaw;
+
     bool updateMouse;
          
     /** tests for EventGenerator interface being present. Is overriden to
@@ -109,7 +112,15 @@ public:
 		yOffset(0),
 		xFactor(1),
 		yFactor(1),
-        updateMouse(false)
+        xOffsetRaw(0), 
+        yOffsetRaw(0), 
+        widthRaw(1), 
+        heightRaw(1),
+        updateMouse(false),
+        lastXpos(0), 
+        lastYpos(0),
+        maxZRaw(100),
+        minZRaw(-100)
 	{ 
 		sysMouseModule = ptr;
 
@@ -135,12 +146,32 @@ protected:
      */
     virtual void onEventGenerated( Event& e, Node& generator)
 	{
+        if (generator.getName().compare("RawInput") == 0) 
+        {
+            if( ((lastXpos-e.getPosition()[0])*(lastXpos-e.getPosition()[0]) > 0.000001f) &&
+                minZRaw<e.getPosition()[2] && maxZRaw>e.getPosition()[2])
+            {
+                lastXpos=e.getPosition()[0];
+                buttonInput = e.getButton();
+                float xFloat = (e.getPosition()[0]+xOffsetRaw)/widthRaw;
+                float yFloat = (e.getPosition()[1]+yOffsetRaw)/heightRaw;
+                
+                int xRaw = (int) (xFloat*65535.f*xFactor);
+                int yRaw = (int) (yFloat*65535.f*yFactor);
+                if( xRaw > 65635 )  xRaw = 65635;
+                if( xRaw < 0 )		xRaw = 0;
+                if( yRaw > 65635 )  yRaw = 65635;
+                if( yRaw < 0 )		yRaw = 0;
+                mouseX = xRaw+xOffset;
+                mouseY = yRaw+yOffset;
+
+                mouseFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
+                updateMouse=true; 
+            }
+        }
 		if (generator.getName().compare("AbsoluteInput") == 0) 
 		{
-			//sysMouseModule->lockLoop();
 			absoluteEvent = e;
-			//changedAbsolute = 1;
-			//sysMouseModule->unlockLoop();
 
             buttonInput = absoluteEvent.getButton();
             float xFloat = absoluteEvent.getPosition()[0];
@@ -156,18 +187,11 @@ protected:
 
             mouseFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
 
-            //sink->changedAbsolute = 0;
-            //// comment out next two for overriding the systems mouse
-            //sink->changedRelative = 1;
-            //resetAbs = true;
             updateMouse=true;
 		}
 		if (generator.getName().compare("RelativeInput") == 0) 
 		{
-			//sysMouseModule->lockLoop();
 			relativeEvent = e;
-			//changedRelative = 1;
-			//sysMouseModule->unlockLoop();
 
             if(!resetAbs)
             {
@@ -179,8 +203,6 @@ protected:
 #ifdef WIN32
             mouseFlags = MOUSEEVENTF_MOVE;
 #endif
-            //changedRelative = 0;
-
             updateMouse=true;
 		}
         if(updateMouse)

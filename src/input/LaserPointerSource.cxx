@@ -459,7 +459,6 @@ namespace ot {
             GCamera.Stop = true;
         }
         memcpy(const_cast<unsigned char*>(imgBuffer->buffer),GCamera.Frame[0].ImageBuffer,imgBuffer->width*imgBuffer->height*3);
-        //newFrame=true;
     }
 
 
