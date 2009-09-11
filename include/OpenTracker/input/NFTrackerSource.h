@@ -60,10 +60,22 @@
 #ifdef USE_NFTRACKER
 
 #include <ace/OS.h>
-#include <OpenTracker/input/NFTracker.h>
-#include <StbCV/Image.h>
+#include <NFT3/NFT3_Tracker.h>
 #include <StbCore/Image.h>
-#include <StbTracker/Util/ImageTool.h>
+#include <StbCore/OS.h>
+#include <StbCore/Logger.h>
+#include <StbCore/FileSystem.h>
+#include <StbCore/InFile.h>
+
+#include <StbCore/Window.h>
+
+#include <conio.h>
+
+#if (defined(_DEBUG))
+#      pragma comment(lib, "NFT3d.lib")
+#    else
+#      pragma comment(lib, "NFT3.lib")
+#    endif
 
 namespace ot {
  
@@ -74,8 +86,7 @@ namespace ot {
 		/// the new event
         Event event;
  
-		std::string target;
-		std::string configDb;
+		std::string featureset;
 		std::string cameraCalib;
 
     
@@ -106,64 +117,141 @@ namespace ot {
 
 	NFTrackerSource() : Node()
     { 
-		tracker = new NFTracker();
 		coreImageBuffer = StbCore::Image::create();
-		lumBuffer=NULL;
 		initialized = false;
+		noTracking = false;
 	}
+
+	bool createTracker()
+	{
+		StbCV::Camera camera;
+
+		StbCore::StringW fullCamPath = cameraCalib.c_str();
+		if(!camera.load(fullCamPath))
+		{
+			StbCore::Logger::getInstance()->logError("Failed loading camera setting. Can't initialize tracking.");
+			return false;
+		}
+		
+
+		StbCore::StringW featureName = featureset.c_str();
+		if(StbCore::InFileAutoPtr file = StbCore::FileSystem::getInstance()->openFileForReading(featureName))
+		{
+			tracker = new NFT3::Tracker;
+
+			if(!tracker->loadSetup(file))
+			{
+				StbCore::Logger::getInstance()->logError("Failed loading NFT3 tracking setup.");
+				delete tracker;
+				tracker = NULL;
+				return false;
+			}
+			tracker->setCamera(camera);
+		}
+		else
+		{
+			StbCore::Logger::getInstance()->logError("Application parameter 'featureset' missing. Can't initialize NFT3 tracking.");
+			return false;
+		}
+#ifdef _DEBUG
+		//debugWindow.create(640,480);
+#endif
+		return true;
+	}
+
+
 
 	void init()
     {
+		createTracker();
 		initialized = true;
-		tracker->init(target.c_str(), cameraCalib, configDb );
     }
 
 	void process()
     {
-		// convert to lum image
-		StbTracker::ImageTool *imageTool = new StbTracker::ImageTool(NULL);
-		if (lumBuffer == NULL)
-			lumBuffer = new unsigned char[coreImageBuffer->getWidth()*coreImageBuffer->getHeight()];
-		imageTool->convertImageToLum(coreImageBuffer, lumBuffer, NULL);
-		
-		StbCV::Image camImage, camImageHalf;
-		camImage.setPixels(lumBuffer, coreImageBuffer->getWidth(), coreImageBuffer->getHeight());
-		camImageHalf.downSampleToHalfFrom(camImage);
-		//camImage.saveRaw("camera_image.raw");
-		tracker->update(camImageHalf);
-		//////// convert to lum image
-		//////StbTracker::ImageTool *imageTool = new StbTracker::ImageTool(NULL);
-		//////if (lumBuffer == NULL)
-		//////	lumBuffer = new unsigned char[coreImageBuffer->getWidth()*coreImageBuffer->getHeight()];
-		//////imageTool->convertImageToLum(coreImageBuffer, lumBuffer, NULL);
-		//////
-		//////StbCV::Image camImage;
-		//////camImage.setPixels(lumBuffer, coreImageBuffer->getWidth(), coreImageBuffer->getHeight());
-		////////camImage.saveRaw("camera_image.raw");
-		//////tracker->update(camImage);
-
-		const StbCV::PoseF& pose = tracker->getPose();
-    
-		if( pose.translation()(2)!=0.f )
+		int key(0);
+		while( _kbhit() )
+        {
+            key = _getch();
+            if( key == 0 || key == 0xE0 )
+            {
+                key = 0xE0 << 8;
+                key |= _getch();
+            }
+		}
+		if( key == 0xe03f ) //f5
 		{
-			for (int i(0);i<3;i++) event.getPosition()[i] = pose.translation()(i);
-			
-			MathUtils::Matrix4x4 mOri =  {{pose.rotation().matrix()(0), pose.rotation().matrix()(1), pose.rotation().matrix()(2), 0},
-										  {pose.rotation().matrix()(3), pose.rotation().matrix()(4), pose.rotation().matrix()(5), 0},
-										  {pose.rotation().matrix()(6), pose.rotation().matrix()(7), pose.rotation().matrix()(8), 0},
-										  {0, 0, 0, 1}};
-			double qOriRes[4];
-			MathUtils::matrixToQuaternion(mOri, qOriRes);
-			for (int i(0);i<4;i++) event.getOrientation()[i]=(float)qOriRes[i];
-			event.timeStamp();
+			if(noTracking){
+				noTracking=false;
+				tracker->clearFlags(NFT3::Tracker::NO_TRACKING);
+			}else{
+				noTracking=true;
+				tracker->setFlags(NFT3::Tracker::NO_TRACKING);
+			}
+		}
+
+		// convert to lum image
+
+		cameraGray.allocPixels(coreImageBuffer->getWidth(), coreImageBuffer->getHeight());
+		const unsigned char* srcPixels = (const unsigned char*)coreImageBuffer->getPixels();
+		unsigned char* dstPixels = cameraGray.getPixels();
+		int numPixels = coreImageBuffer->getWidth()*coreImageBuffer->getHeight();
+		while(--numPixels)
+		{
+			unsigned int grey = srcPixels[0] + (srcPixels[1]<<1) + srcPixels[2];
+			*dstPixels++ = (unsigned char)(grey>>2);
+			srcPixels += 3;
+		}
+
+		//FILE* fp = fopen("camera.raw", "wb");
+		//fwrite(lumBuffer, 1, coreImageBuffer->getWidth()*coreImageBuffer->getHeight(), fp);
+		//fclose(fp);
+
+
+		tracker->update(cameraGray);
+
+		const NFT3::TargetVector& targets = tracker->getTargets();
+
+		if(targets.size()>0)
+		{
+			if(targets[0].getStatus()!=NFT3::Target::INACTIVE)
+			{
+				const StbCV::PoseF& pose = targets[0].getPose();
+
+				for(int i(0);i<3;i++)
+					event.getPosition()[i] = pose.translation()(i);
+
+				MathUtils::Matrix4x4 mOri =  { {pose.rotation().matrix()(0), pose.rotation().matrix()(1), pose.rotation().matrix()(2), 0},
+				{pose.rotation().matrix()(3), pose.rotation().matrix()(4), pose.rotation().matrix()(5), 0},
+				{pose.rotation().matrix()(6), pose.rotation().matrix()(7), pose.rotation().matrix()(8), 0},
+				{0, 0, 0, 1} };
+				double qOriRes[4];
+				MathUtils::matrixToQuaternion(mOri, qOriRes);
+				for (int i(0);i<4;i++) event.getOrientation()[i]=(float)qOriRes[i];
+				event.timeStamp();
+			}
+		}
+		if(noTracking)
+		{
+			StbCore::String str;
+			str = tracker->createDetectionReport();
+			logPrintS("%s\n", str.c_str());
+		}else{
+			StbCore::String str;
+			str = tracker->createTrackingReport();
+			logPrintS("%s\n", str.c_str());
 		}
     }
 
 	private:
 
-	NFTracker	*tracker;
+	NFT3::Tracker	*tracker;
 	StbCore::Image *coreImageBuffer;
-	unsigned char* lumBuffer;
+	//unsigned char* lumBuffer;
+	StbCV::Image cameraGray;
+	bool noTracking;
+
+	//StbCV::Window debugWindow;
 
     };
 }  // namespace ot

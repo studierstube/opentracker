@@ -55,6 +55,8 @@ class ACE_FILE_IO;
 #ifndef _POMAR3DMODULE_H
 #define _POMAR3DMODULE_H
 
+#ifndef OT_NO_GPS_SUPPORT
+
 namespace ot {
 
 	class Pomar3DSource;
@@ -227,8 +229,9 @@ namespace ot {
 
 }  // namespace ot
 
-
-//#endif // OT_NO_GPS_SUPPORT
+#else
+#pragma message(">>> OT_NO_GPS_SUPPORT")
+#endif // OT_NO_GPS_SUPPORT
 
 
 #endif // !defined(_POMAR3DMODULE_H)

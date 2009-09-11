@@ -46,7 +46,7 @@
 #include "../OpenTracker.h"
 #include "GPSDriver.h"
 
-
+#ifndef OT_NO_GPS_SUPPORT
 
 namespace ot 
 {
@@ -169,5 +169,9 @@ namespace ot
 
 	
 }
+
+#else
+#pragma message(">>> OT_NO_GPS_SUPPORT")
+#endif // OT_NO_GPS_SUPPORT
 
 #endif // !defined(_POMAR3DSOURCE_H)
