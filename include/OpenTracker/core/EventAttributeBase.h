@@ -95,7 +95,7 @@ namespace ot
          * Virtual destructor. Must provide empty implementation for creation of RTTI type
          * information.
          */
-        virtual ~EventAttributeBase();
+        virtual ~EventAttributeBase() = 0;
         /**
          * Abstract assignment operator.
          * @param rv the right-value, which is the attribute to copy from

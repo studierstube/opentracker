@@ -54,24 +54,24 @@
 #include <OpenTracker/core/OtLogger.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
+#ifdef USE_NFTRACKER
+
 #include <OpenTracker/input/NFTrackerModule.h>
 #include <OpenTracker/input/NFTrackerSource.h>
 
 
-#ifdef USE_NFTRACKER
-
 #include <OpenTracker/core/Context.h>
 
 #if (defined(_DEBUG))
-#      pragma comment(lib, "StbCVD.lib")
+#      pragma comment(lib, "StbCVd.lib")
 #      pragma comment(lib, "StbCored.lib")
 #      pragma comment(lib, "StbMathd.lib")
-#      pragma comment(lib, "StbTrackerd.lib")
+#      pragma comment(lib, "StbIOd.lib")
 #    else
 #      pragma comment(lib, "StbCV.lib")
 #      pragma comment(lib, "StbCore.lib")
 #      pragma comment(lib, "StbMath.lib")
-#      pragma comment(lib, "StbTracker.lib")
+#      pragma comment(lib, "StbIO.lib")
 #    endif
 
 
@@ -105,12 +105,10 @@ namespace ot {
 
             if ( !attributes.get("ovSink").empty() )
                 source->openVideoSinkName = attributes.get("ovSink").c_str();
-			if ( !attributes.get("target").empty() )
-                source->target = attributes.get("target").c_str();
-			if ( !attributes.get("configDb").empty() )
-                source->configDb = attributes.get("configDb").c_str();
-			if ( !attributes.get("camera-calib").empty() )
-				source->cameraCalib = attributes.get("camera-calib");
+			if ( !attributes.get("featureset").empty() )
+                source->featureset = attributes.get("featureset").c_str();
+			if ( !attributes.get("cameraCalib").empty() )
+				source->cameraCalib = attributes.get("cameraCalib");
   
             sources.push_back( source );
 			context->registerVideoUser(source);

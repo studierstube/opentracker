@@ -1,4 +1,4 @@
-
+#include <../config_win.h>
 #ifndef __XML_SELECTION__
 #define __XML_SELECTION__
 

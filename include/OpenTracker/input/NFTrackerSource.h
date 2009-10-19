@@ -33,7 +33,7 @@
  * ========================================================================
  * PROJECT: OpenTracker
  * ======================================================================== */
-/** source file for VideoLocationModule.
+/** source file for NFT Tracker Module.
  *
  * @author Markus Sareika
  *
@@ -48,7 +48,7 @@
  * An example configuration element looks like this :
  * @verbatim
  <NFTrackerConfig camera-calib="calibfile.xyz" /> 
- <NFTrackerSource ovSink="VideoStream" target="multiset/target_*.var" configDb="multiset/multiset.var"/> @endverbatim
+ <NFTrackerSource ovSink="VideoStream" featureset="target.xml" cameraCalib="calibFile"/> @endverbatim
  */
 
 
@@ -231,16 +231,16 @@ namespace ot {
 				event.timeStamp();
 			}
 		}
-		if(noTracking)
-		{
-			StbCore::String str;
-			str = tracker->createDetectionReport();
-			logPrintS("%s\n", str.c_str());
-		}else{
-			StbCore::String str;
-			str = tracker->createTrackingReport();
-			logPrintS("%s\n", str.c_str());
-		}
+		//if(noTracking)
+		//{
+		//	StbCore::String str;
+		//	str = tracker->createDetectionReport();
+		//	logPrintS("%s\n", str.c_str());
+		//}else{
+		//	StbCore::String str;
+		//	str = tracker->createTrackingReport();
+		//	logPrintS("%s\n", str.c_str());
+		//}
     }
 
 	private:

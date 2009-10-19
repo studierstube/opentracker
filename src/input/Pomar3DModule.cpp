@@ -65,6 +65,8 @@
 #include <ace/Log_Msg.h>
 #include <OpenTracker/tool/OT_ACE_Log.h>
 
+#ifndef OT_NO_GPS_SUPPORT
+
 namespace ot 
 {
 
@@ -374,4 +376,7 @@ namespace ot
 
 }
 
+#else
+#pragma message(">>> OT_NO_GPS_SUPPORT")
+#endif // OT_NO_GPS_SUPPORT
 

@@ -48,7 +48,7 @@
 #ifdef USE_VRPN
 
 #ifdef WIN32
-#pragma comment(lib,"vrpn.lib")
+#pragma comment(lib,"vrpndll.lib")
 #endif
 
 // #define ACE_NTRACE 0

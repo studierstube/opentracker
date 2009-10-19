@@ -53,6 +53,7 @@ const int NMEABUFSZ = 1024;
 #include <OpenTracker/input/GPSParser.h>
 
 #include <OpenTracker/misc/WGS84Geoid.h>
+#include <ace/Tokenizer_T.h>
 
 #ifndef OT_NO_GPS_SUPPORT
 
@@ -138,7 +139,7 @@ namespace ot {
          */   
         if ( ACE_OS::strncmp("$GPGGA,", buffer, 7) == 0) {
 
-            ACE_Tokenizer tok(ACE_TEXT_CHAR_TO_TCHAR(buffer));
+            ACE_Tokenizer_T<CHAR> tok(ACE_TEXT_CHAR_TO_TCHAR(buffer));
             tok.delimiter_replace(',', 0);
             ACE_TCHAR * token, * oldtoken;
 
