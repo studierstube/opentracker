@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** header file for P5GloveSource Node.
  *
- * @author Hannes Kaufmann, Istvan Barakonyi
+ * @author Hannes Kaufmann, Istvan Barakonyi. Mathis Csisinko
  *
  * $Id$
  * @file                                                                   */
@@ -46,15 +46,16 @@
  * @section p5glovesource P5GloveSource
  * The P5GloveSource node is an EventGenerator that outputs the
  * current position of the glove and bending information for each finger. It is driven by
- * the @ref p5glovemodule. Note that at this time it only outputs whether the index finger
- * is bent more the 50 degrees. This is the same for all fingers !
+ * the @ref p5glovemodule.
  * 
  * It has the following attributes
  * @li @c finger the number of the finger to track, in the range 0 - 4. The mapping is: 0 = thumb, 1 = index, 2 = middle, 3 = ring, 4 = pinky
+ * @li @c vector the offset of the finger
+ * @li @c axis the rotation axis used during bending
  *
  * An example element looks like this :
  * @verbatim
- <P5GloveSource finger="1"/>@endverbatim
+ <P5GloveSource finger="1" vector="0 0 0" axis="-1 0 0"/>@endverbatim
  *
  */
 
@@ -65,28 +66,35 @@
 
 #ifdef USE_P5GLOVE
 
+#include "P5dll.h"
+
 namespace ot {
 
     /**
      * This class implements a simple source that sets its valid flag in
      * regular intervals and updates any EventObservers. 
-     * @author Hannes Kaufmann, Istvan Barakonyi
+     * @author Hannes Kaufmann, Istvan Barakonyi, Mathis Csisinko
      * @ingroup input
      */
     class OPENTRACKER_API P5GloveSource : public Node
     {
         // Members
-    public: 
+    private: 
         /// the event that is posted to the EventObservers
         Event event;
-	/// finger to be tracked
-	int finger;
+		/// finger to be tracked
+		int finger;
+
+		std::vector<float> vector;
+		std::vector<float> axisAngle;
 
         // Methods
     protected:
         /** simple constructor, sets members to initial values */
-        P5GloveSource( int finger_) : Node(), finger(finger_)
-        {}
+		P5GloveSource(int finger,const std::vector<float> &vector,const std::vector<float> &axis) : Node(), finger(finger),vector(vector),axisAngle(axis)
+		{
+			axisAngle.resize(4);
+		}
 
     public:
     
@@ -98,6 +106,18 @@ namespace ot {
         {
             return 1;
         }
+
+        Event & getEvent(P5Data &p5Data)
+		{
+			std::vector<float> quaternion(4);
+			MathUtils::axisAngleToQuaternion(axisAngle,quaternion);
+			axisAngle[3] = MathUtils::Pi / 180.f * p5Data.m_byBendSensor_Data[finger];
+			event.getAttribute<float>(std::string("bending"),0.f) = p5Data.m_byBendSensor_Data[finger];
+			event.getButton() = (p5Data.m_byBendSensor_Data[finger] > BEND_THRESHOLD) ? 1: 0;
+			MathUtils::rotateVector(quaternion,vector,event.getPosition());
+			event.getOrientation() = quaternion;
+			return event;
+		}
 
         friend class P5GloveModule;
     };

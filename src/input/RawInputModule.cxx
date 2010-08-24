@@ -49,10 +49,10 @@
 #include <OpenTracker/input/RawInputSource.h>
 
 #ifndef HID_USAGE_PAGE_GENERIC
-#define HID_USAGE_PAGE_GENERIC (0x00000002)
+#define HID_USAGE_PAGE_GENERIC (0x00000001)
 #endif
 #ifndef HID_USAGE_GENERIC_MOUSE
-#define HID_USAGE_GENERIC_MOUSE (0x00000001)
+#define HID_USAGE_GENERIC_MOUSE (0x00000002)
 #endif
 
 namespace ot {
@@ -130,28 +130,16 @@ namespace ot {
 		Module::init(attributes,pLocalTree);
 		GetRawInputDeviceList(NULL,&numDevices,sizeof(RAWINPUTDEVICELIST));
         rawInputDeviceList = new RAWINPUTDEVICELIST[numDevices];
-        if (rawInputDeviceList)
+        GetRawInputDeviceList(rawInputDeviceList,&numDevices,sizeof(RAWINPUTDEVICELIST));
+        deviceNames = new char*[numDevices];
+        logPrintI("Known raw input device names:\n");
+        for (UINT device = 0;device < numDevices;device ++)
             {
-                GetRawInputDeviceList(rawInputDeviceList,&numDevices,sizeof(RAWINPUTDEVICELIST));
-                deviceNames = new char*[numDevices];
-                logPrintI("Known raw input device names:\n");
-                if (deviceNames)
-                    {
-                        for (UINT device = 0;device < numDevices;device ++)
-                            {
-                                UINT deviceNameSize;
-                                GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICENAME,NULL,&deviceNameSize);
-                                deviceNames[device] = new char[deviceNameSize] + 1;
-                                if (deviceNames[device])
-                                    {
-                                        GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICENAME,deviceNames[device],&deviceNameSize);
-                                        logPrintI("%s\n",deviceNames[device]);
-                                    }
-                            }
-                        /*for (unsigned int i = 0;i < pLocalTree->countChildren();i ++)
-                          {
-                          }*/
-                    }
+                UINT deviceNameSize;
+                GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICENAME,NULL,&deviceNameSize);
+                deviceNames[device] = new char[deviceNameSize + 1];
+                GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICENAME,deviceNames[device],&deviceNameSize);
+                logPrintI("%s\n",deviceNames[device]);
             }
     }
 
@@ -180,8 +168,8 @@ namespace ot {
                         if (hWnd)
                             {
                                 RAWINPUTDEVICE rawInputDevice;
-                                rawInputDevice.usUsage = HID_USAGE_PAGE_GENERIC;
-                                rawInputDevice.usUsagePage = HID_USAGE_GENERIC_MOUSE;
+                                rawInputDevice.usUsage = HID_USAGE_GENERIC_MOUSE;
+                                rawInputDevice.usUsagePage = HID_USAGE_PAGE_GENERIC;
                                 rawInputDevice.hwndTarget = hWnd;
                                 rawInputDevice.dwFlags = RIDEV_NOLEGACY | RIDEV_INPUTSINK | RIDEV_CAPTUREMOUSE;
                                 if (RegisterRawInputDevices(&rawInputDevice,sizeof(rawInputDevice) / sizeof(RAWINPUTDEVICE),sizeof(RAWINPUTDEVICE)))
@@ -255,7 +243,7 @@ namespace ot {
     {
         RAWINPUT rawInput;
         UINT rawInputSize = sizeof(rawInput);
-        if (GetRawInputData(hRawInput,RID_INPUT,&rawInput,&rawInputSize,sizeof(RAWINPUTHEADER)))
+        if (GetRawInputData(hRawInput,RID_INPUT,&rawInput,&rawInputSize,sizeof(RAWINPUTHEADER)) != -1)
             for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
                 {
                     RawInputSource* pSource = static_cast<RawInputSource*>((Node*)*it);
@@ -317,11 +305,11 @@ namespace ot {
                                         }
                                     lockLoop();
                                     if (rawInput.data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
-                                        pSource->setMoveEvent(RawInputSource::ZRelative,0,0,static_cast<SHORT>(rawInput.data.mouse.usButtonData) / WHEEL_DELTA);
+                                        pSource->setMoveEvent(RawInputSource::ZRelative,0.f,0.f,static_cast<SHORT>(rawInput.data.mouse.usButtonData) / WHEEL_DELTA);
                                     if (rawInput.data.mouse.usFlags & MOUSE_MOVE_ABSOLUTE)
-                                        pSource->setMoveEvent(RawInputSource::XYAbsolute,rawInput.data.mouse.lLastX,GetSystemMetrics(SM_CYSCREEN) - rawInput.data.mouse.lLastY,0);
+                                        pSource->setMoveEvent(RawInputSource::XYAbsolute,rawInput.data.mouse.lLastX,GetSystemMetrics(SM_CYSCREEN) - rawInput.data.mouse.lLastY,0.f);
                                     else
-                                        pSource->setMoveEvent(RawInputSource::XYRelative,rawInput.data.mouse.lLastX,- rawInput.data.mouse.lLastY,0);
+                                        pSource->setMoveEvent(RawInputSource::XYRelative,rawInput.data.mouse.lLastX,- rawInput.data.mouse.lLastY,0.f);
                                     if (buttonMask && filterButtons)
                                         pSource->setButtonEvent(button,buttonMask);
                                     unlockLoop();
@@ -329,7 +317,7 @@ namespace ot {
                             if (context != NULL && context->doSynchronization())
                                 {
                                     context->dataSignal();
-				    context->consumedWait();
+									context->consumedWait();
                                 }      
                         }
 

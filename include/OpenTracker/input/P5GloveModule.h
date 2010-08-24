@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** header file for P5Glove module.
  *
- * @author Hannes Kaufmann, Istvan Barakonyi
+ * @author Hannes Kaufmann, Istvan Barakonyi, Mathis Csisinko
  *
  * $Id$
  * @file                                                                   */
@@ -53,11 +53,12 @@
  *
  * The module uses the configuration element 'P5GloveConfig'. This
  * element has the following attributes :
- * @li @c P5Id @c 0 the glove id passed to the driver
+ * @li @c P5Id the glove id passed to the driver
+ * @li @c relative if set to true, absolute device pose is ignored
  * 
  * An example configuration element looks like this :
  * @verbatim
- <P5GloveConfig P5Id="0"/>@endverbatim
+ <P5GloveConfig P5Id="0" relative="false"/>@endverbatim
  *
  *
  */
@@ -70,12 +71,15 @@
 #ifdef USE_P5GLOVE
 
 #include "P5dll.h"
+#ifdef WIN32
+#pragma comment(lib,"P5dll.lib")
+#endif
 
 /**
  * The module and factory to drive the P5GloveSource nodes. It constructs
  * P5GloveSource nodes via the NodeFactory interface and pushes events into
  * the tracker tree according to the nodes configuration.
- * @author Hannes Kaufmann, Istvan Barakonyi
+ * @author Hannes Kaufmann, Istvan Barakonyi, Mathis Csisinko
  * @ingroup input
  */
 
@@ -88,8 +92,6 @@ namespace ot {
         /// list of P5GloveSource nodes in the tree
         NodeVector nodes;
 
-        // Methods
-    public:
         CP5DLL *P5device;
         int P5Id;
 
@@ -112,6 +114,11 @@ namespace ot {
         float fRelYawPos, fRelPitchPos, fRelRollPos;
         float fFilterX, fFilterY, fFilterZ;
 
+		bool relative;
+
+		// Methods
+    public:
+
         /** constructor method. */
         P5GloveModule();
 
@@ -131,7 +138,7 @@ namespace ot {
          * @attributes reference to StringTable containing attribute values
          * @return pointer to new Node or NULL. The new Node must be
          *         allocated with new ! */
-        virtual Node * createNode( const std::string& name,  StringTable& attributes);
+        virtual Node * createNode( const std::string& name,  const StringTable& attributes);
 	/**
          * closes P5Glove */
         virtual void close();
@@ -146,6 +153,7 @@ namespace ot {
          */
         virtual void pushEvent();
 
+	protected:
         void P5Motion_SetClipRegion(int xstart, int xend, int ystart, int yend, int zstart, int zend);
         void P5Motion_InvertMouse (int xaxis, int yaxis, int zaxis);
 

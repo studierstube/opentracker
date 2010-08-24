@@ -108,7 +108,7 @@ namespace ot
    * @author Gerhard Reitmayr
    * @ingroup core
    */
-  class OPENTRACKER_API ARToolKitPlusModule : public ThreadModule, public NodeFactory, public VideoUser
+  class OPENTRACKER_API ARToolKitPlusModule : public Module, public NodeFactory, public VideoUser
     {
       // Members
     protected:
@@ -140,8 +140,7 @@ namespace ot
       /// if true ot will use arDetectMarkerLite instead of arDetectMarker
       bool useMarkerDetectLite;
 
-      /// flag to stop image processing thread
-      int stop;
+	  void close();
 
       void init(StringTable& attributes, ConfigNode * localTree);
 

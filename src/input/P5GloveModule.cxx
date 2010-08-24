@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** source file for P5GloveModule module.
  *
- * @author Hannes Kaufmann, Istvan Barakonyi
+ * @author Hannes Kaufmann, Istvan Barakonyi, Mathis Csisinko
  *
  * $Id$
  * @file                                                                   */
@@ -50,13 +50,7 @@
 
 #include <cstdio>
 #include <string>
-#ifdef WIN32
-#include <iostream>    // VisualC++ uses STL based IOStream lib
-#else
 #include <iostream>
-#endif
-
-//using namespace std;
 
 #include <cmath>
 #include <OpenTracker/input/P5GloveSource.h>
@@ -67,17 +61,6 @@ namespace ot {
 	OT_MODULE_REGISTER_FUNC(P5GloveModule){
 	      OT_MODULE_REGISTRATION_DEFAULT(P5GloveModule , "P5GloveConfig");
 	}
-
-    //These variables contain the actual x, Y, Z position of the cursor
-    int nXPos = 0, nYPos = 0, nZPos = 0;
-
-    //These variables contain the frame to frame deltas of the cursor
-    float fXMickey = 0.0f, fYMickey = 0.0f, fZMickey = 0.0f;
-
-    //These variables contain the filtered oreintation information
-    float fAbsYawPos, fAbsPitchPos, fAbsRollPos;
-    float fRelYawPos, fRelPitchPos, fRelRollPos;
-
 
     P5GloveModule::P5GloveModule() : Module(), NodeFactory()
     {
@@ -95,30 +78,43 @@ namespace ot {
     {
         if( attributes.get("P5Id", &P5Id ) == 0 )
             P5Id = 0;
-        printf("P5 Glove is configured with id %d\n",P5Id);
+        if( attributes.get("relative").compare("true") == 0)
+			relative = true;
+        logPrintI("P5 Glove is configured with id %d\n",P5Id);
 
         Module::init( attributes, localTree );
     }
 
     // This method is called to construct a new Node.
-    Node * P5GloveModule::createNode( const string& name, StringTable& attributes)
+	Node * P5GloveModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if( name.compare("P5GloveSource") == 0 )
         {       
-            int num;
-            int finger;
+            int num,finger;
+			std::vector<float> vector,axis;
             num = attributes.get("finger", &finger);
             if (num == 0) finger=0;
             else if( finger < 0 || finger > 4)
             {
                 /// finger: 0 - 4, 0 = thumb, 1 = index, 2 = middle, 3 = ring, 4 = pinky
-                printf("Finger index must be between 0 and 4 \n");
+                logPrintE("Finger index must be between 0 and 4 \n");
                 return NULL;
             }
-            P5GloveSource *source = new P5GloveSource(finger);
-            source->event.getConfidence() = 1.0f;
+			attributes.get("vector",vector,3);
+			if (vector.size() != 3)
+            {
+                logPrintE("Vector length must be 3 \n");
+                return NULL;
+            }
+			attributes.get("axis",axis,3);
+			if (axis.size() != 3)
+            {
+                logPrintE("Axis length must be 3 \n");
+                return NULL;
+            }
+            P5GloveSource *source = new P5GloveSource(finger,vector,axis);
             nodes.push_back( source );
-            printf("Built P5GloveSource node for finger %d \n",finger);
+            logPrintI("Built P5GloveSource node for finger %d \n",finger);
             initialized = 1;
             return source;
         }
@@ -136,16 +132,16 @@ namespace ot {
             // printf("P5 status %d \n",P5device->P5_Init());
             if (P5device->P5_Init() != (P5BOOL)true)
 	    {
-                printf("No P5 detected...\n");
+                logPrintE("No P5 detected...\n");
             }
 	    else
 	    {
-                printf("P5 Found...\n");
-    		P5device->P5_SetMouseEvent(P5Id, false);
+                logPrintI("P5 Found...\n");
+    		//P5device->P5_SetMouseEvent(P5Id, false);
 	    }
         }
 	
-	printf("P5Glove started\n");
+	logPrintI("P5Glove started\n");
     }
 
     // closes P5Glove library
@@ -153,10 +149,10 @@ namespace ot {
     {
 	// if P5 glove is turned ON and actually used by stb, than mouseEvent must be set back, 
 	// otherwise calling SetMouseEvent would cause a crash on exit
-	if( isInitialized() == 1 )
-            P5device->P5_SetMouseEvent(0, true);
+	/*if( isInitialized() == 1 )
+            P5device->P5_SetMouseEvent(0, true);*/
 	P5device->P5_Close();
-	printf("Closing P5Glove \n");
+	logPrintI("Closing P5Glove \n");
     }
 
     // pushes events into the tracker tree.
@@ -164,9 +160,7 @@ namespace ot {
     {
         if( isInitialized() == 1 )
         {
-            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-            {
-                P5GloveSource *source = (P5GloveSource *)(*it);
+			std::vector<float> orientation(4);
    	        if( P5device->m_P5Devices != NULL )
 	        {
                     //              P5Motion_InvertMouse(P5MOTION_INVERTAXIS, P5MOTION_NORMALAXIS, P5MOTION_NORMALAXIS);
@@ -182,34 +176,42 @@ namespace ot {
                     MathUtils::eulerToQuaternion(fAbsRollPos*MathUtils::Pi/180, 
                                                  fAbsPitchPos*MathUtils::Pi/180, 
                                                  fAbsYawPos*MathUtils::Pi/180,
-                                                 source->event.orientation);
+												 orientation);
                 }
 
-                source->event.getPosition()[0] = fFilterX;
-                source->event.getPosition()[1] = fFilterY;
-                source->event.getPosition()[2] = fFilterZ;
-
-                /// button not implemented yet
-                /// if the button is pushed (changes event) in any event --> button clicked
-                /// there is only one button, so event.getButton() = 0 OR 1
-			
-            
-                //            if (it == nodes.begin() && buttonEvent!=glove->buttonEvent()){
-                if (it == nodes.begin() && 
-                    P5device->m_P5Devices[P5Id].m_byBendSensor_Data[P5_INDEX]>BEND_THRESHOLD)
-                {
-                    source->event.getButton() = 1;
-                }
-                else 
-                    source->event.getButton() = 0;
-
-                //            source->event.getButton() = 0;
-
-                source->event.timeStamp();
-                source->updateObservers( source->event );			
+            for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); ++ it )
+            {
+                P5GloveSource *source = (P5GloveSource *)((Node*)*it);
+				Event &event = source->getEvent(P5device->m_P5Devices[P5Id]);
+				if (! relative)
+				{
+					std::vector<float> newOrientation(4),newPosition(3);
+					MathUtils::rotateVector(orientation,event.getPosition(),newPosition);
+					newPosition[0] += fFilterX;
+					newPosition[1] += fFilterY;
+					newPosition[2] += fFilterZ;
+					MathUtils::multiplyQuaternion(orientation,event.getOrientation(),newOrientation);
+					event.getPosition() = newPosition;
+					event.getOrientation() = newOrientation;
+				}
+				event.setConfidence(1.f);
+                event.timeStamp();
+                source->updateObservers( event );			
             }
 	}
     }
+
+
+
+    //These variables contain the actual x, Y, Z position of the cursor
+    int nXPos = 0, nYPos = 0, nZPos = 0;
+
+    //These variables contain the frame to frame deltas of the cursor
+    float fXMickey = 0.0f, fYMickey = 0.0f, fZMickey = 0.0f;
+
+    //These variables contain the filtered oreintation information
+    float fAbsYawPos, fAbsPitchPos, fAbsRollPos;
+    float fRelYawPos, fRelPitchPos, fRelRollPos;
 
 
     /***********************************************

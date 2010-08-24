@@ -202,7 +202,7 @@ namespace ot {
     }
 
 
-    ARToolKitPlusModule::ARToolKitPlusModule() : ThreadModule(), NodeFactory()
+    ARToolKitPlusModule::ARToolKitPlusModule() : Module(), NodeFactory(),VideoUser()
     {
 	doBench = false;
 	sizeX = sizeY = -1;
@@ -226,21 +226,14 @@ namespace ot {
 #endif //ARTOOLKITPLUS_DLL
 
 
-	tracker->init(NULL, trackerNear, trackerFar, logger);
-	tracker->setThreshold(100);
 
 	bestCFs = NULL;
 	maxMarkerId = MAX_MARKERID;
 	useMarkerDetectLite = false;
-
-	stop = 0;
     }
 
     ARToolKitPlusModule::~ARToolKitPlusModule()
     {
-        sources.clear();
-	sourcesMap.clear();
-
 	delete tracker;
 	delete logger;
     }
@@ -395,6 +388,15 @@ namespace ot {
     }
 
 
+void ARToolKitPlusModule::close()
+{
+	initialized = 0;
+        sources.clear();
+	sourcesMap.clear();
+
+	tracker->cleanup();
+}
+
     // initializes the ARToolKit module
 
 #ifdef WIN32
@@ -431,6 +433,8 @@ void ARToolKitPlusModule::init(StringTable& attributes, ConfigNode * localTree)
         //exit(1);
 #endif
 
+	tracker->init(NULL, trackerNear, trackerFar, logger);
+	tracker->setThreshold(100);
 
 
 	// marker detection mode: lite vs. full
