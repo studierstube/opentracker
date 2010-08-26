@@ -35,7 +35,7 @@
   * ======================================================================== */
 /** header file for Spacemouse module.
   *
-  * @author 
+  * @author Mathis Csisinko 
   *
   * $Id: SpaceDeviceModule.h 1260 2006-07-13 09:46:25Z sareika $
   * @file                                                                   */
@@ -46,9 +46,10 @@
  * @section SpaceDeviceModule SpaceDeviceModule
  * The SpaceDeviceModule provides and drives @ref SpaceDeviceSource nodes that 
  * generate standard events in certain intervals. It does not use a
- * configuration element, but reserves the name 'SpaceMouseConfig'.
+ * configuration element, but reserves the name 'SpaceDeviceConfig'.
  */
 
+#ifdef SPACEDEVICE_DEPRECATED
 /**
  * @page spacemouse Space Mouse Integration
  *
@@ -59,6 +60,7 @@
  *
  * @par 2.Step: Recompile
  */
+#endif
 
 #ifndef _SPACEDEVICEMODULE_H
 #define _SPACEDEVICEMODULE_H
@@ -66,6 +68,12 @@
 #include "../OpenTracker.h"
 
 #ifdef USE_SPACEDEVICE
+#ifdef WIN32
+
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
+#endif
+
 #include <Windows.h>
 
 /**
@@ -85,8 +93,7 @@ protected:
 
 public:
     /** constructor method. */
-    SpaceDeviceModule() : ThreadModule(), NodeFactory(), stop(0)
-    {};
+	SpaceDeviceModule();
 
     /** Destructor method, clears nodes member.
 	 */
@@ -107,15 +114,15 @@ public:
 	 */
     virtual void close();
 
-    /**
+#ifdef SPACEDEVICE_DEPRECATED
+	/**
 	 * opens SpaceMouse dynamic library (SIAPPDLL.DLL)
      */
     virtual void start();
 
-	virtual void run();
-
-    // flag to stop the thread
+	// flag to stop the thread
     int stop;
+#endif
 
     /**
      * pushes events into the tracker tree. Checks all SpaceDeviceSources and
@@ -124,15 +131,43 @@ public:
      */
     virtual void pushEvent();
 
+#ifndef SPACEDEVICE_DEPRECATED
+    /**
+     * initializes the SpaceDeviceModule. 
+     * @param attributes StringMap of elements attribute values.
+     * @param pLocalTree pointer to root of configuration nodes tree
+     */
+    virtual void init(StringTable &attributes,ConfigNode* pLocalTree);
+#endif
+
+protected:
+	virtual void run();
+
+#ifndef SPACEDEVICE_DEPRECATED
+    /// stores the sources
+    NodeVector pSources;
+
+private:
+    static LRESULT CALLBACK WndProc(HWND,UINT,WPARAM,LPARAM);
+    void processRawInput(HWND,WPARAM,HRAWINPUT);
+
+    UINT numDevices;
+    char** deviceNames;
+    RAWINPUTDEVICELIST* rawInputDeviceList;
+    static SpaceDeviceModule* pSpaceDeviceModule;
+	DWORD threadId;
+#else
 	static HWND	hWndSpaceDevice;
 
 private:
 	void processMessages();
+#endif
 
 };
 OT_MODULE(SpaceDeviceModule);
 } // namespace ot
 
+#endif
 #else
 #ifdef WIN32
 #pragma message(">>> OT_NO_SPACEDEVICE_SUPPORT")

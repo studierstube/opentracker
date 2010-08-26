@@ -508,6 +508,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\SpaceDeviceSource.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\SpeechCore.cxx"
 				>
 				<FileConfiguration
@@ -1171,6 +1175,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\P5GloveModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\P5GloveSource.h"
 				>
 			</File>
 			<File

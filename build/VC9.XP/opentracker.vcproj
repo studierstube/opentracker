@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="opentracker"
 	ProjectGUID="{1CBF1469-D772-4F78-ACC2-6831B48B9C61}"
 	RootNamespace="opentracker"
@@ -705,6 +705,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\input\SpaceDeviceModule.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\SpaceDeviceSource.cxx"
 				>
 			</File>
 			<File
@@ -3051,6 +3055,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\OpenTracker\input\P5GloveModule.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\P5GloveSource.h"
 				>
 			</File>
 			<File

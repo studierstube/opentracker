@@ -35,7 +35,7 @@
   * ======================================================================== */
 /** source file for SpaceDeviceModule module.
   *
-  * @author Michael Woegerbauer
+  * @author Michael Woegerbauer, Mathis Csisinko
   *
   * $Id: SpaceDeviceModule.cxx 1271 2006-07-18 19:15:28Z sareika $
   * @file                                                                   */
@@ -44,12 +44,24 @@
 // this will remove the warning 4786
 #include <OpenTracker/tool/disable4786.h>
 
-#include <ace/OS.h>
+#include <OpenTracker/input/SpaceDeviceModule.h>
+#ifdef USE_SPACEDEVICE
+#ifdef WIN32
 
 #include <OpenTracker/input/SpaceDeviceSource.h>
-#include <OpenTracker/input/SpaceDeviceModule.h>
 
-#ifdef USE_SPACEDEVICE
+#ifndef SPACEDEVICE_DEPRECATED
+#ifndef HID_USAGE_PAGE_GENERIC
+#define HID_USAGE_PAGE_GENERIC (0x0001)
+#endif
+#define LOGITECH_3DX_VID 0x046d
+
+static void* operator new(std::size_t size,std::size_t minimumSize)
+{
+	return operator new(size > minimumSize ? size: minimumSize);
+}
+#else
+#include <ace/OS.h>
 
 #include <cstdio>
 #if defined (WIN32) || defined (GCC3)
@@ -71,6 +83,7 @@
 
 #include <opentracker\tool\OT_ACE_Log.h>
 #include <opentracker\core\MathUtils.h>
+#endif
 
 namespace ot {
 
@@ -78,37 +91,82 @@ namespace ot {
 	OT_MODULE_REGISTER_FUNC(SpaceDeviceModule){
 		OT_MODULE_REGISTRATION_DEFAULT(SpaceDeviceModule, "SpaceDeviceConfig");
 	}
+#ifndef SPACEDEVICE_DEPRECATED
+    SpaceDeviceModule::SpaceDeviceModule(): ThreadModule(),NodeFactory(),pSources(),numDevices(0),deviceNames(0),rawInputDeviceList(0),threadId(0)
+    {
+	}
+#else
 	HWND		SpaceDeviceModule::hWndSpaceDevice = NULL;
 	SiHdl		devHdl;		/* Handle to Spaceball Device */
 	SiOpenData	oData;		/* OS Independent data to open ball  */ 
 
+	SpaceDeviceModule::SpaceDeviceModule() : ThreadModule(), NodeFactory(), stop(0)
+    {};
+#endif
 
-	LRESULT FAR PASCAL WndSpaceMouseProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-	{
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
-	};
 
 	// Destructor method
 	SpaceDeviceModule::~SpaceDeviceModule()
 	{
+#ifndef SPACEDEVICE_DEPRECATED
+#ifdef USE_LIVE
+        for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
+            delete *it;
+#endif
+        pSources.clear();
+#else
 		nodes.clear();
+#endif
 	}
 
 	// This method is called to construct a new Node.
 	Node * SpaceDeviceModule::createNode( const std::string& name, const StringTable& attributes)
 	{
 		if( name.compare("SpaceDeviceSource") == 0 )
-		{       
+		{
+#ifndef SPACEDEVICE_DEPRECATED
+			const std::string &deviceName = attributes.get("deviceName");
+			if (! deviceName.empty())
+				for (UINT device = 0;device < numDevices;device ++)
+					if (rawInputDeviceList[device].dwType == RIM_TYPEHID && ! deviceName.compare(deviceNames[device]))
+					{
+						SpaceDeviceSource* pSource = new SpaceDeviceSource(rawInputDeviceList[device].hDevice);
+						pSources.push_back(pSource);
+
+						logPrintI("Build SpaceDeviceSource node\n");
+						return pSource;
+					}
+					else;
+			else
+				for (UINT device = 0;device < numDevices;device ++)
+					if (rawInputDeviceList[device].dwType == RIM_TYPEHID)
+					{
+						RID_DEVICE_INFO deviceInfo;
+						UINT deviceInfoSize = sizeof(deviceInfo);
+						deviceInfo.cbSize = sizeof(RID_DEVICE_INFO);
+						GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICEINFO,&deviceInfo,&deviceInfoSize);
+						if (deviceInfo.hid.dwVendorId == LOGITECH_3DX_VID && deviceInfo.hid.usUsagePage == HID_USAGE_PAGE_GENERIC && deviceInfo.hid.usUsage == 0x0008)
+						{
+							SpaceDeviceSource* pSource = new SpaceDeviceSource(rawInputDeviceList[device].hDevice);
+							pSources.push_back(pSource);
+
+							logPrintI("Build SpaceDeviceSource node\n");
+							return pSource;
+						}
+					}
+#else
 			SpaceDeviceSource * source = new SpaceDeviceSource;
 			source->event.setConfidence( 1.0f );
 			nodes.push_back( source );
 			logPrintS("Built SpaceDeviceSource node\n");
 			initialized = 1;
 			return source;
+#endif
 		}
 		return NULL;
 	}
 
+#ifdef SPACEDEVICE_DEPRECATED
 	// opens SpaceMouse library
 	void SpaceDeviceModule::start()
 	{
@@ -117,10 +175,24 @@ namespace ot {
 			ThreadModule::start();
 		}
 	}
+#endif
 
 	// closes SpaceMouse library
 	void SpaceDeviceModule::close()
 	{
+#ifndef SPACEDEVICE_DEPRECATED
+        PostThreadMessage(threadId,WM_QUIT,0,0x00000000);
+        ThreadModule::close();
+        if (deviceNames)
+            {
+                for (UINT device = 0;device < numDevices;device ++)
+                    if (deviceNames[device])
+                        delete[] deviceNames[device];
+                delete[] deviceNames;
+            }
+        if (rawInputDeviceList)
+            delete[] rawInputDeviceList;
+#else
 		// stop thread
 		lockLoop();
 		stop = 1;
@@ -131,12 +203,118 @@ namespace ot {
 			/* should maybe be called even if devHdl == NULL */
 			SiTerminate();  /* called to shut down the SpaceWare input library */
 		}
+#endif
 	}
 
+
+	void SpaceDeviceModule::pushEvent()
+	{
+#ifndef SPACEDEVICE_DEPRECATED
+        for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
+            {
+                SpaceDeviceSource* pSource = static_cast<SpaceDeviceSource*>((Node*)*it);
+                lockLoop();
+                if (pSource->calcEvent())
+                    pSource->updateObservers(pSource->getEvent());
+                unlockLoop();
+            }
+#else
+		SpaceDeviceSource *source;
+
+		if( isInitialized() == 1 )
+		{   
+			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
+			{
+				source = (SpaceDeviceSource *) ((Node*)*it);
+
+				lockLoop();            
+				if (source->changed == 1)
+				{
+					source->event = source->tmpEvent;
+
+					source->changed = 0;
+					unlockLoop();        
+					source->push();
+				}
+				else
+					unlockLoop();
+			}
+		}
+#endif
+	}
+
+
+#ifndef SPACEDEVICE_DEPRECATED
+    void SpaceDeviceModule::init(StringTable &attributes,ConfigNode* pLocalTree)
+    {
+		Module::init(attributes,pLocalTree);
+		GetRawInputDeviceList(NULL,&numDevices,sizeof(RAWINPUTDEVICELIST));
+        rawInputDeviceList = new RAWINPUTDEVICELIST[numDevices];
+        GetRawInputDeviceList(rawInputDeviceList,&numDevices,sizeof(RAWINPUTDEVICELIST));
+        deviceNames = new char*[numDevices];
+        logPrintI("Known raw input device names:\n");
+        for (UINT device = 0;device < numDevices;device ++)
+            {
+                UINT deviceNameSize;
+                GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICENAME,NULL,&deviceNameSize);
+                deviceNames[device] = new char[deviceNameSize + 1];
+                GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICENAME,deviceNames[device],&deviceNameSize);
+                logPrintI("%s\n",deviceNames[device]);
+            }
+    }
+#endif
 
 	// This is the method executed in its own thread. It polls the spacedevices.
 	void SpaceDeviceModule::run()
 	{
+#ifndef SPACEDEVICE_DEPRECATED
+		threadId = GetCurrentThreadId();
+        if (pSources.size() > 0)
+            {
+                WNDCLASSEX wndClassEx;
+                wndClassEx.cbSize = sizeof(wndClassEx);
+                wndClassEx.style = 0x00000000;
+                wndClassEx.lpfnWndProc = WndProc;
+                wndClassEx.cbClsExtra = 0;
+                wndClassEx.cbWndExtra = 0;
+                wndClassEx.hInstance = NULL;
+                wndClassEx.hIcon = NULL;
+                wndClassEx.hCursor = NULL;
+                wndClassEx.hbrBackground = NULL;
+                wndClassEx.lpszMenuName = NULL;
+                wndClassEx.lpszClassName = "SpaceDeviceInputDummyWindow";
+                wndClassEx.hIconSm = NULL;
+                if (RegisterClassEx(&wndClassEx))
+                    {
+                        pSpaceDeviceModule = this;
+                        HWND hWnd = CreateWindowEx(0x00000000,wndClassEx.lpszClassName,NULL,WS_OVERLAPPED,CW_USEDEFAULT,CW_USEDEFAULT,CW_USEDEFAULT,CW_USEDEFAULT,NULL,NULL,NULL,0);
+                        if (hWnd)
+                            {
+                                RAWINPUTDEVICE rawInputDevices[1];
+                                rawInputDevices[0].usUsage = 0x0008;
+                                rawInputDevices[0].usUsagePage = HID_USAGE_PAGE_GENERIC;
+                                rawInputDevices[0].hwndTarget = hWnd;
+                                rawInputDevices[0].dwFlags = RIDEV_INPUTSINK;
+                                if (RegisterRawInputDevices(rawInputDevices,sizeof(rawInputDevices) / sizeof(RAWINPUTDEVICE),sizeof(RAWINPUTDEVICE)))
+                                    {
+                                        MSG msg;
+                                        BOOL result;
+                                        for(;;)
+                                            {
+                                                result = GetMessage(&msg,NULL,0x00000000,0x00000000);
+                                                if (result == 0 || result == -1)
+                                                    break;
+                                                else
+                                                    DispatchMessage(&msg);
+                                            }
+                                    }
+                                DestroyWindow(hWnd);
+                            }
+                        pSpaceDeviceModule = 0;
+						UnregisterClass(wndClassEx.lpszClassName,NULL);
+                    }
+            }
+#else
 		WNDCLASS  wndclass ;
 		static int init = 0;
 
@@ -209,35 +387,66 @@ namespace ot {
 		{
 			processMessages();
 		}
+#endif
 	}
 
 
-	void SpaceDeviceModule::pushEvent()
-	{
-		SpaceDeviceSource *source;
+#ifndef SPACEDEVICE_DEPRECATED
+    LRESULT CALLBACK SpaceDeviceModule::WndProc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+    {
+        switch (message)
+            {
+		case WM_INPUT:
+                    if (pSpaceDeviceModule)
+                        pSpaceDeviceModule->processRawInput(hWnd,wParam,reinterpret_cast<HRAWINPUT>(lParam));
+		default:
+                    return DefWindowProc(hWnd,message,wParam,lParam);
+            }
+    }
 
-		if( isInitialized() == 1 )
-		{   
-			for( NodeVector::iterator it = nodes.begin(); it != nodes.end(); it++ )
-			{
-				source = (SpaceDeviceSource *) ((Node*)*it);
-
-				lockLoop();            
-				if (source->changed == 1)
+	void SpaceDeviceModule::processRawInput(HWND,WPARAM,HRAWINPUT hRawInput)
+    {
+        RAWINPUTHEADER rawInputHeader;
+        UINT rawInputSize = sizeof(rawInputHeader);
+        if (GetRawInputData(hRawInput,RID_HEADER,&rawInputHeader,&rawInputSize,sizeof(RAWINPUTHEADER)) != -1)
+		{
+			for (NodeVector::iterator it = pSources.begin();it != pSources.end();it ++)
 				{
-					source->event = source->tmpEvent;
+					SpaceDeviceSource* pSource = static_cast<SpaceDeviceSource*>((Node*)*it);
+					if (pSource->getDevice() == rawInputHeader.hDevice && rawInputHeader.dwType == RIM_TYPEHID && GetRawInputData(hRawInput,RID_INPUT,NULL,&rawInputSize,sizeof(RAWINPUTHEADER)) != -1)
+						{
+							LPRAWINPUT pRawInput = new(rawInputSize) RAWINPUT;
+							if (GetRawInputData(hRawInput,RID_INPUT,pRawInput,&rawInputSize,sizeof(RAWINPUTHEADER)) != -1)
+                                {
+                                    lockLoop();
+									switch(pRawInput->data.hid.bRawData[0])
+									{
+									case 1:
+										pSource->setPosition(*reinterpret_cast<signed short*>(&pRawInput->data.hid.bRawData[1]) / 500.f,*reinterpret_cast<signed short*>(&pRawInput->data.hid.bRawData[3]) / 500.f,*reinterpret_cast<signed short*>(&pRawInput->data.hid.bRawData[5]) / 500.f);
+										break;
+									case 2:
+										pSource->setOrientation(*reinterpret_cast<signed short*>(&pRawInput->data.hid.bRawData[1]) / 500.f * MathUtils::Pi / 2.f,*reinterpret_cast<signed short*>(&pRawInput->data.hid.bRawData[3]) / 500.f * MathUtils::Pi / 2.f,*reinterpret_cast<signed short*>(&pRawInput->data.hid.bRawData[5]) / 500.f * MathUtils::Pi / 2.f);
+										break;
+									case 3:
+                                        pSource->setButtonEvent(*reinterpret_cast<unsigned short*>(&pRawInput->data.hid.bRawData[1]));
+									}
+									unlockLoop();
+								}
+							else
+								if (context != NULL && context->doSynchronization())
+									{
+										context->dataSignal();
+										context->consumedWait();
+									}      
+							delete pRawInput;
+						}
 
-					source->changed = 0;
-					unlockLoop();        
-					source->push();
 				}
-				else
-					unlockLoop();
-			}
 		}
-	}
+    }
 
-
+    SpaceDeviceModule* SpaceDeviceModule::pSpaceDeviceModule = 0;
+#else
 	// pushes events into the tracker tree.
 	void SpaceDeviceModule::processMessages()
 	{
@@ -367,8 +576,14 @@ namespace ot {
 		}
 	}
 
+	LRESULT FAR PASCAL WndSpaceMouseProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	{
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	}
+#endif
 
 
 } // namespace ot
 
+#endif
 #endif

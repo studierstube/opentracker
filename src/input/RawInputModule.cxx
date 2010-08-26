@@ -49,10 +49,10 @@
 #include <OpenTracker/input/RawInputSource.h>
 
 #ifndef HID_USAGE_PAGE_GENERIC
-#define HID_USAGE_PAGE_GENERIC (0x00000001)
+#define HID_USAGE_PAGE_GENERIC (0x0001)
 #endif
 #ifndef HID_USAGE_GENERIC_MOUSE
-#define HID_USAGE_GENERIC_MOUSE (0x00000002)
+#define HID_USAGE_GENERIC_MOUSE (0x0002)
 #endif
 
 namespace ot {
@@ -78,23 +78,14 @@ namespace ot {
     {
         if (name.compare("RawInputSource") == 0)
             for (UINT device = 0;device < numDevices;device ++)
-                if (!attributes.get("deviceName").compare(deviceNames[device]))
-                    {
-                        RID_DEVICE_INFO deviceInfo;
-                        UINT deviceInfoSize = sizeof(deviceInfo);
-                        deviceInfo.cbSize = sizeof(RID_DEVICE_INFO);
-                        GetRawInputDeviceInfo(rawInputDeviceList[device].hDevice,RIDI_DEVICEINFO,&deviceInfo,&deviceInfoSize);
-                        if (deviceInfo.dwType == RIM_TYPEMOUSE)
-                            {
-                                RawInputSource* pSource = new RawInputSource(rawInputDeviceList[device].hDevice);
-                                pSources.push_back(pSource);
+                if (!attributes.get("deviceName").compare(deviceNames[device]) && rawInputDeviceList[device].dwType == RIM_TYPEMOUSE)
+                {
+                    RawInputSource* pSource = new RawInputSource(rawInputDeviceList[device].hDevice);
+                    pSources.push_back(pSource);
 
-                                logPrintI("Build RawInputSource node\n");
-                                return pSource;
-                            }
-                        else
-                            break;
-                    }
+                    logPrintI("Build RawInputSource node\n");
+                    return pSource;
+                }
         return NULL;
     }
 

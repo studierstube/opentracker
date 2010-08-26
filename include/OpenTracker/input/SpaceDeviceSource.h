@@ -35,7 +35,7 @@
   * ======================================================================== */
 /** header file for SpaceDeviceSource Node.
   *
-  * @author Michael Wögerbauer
+  * @author Michael Wögerbauer, Mathis Csisinko
   *
   * $Id: SpaceDeviceSource.h 1260 2006-07-13 09:46:25Z sareika $
   * @file                                                                   */
@@ -63,14 +63,19 @@
 #define _SPACEDEVICESOURCE_H
 
 #include "../OpenTracker.h"
-#include "../common/ConsoleSource.h"
-
 #ifdef USE_SPACEDEVICE
+#ifdef WIN32
+
+#ifndef SPACEDEVICE_DEPRECATED
+#include <windows.h>
+#else
+#include "../common/ConsoleSource.h"
 
 #define OTCOM_NONE				0
 #define OTCOM_RESETPOSITION		1
 #define OTCOM_RESETROTATION		2
 #define OTCOM_TOGGLE_ROTATECAMERAAXIS  3
+#endif
 
 
 
@@ -84,7 +89,9 @@ namespace ot {
  */
 class OPENTRACKER_API SpaceDeviceSource : public Node
 {
-
+#ifndef SPACEDEVICE_DEPRECATED
+	friend class SpaceDeviceModule;
+#else
 public: 
     /// the state that is posted to the EventObservers
     Event event;
@@ -95,7 +102,35 @@ public:
     SpaceDeviceSource() : Node()
     {};
         
-    /** tests for EventGenerator interface being present. Is overriden to
+    /** pushes event down the line. */
+    void push()
+    {
+        event.timeStamp();
+        updateObservers( event );
+    }
+#endif
+
+protected:
+#ifndef SPACEDEVICE_DEPRECATED
+    /** constructor method
+     * @param hDevice handle to the input device
+     */
+    SpaceDeviceSource(HANDLE hDevice);
+
+    const HANDLE getDevice() const { return hDevice; }
+
+    void setButtonEvent(unsigned short);
+
+    void setPosition(float,float,float);
+
+	void setOrientation(float,float,float);
+
+    bool calcEvent();
+
+    Event & getEvent() { return event; }
+#endif
+
+	/** tests for EventGenerator interface being present. Is overriden to
      * return 1 always.
      * @return always 1 */
     virtual int isEventGenerator()
@@ -103,14 +138,12 @@ public:
         return 1;
     }
 
-    /** pushes event down the line. */
-    void push()
-    {
-        event.timeStamp();
-        updateObservers( event );
-    }
-
-protected:
+#ifndef SPACEDEVICE_DEPRECATED
+private:
+    bool modified;
+    Event event;
+    HANDLE hDevice;
+#else
 	// This Event holds the temporary data
     Event tmpEvent;
 
@@ -118,10 +151,12 @@ protected:
     int changed;
 
 	friend class SpaceDeviceModule;
+#endif
 };
 
 }  // namespace ot
 
+#endif
 #endif //USE_SPACEDEVICE
 
 #endif //_SPACEDEVICESOURCE_H
