@@ -35,7 +35,7 @@
  * ======================================================================== */
 /** header file for P5GloveSource Node.
  *
- * @author Hannes Kaufmann, Istvan Barakonyi. Mathis Csisinko
+ * @author Hannes Kaufmann, Istvan Barakonyi, Mathis Csisinko
  *
  * $Id$
  * @file                                                                   */
@@ -66,6 +66,10 @@
 
 #ifdef USE_P5GLOVE
 
+/// Treshold in degrees for button activation. 
+/// If the index finger is bent more than BEND_TRESHOLD degrees then the button is activated.
+#define BEND_THRESHOLD 50
+
 #include "P5dll.h"
 
 namespace ot {
@@ -78,7 +82,9 @@ namespace ot {
      */
     class OPENTRACKER_API P5GloveSource : public Node
     {
-        // Members
+        friend class P5GloveModule;
+
+		// Members
     private: 
         /// the event that is posted to the EventObservers
         Event event;
@@ -91,14 +97,8 @@ namespace ot {
         // Methods
     protected:
         /** simple constructor, sets members to initial values */
-		P5GloveSource(int finger,const std::vector<float> &vector,const std::vector<float> &axis) : Node(), finger(finger),vector(vector),axisAngle(axis)
-		{
-			axisAngle.resize(4);
-		}
+		P5GloveSource(int,const std::vector<float> &,const std::vector<float> &);
 
-    public:
-    
-        
         /** tests for EventGenerator interface being present. Is overriden to
          * return 1 always.
          * @return always 1 */
@@ -107,19 +107,7 @@ namespace ot {
             return 1;
         }
 
-        Event & getEvent(P5Data &p5Data)
-		{
-			std::vector<float> quaternion(4);
-			MathUtils::axisAngleToQuaternion(axisAngle,quaternion);
-			axisAngle[3] = MathUtils::Pi / 180.f * p5Data.m_byBendSensor_Data[finger];
-			event.getAttribute<float>(std::string("bending"),0.f) = p5Data.m_byBendSensor_Data[finger];
-			event.getButton() = (p5Data.m_byBendSensor_Data[finger] > BEND_THRESHOLD) ? 1: 0;
-			MathUtils::rotateVector(quaternion,vector,event.getPosition());
-			event.getOrientation() = quaternion;
-			return event;
-		}
-
-        friend class P5GloveModule;
+        Event & getEvent(P5Data &);
     };
 
 }  // namespace ot

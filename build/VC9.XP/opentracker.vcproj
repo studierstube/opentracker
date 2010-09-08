@@ -612,6 +612,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\P5GloveSource.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\network\PackedOTNetworkSourceModule.cxx"
 				>
 			</File>

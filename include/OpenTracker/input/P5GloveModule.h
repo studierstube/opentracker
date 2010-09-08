@@ -54,7 +54,7 @@
  * The module uses the configuration element 'P5GloveConfig'. This
  * element has the following attributes :
  * @li @c P5Id the glove id passed to the driver
- * @li @c relative if set to true, absolute device pose is ignored
+ * @li @c relative if set to true, the absolute device pose is ignored
  * 
  * An example configuration element looks like this :
  * @verbatim
@@ -69,6 +69,15 @@
 #include "../OpenTracker.h"
 
 #ifdef USE_P5GLOVE
+
+#define P5MOTION_XYZFILTERSIZE	5
+#define P5MOTION_YPRFILTERSIZE	18
+
+#define P5MOTION_YPRABSOLUTE	0
+#define P5MOTION_YPRRELATIVE	1
+
+#define	P5MOTION_NORMALAXIS		1
+#define	P5MOTION_INVERTAXIS		-1
 
 #include "P5dll.h"
 #ifdef WIN32
@@ -95,23 +104,7 @@ namespace ot {
         CP5DLL *P5device;
         int P5Id;
 
-        /// Treshold in degrees for button activation. 
-        /// If the index finger is bent more than BEND_TRESHOLD degrees then the button is activated.
-#define BEND_THRESHOLD 50
-
-#define P5MOTION_XYZFILTERSIZE	5
-#define P5MOTION_YPRFILTERSIZE	18
-
-#define P5MOTION_YPRABSOLUTE	0
-#define P5MOTION_YPRRELATIVE	1
-
-#define	P5MOTION_NORMALAXIS		1
-#define	P5MOTION_INVERTAXIS		-1
-
-        int nXPos, nYPos, nZPos;
-        float fXMickey, fYMickey, fZMickey;
         float fAbsYawPos, fAbsPitchPos, fAbsRollPos;
-        float fRelYawPos, fRelPitchPos, fRelRollPos;
         float fFilterX, fFilterY, fFilterZ;
 
 		bool relative;
@@ -154,7 +147,6 @@ namespace ot {
         virtual void pushEvent();
 
 	protected:
-        void P5Motion_SetClipRegion(int xstart, int xend, int ystart, int yend, int zstart, int zend);
         void P5Motion_InvertMouse (int xaxis, int yaxis, int zaxis);
 
         void P5Motion_Process();

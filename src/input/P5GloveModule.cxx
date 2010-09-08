@@ -204,14 +204,13 @@ namespace ot {
 
 
     //These variables contain the actual x, Y, Z position of the cursor
-    int nXPos = 0, nYPos = 0, nZPos = 0;
+    static int nXPos = 0, nYPos = 0, nZPos = 0;
 
     //These variables contain the frame to frame deltas of the cursor
-    float fXMickey = 0.0f, fYMickey = 0.0f, fZMickey = 0.0f;
+    static float fXMickey = 0.0f, fYMickey = 0.0f, fZMickey = 0.0f;
 
-    //These variables contain the filtered oreintation information
-    float fAbsYawPos, fAbsPitchPos, fAbsRollPos;
-    float fRelYawPos, fRelPitchPos, fRelRollPos;
+    //These variables contain the filtered orientation information
+    static float fRelYawPos, fRelPitchPos, fRelRollPos;
 
 
     /***********************************************
@@ -224,9 +223,9 @@ Parameters: int xstart	- low side xclip point
 			int zstart	- low side zclip point
 			int zend	- high side zclip point
     ***********************************************/
-    int nxclipstart = 0, nxclipend = 1024, nyclipstart = 0, nyclipend = 768, nzclipstart = 0, nzclipend = 1024;
+    static int nxclipstart = 0, nxclipend = 1024, nyclipstart = 0, nyclipend = 768, nzclipstart = 0, nzclipend = 1024;
 
-    void P5GloveModule::P5Motion_SetClipRegion(int xstart, int xend, int ystart, int yend, int zstart, int zend)
+    static void P5Motion_SetClipRegion(int xstart, int xend, int ystart, int yend, int zstart, int zend)
     {
 	nxclipstart = xstart;
 	nxclipend = xend;
@@ -245,7 +244,7 @@ Parameters: int xaxis	- P5MOTION_NORMALAXIS or P5MOTION_INVERTAXIS
     ***********************************************/
     int nxinvert = 0, nyinvert = 0, nzinvert = 0;
 
-    void P5Motion_InvertMouse(int xaxis, int yaxis, int zaxis)
+    static void P5Motion_InvertMouse(int xaxis, int yaxis, int zaxis)
     {
 	nxinvert = xaxis;
 	nyinvert = yaxis;
@@ -258,7 +257,6 @@ Use: Internal Function.  Used to filter XYZ Data
 Parameter: None
     ***********************************************/
     float fXPos[P5MOTION_XYZFILTERSIZE], fYPos[P5MOTION_XYZFILTERSIZE], fZPos[P5MOTION_XYZFILTERSIZE];
-    //float fFilterX, fFilterY, fFilterZ;
 
     void P5GloveModule::P5Motion_FilterXYZ()
     {
@@ -362,8 +360,8 @@ Function: P5Motion_FilterYPR()
 Use: Internal Function.  Used to filter Orientation Data
 Parameter: None
     ***********************************************/
-    float fYaw[P5MOTION_YPRFILTERSIZE], fPitch[P5MOTION_YPRFILTERSIZE], fRoll[P5MOTION_YPRFILTERSIZE];
-    float fFilterYaw, fFilterPitch, fFilterRoll;
+    static float fYaw[P5MOTION_YPRFILTERSIZE], fPitch[P5MOTION_YPRFILTERSIZE], fRoll[P5MOTION_YPRFILTERSIZE];
+    static float fFilterYaw, fFilterPitch, fFilterRoll;
 
     void P5GloveModule::P5Motion_FilterYPR()
     {

@@ -468,6 +468,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\input\P5GloveSource.cxx"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\input\ParButtonModule.cxx"
 				>
 			</File>
@@ -505,6 +509,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\misc\serialcomm.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\input\SpaceDeviceModule.cxx"
 				>
 			</File>
 			<File
@@ -754,31 +762,31 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerChomp.h"
+				RelativePath="..\..\include\OpenTracker\input\ARTDataTrackerChomp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerModule.h"
+				RelativePath="..\..\include\OpenTracker\input\ARTDataTrackerModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARTDataTrackerSource.h"
+				RelativePath="..\..\include\OpenTracker\input\ARTDataTrackerSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitModule.h"
+				RelativePath="..\..\include\OpenTracker\input\ARToolKitModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitMultiMarkerSource.h"
+				RelativePath="..\..\include\OpenTracker\input\ARToolKitMultiMarkerSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitPlusModule.h"
+				RelativePath="..\..\include\OpenTracker\input\ARToolKitPlusModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ARToolKitSource.h"
+				RelativePath="..\..\include\OpenTracker\input\ARToolKitSource.h"
 				>
 			</File>
 			<File
@@ -786,39 +794,39 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\ButtonFilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonHoldFilterModule.h"
+				RelativePath="..\..\include\OpenTracker\common\ButtonHoldFilterModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonHoldFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\ButtonHoldFilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ButtonOpNode.h"
+				RelativePath="..\..\include\OpenTracker\common\ButtonOpNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CallbackModule.h"
+				RelativePath="..\..\include\OpenTracker\common\CallbackModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CallbackNode.h"
+				RelativePath="..\..\include\OpenTracker\common\CallbackNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\CommonNodeFactory.h"
+				RelativePath="..\..\include\OpenTracker\common\CommonNodeFactory.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConfidenceFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\ConfidenceFilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConfidenceSelectNode.h"
+				RelativePath="..\..\include\OpenTracker\common\ConfidenceSelectNode.h"
 				>
 			</File>
 			<File
@@ -826,79 +834,79 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ConfigNode.h"
+				RelativePath="..\..\include\OpenTracker\core\ConfigNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ConfigurationParser.h"
+				RelativePath="..\..\include\OpenTracker\core\ConfigurationParser.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConsoleModule.h"
+				RelativePath="..\..\include\OpenTracker\common\ConsoleModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConsoleSink.h"
+				RelativePath="..\..\include\OpenTracker\common\ConsoleSink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ConsoleSource.h"
+				RelativePath="..\..\include\OpenTracker\common\ConsoleSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Context.h"
+				RelativePath="..\..\include\OpenTracker\core\Context.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\CyberMouseModule.h"
+				RelativePath="..\..\include\OpenTracker\input\CyberMouseModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\CyberMouseSource.h"
+				RelativePath="..\..\include\OpenTracker\input\CyberMouseSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESP.h"
+				RelativePath="..\..\include\OpenTracker\common\DESP.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DESPFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\DESPFilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DGPSIP_Handler.h"
+				RelativePath="..\..\include\OpenTracker\input\DGPSIP_Handler.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DGPSMirror_Handler.h"
+				RelativePath="..\..\include\OpenTracker\input\DGPSMirror_Handler.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DifferenceNode.h"
+				RelativePath="..\..\include\OpenTracker\common\DifferenceNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\disable4786.h"
+				RelativePath="..\..\include\OpenTracker\tool\disable4786.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\DOMTreeErrorReporter.h"
+				RelativePath="..\..\include\OpenTracker\core\DOMTreeErrorReporter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\DwarfModule.h"
+				RelativePath="..\..\include\OpenTracker\network\DwarfModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\DwarfSink.h"
+				RelativePath="..\..\include\OpenTracker\network\DwarfSink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\DwarfSource.h"
+				RelativePath="..\..\include\OpenTracker\network\DwarfSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\DynamicTransformation.h"
+				RelativePath="..\..\include\OpenTracker\common\DynamicTransformation.h"
 				>
 			</File>
 			<File
@@ -906,11 +914,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DynaSightModule.h"
+				RelativePath="..\..\include\OpenTracker\input\DynaSightModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\DynaSightSource.h"
+				RelativePath="..\..\include\OpenTracker\input\DynaSightSource.h"
 				>
 			</File>
 			<File
@@ -922,119 +930,119 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ElasticFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\ElasticFilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EllipsoidTransformNode.h"
+				RelativePath="..\..\include\OpenTracker\common\EllipsoidTransformNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Event.h"
+				RelativePath="..\..\include\OpenTracker\core\Event.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\EventAttribute.h"
+				RelativePath="..\..\include\OpenTracker\core\EventAttribute.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\EventAttributeBase.h"
+				RelativePath="..\..\include\OpenTracker\core\EventAttributeBase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\EventQueueImplementation.h"
+				RelativePath="..\..\include\OpenTracker\core\EventQueueImplementation.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EventQueueNode.h"
+				RelativePath="..\..\include\OpenTracker\common\EventQueueNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\EventUtilityNode.h"
+				RelativePath="..\..\include\OpenTracker\common\EventUtilityNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FastTrakModule.h"
+				RelativePath="..\..\include\OpenTracker\input\FastTrakModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FastTrakSource.h"
+				RelativePath="..\..\include\OpenTracker\input\FastTrakSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\File.h"
+				RelativePath="..\..\include\OpenTracker\common\File.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileModule.h"
+				RelativePath="..\..\include\OpenTracker\common\FileModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileSink.h"
+				RelativePath="..\..\include\OpenTracker\common\FileSink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FileSource.h"
+				RelativePath="..\..\include\OpenTracker\common\FileSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\FilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\FilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FOBModule.h"
+				RelativePath="..\..\include\OpenTracker\input\FOBModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\FOBSource.h"
+				RelativePath="..\..\include\OpenTracker\input\FOBSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GKTransformNode.h"
+				RelativePath="..\..\include\OpenTracker\common\GKTransformNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPS_Handler.h"
+				RelativePath="..\..\include\OpenTracker\input\GPS_Handler.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSDirectionSource.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSDirectionSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSDriver.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSDriver.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSGarminAltitude.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSGarminAltitude.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSGarminCompass.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSGarminCompass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSInfoSource.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSInfoSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSModule.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSParser.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSParser.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\GPSSource.h"
+				RelativePath="..\..\include\OpenTracker\input\GPSSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GroupGateModule.h"
+				RelativePath="..\..\include\OpenTracker\common\GroupGateModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\GroupGateNode.h"
+				RelativePath="..\..\include\OpenTracker\common\GroupGateNode.h"
 				>
 			</File>
 			<File
@@ -1042,19 +1050,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\InterpolatorModule.h"
+				RelativePath="..\..\include\OpenTracker\common\InterpolatorModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\InterSenseModule.h"
+				RelativePath="..\..\include\OpenTracker\input\InterSenseModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\InterSenseSource.h"
+				RelativePath="..\..\include\OpenTracker\input\InterSenseSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\InvertTransformation.h"
+				RelativePath="..\..\include\OpenTracker\common\InvertTransformation.h"
 				>
 			</File>
 			<File
@@ -1062,111 +1070,111 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\JoystickModule.h"
+				RelativePath="..\..\include\OpenTracker\input\JoystickModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\JoystickSource.h"
+				RelativePath="..\..\include\OpenTracker\input\JoystickSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\LinmouseModule.h"
+				RelativePath="..\..\include\OpenTracker\input\LinmouseModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\LinmouseSource.h"
+				RelativePath="..\..\include\OpenTracker\input\LinmouseSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\LogModule.h"
+				RelativePath="..\..\include\OpenTracker\common\LogModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MagicYModule.h"
+				RelativePath="..\..\include\OpenTracker\input\MagicYModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MagicYSource.h"
+				RelativePath="..\..\include\OpenTracker\input\MagicYSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\MathUtils.h"
+				RelativePath="..\..\include\OpenTracker\core\MathUtils.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\MatrixTransformation.h"
+				RelativePath="..\..\include\OpenTracker\common\MatrixTransformation.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\MergeNode.h"
+				RelativePath="..\..\include\OpenTracker\common\MergeNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Module.h"
+				RelativePath="..\..\include\OpenTracker\core\Module.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MulticastInputModule.h"
+				RelativePath="..\..\include\OpenTracker\input\MulticastInputModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\MulticastInputSource.h"
+				RelativePath="..\..\include\OpenTracker\input\MulticastInputSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\Network.h"
+				RelativePath="..\..\include\OpenTracker\network\Network.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSink.h"
+				RelativePath="..\..\include\OpenTracker\network\NetworkSink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSinkModule.h"
+				RelativePath="..\..\include\OpenTracker\network\NetworkSinkModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSource.h"
+				RelativePath="..\..\include\OpenTracker\network\NetworkSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\NetworkSourceModule.h"
+				RelativePath="..\..\include\OpenTracker\network\NetworkSourceModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Node.h"
+				RelativePath="..\..\include\OpenTracker\core\Node.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodeFactory.h"
+				RelativePath="..\..\include\OpenTracker\core\NodeFactory.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodeFactoryContainer.h"
+				RelativePath="..\..\include\OpenTracker\core\NodeFactoryContainer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\NodePort.h"
+				RelativePath="..\..\include\OpenTracker\core\NodePort.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OpenVideoModule.h"
+				RelativePath="..\..\include\OpenTracker\input\OpenVideoModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OrientationModule.h"
+				RelativePath="..\..\include\OpenTracker\input\OrientationModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\OrientationSource.h"
+				RelativePath="..\..\include\OpenTracker\input\OrientationSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\OSUtils.h"
+				RelativePath="..\..\include\OpenTracker\core\OSUtils.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\OT_ACE_Log.h"
+				RelativePath="..\..\include\OpenTracker\tool\OT_ACE_Log.h"
 				>
 			</File>
 			<File
@@ -1174,7 +1182,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\P5GloveModule.h"
+				RelativePath="..\..\include\OpenTracker\input\P5GloveModule.h"
 				>
 			</File>
 			<File
@@ -1182,23 +1190,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\P5GloveSource.h"
+				RelativePath="..\..\include\OpenTracker\input\ParButtonModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ParButtonModule.h"
+				RelativePath="..\..\include\OpenTracker\input\ParButtonSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\ParButtonSource.h"
+				RelativePath="..\..\include\OpenTracker\misc\portio.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\portio.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\common\PositionFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\PositionFilterNode.h"
 				>
 			</File>
 			<File
@@ -1210,51 +1214,39 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\RangeFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\RangeFilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\RawInputModule.h"
+				RelativePath="..\..\include\OpenTracker\input\RawInputModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\RawInputSource.h"
+				RelativePath="..\..\include\OpenTracker\input\RawInputSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\RefNode.h"
+				RelativePath="..\..\include\OpenTracker\core\RefNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\SelectionNode.h"
+				RelativePath="..\..\include\OpenTracker\common\SelectionNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\serialcomm.h"
+				RelativePath="..\..\include\OpenTracker\misc\serialcomm.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechCore.h"
+				RelativePath="..\..\include\OpenTracker\input\SpaceDeviceModule.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechDef.h"
+				RelativePath="..\..\include\OpenTracker\input\SpaceDeviceSource.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\input\SpeechCore.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1274,7 +1266,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechInc.h"
+				RelativePath="..\..\include\OpenTracker\input\SpeechDef.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1294,7 +1286,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechModule.h"
+				RelativePath="..\..\include\OpenTracker\input\SpeechInc.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1314,7 +1306,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechSet.h"
+				RelativePath="..\..\include\OpenTracker\input\SpeechModule.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1334,7 +1326,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechSource.h"
+				RelativePath="..\..\include\OpenTracker\input\SpeechSet.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1354,7 +1346,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechVoice.h"
+				RelativePath="..\..\include\OpenTracker\input\SpeechSource.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1374,7 +1366,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\input\SpeechVoiceModule.h"
+				RelativePath="..\..\include\OpenTracker\input\SpeechVoice.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1394,7 +1386,27 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\src\common\StaticTransformation.h"
+				RelativePath="..\..\include\OpenTracker\input\SpeechVoiceModule.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\include\OpenTracker\common\StaticTransformation.h"
 				>
 			</File>
 			<File
@@ -1406,139 +1418,139 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\StringAligner.h"
+				RelativePath="..\..\include\OpenTracker\tool\StringAligner.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\StringFixer.h"
+				RelativePath="..\..\include\OpenTracker\tool\StringFixer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\StringTable.h"
+				RelativePath="..\..\include\OpenTracker\core\StringTable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\TCPModule.h"
+				RelativePath="..\..\include\OpenTracker\network\TCPModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\TCPSink.h"
+				RelativePath="..\..\include\OpenTracker\network\TCPSink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\TestModule.h"
+				RelativePath="..\..\include\OpenTracker\core\TestModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\TestSource.h"
+				RelativePath="..\..\include\OpenTracker\core\TestSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\ThreadModule.h"
+				RelativePath="..\..\include\OpenTracker\core\ThreadModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\ThresholdFilterNode.h"
+				RelativePath="..\..\include\OpenTracker\common\ThresholdFilterNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimeGateNode.h"
+				RelativePath="..\..\include\OpenTracker\common\TimeGateNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimeModule.h"
+				RelativePath="..\..\include\OpenTracker\common\TimeModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimestampGeneratorModule.h"
+				RelativePath="..\..\include\OpenTracker\common\TimestampGeneratorModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TimestampGeneratorNode.h"
+				RelativePath="..\..\include\OpenTracker\common\TimestampGeneratorNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\ToolAppWin.h"
+				RelativePath="..\..\include\OpenTracker\tool\ToolAppWin.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\ToolIOModule.h"
+				RelativePath="..\..\include\OpenTracker\tool\ToolIOModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\ToolSink.h"
+				RelativePath="..\..\include\OpenTracker\tool\ToolSink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\ToolSource.h"
+				RelativePath="..\..\include\OpenTracker\tool\ToolSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\Transformation.h"
+				RelativePath="..\..\include\OpenTracker\common\Transformation.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\core\Translator.h"
+				RelativePath="..\..\include\OpenTracker\core\Translator.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\TriangulateOrientationNode.h"
+				RelativePath="..\..\include\OpenTracker\common\TriangulateOrientationNode.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UbisenseModule.h"
+				RelativePath="..\..\include\OpenTracker\input\UbisenseModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UbisenseSource.h"
+				RelativePath="..\..\include\OpenTracker\input\UbisenseSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UltraTrakModule.h"
+				RelativePath="..\..\include\OpenTracker\input\UltraTrakModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\UltraTrakSource.h"
+				RelativePath="..\..\include\OpenTracker\input\UltraTrakSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\common\VirtualTransformation.h"
+				RelativePath="..\..\include\OpenTracker\common\VirtualTransformation.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNModule.h"
+				RelativePath="..\..\include\OpenTracker\network\VRPNModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNSink.h"
+				RelativePath="..\..\include\OpenTracker\network\VRPNSink.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\network\VRPNSource.h"
+				RelativePath="..\..\include\OpenTracker\network\VRPNSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\WacomGraphireModule.h"
+				RelativePath="..\..\include\OpenTracker\input\WacomGraphireModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\WacomGraphireSource.h"
+				RelativePath="..\..\include\OpenTracker\input\WacomGraphireSource.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\tool\XMLSelection.h"
+				RelativePath="..\..\include\OpenTracker\tool\XMLSelection.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\misc\xml\XMLWriter.h"
+				RelativePath="..\..\include\OpenTracker\misc\xml\XMLWriter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\XSensModule.h"
+				RelativePath="..\..\include\OpenTracker\input\XSensModule.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\input\XSensSource.h"
+				RelativePath="..\..\include\OpenTracker\input\XSensSource.h"
 				>
 			</File>
 		</Filter>
