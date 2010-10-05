@@ -63,7 +63,9 @@
 #include "../OpenTracker.h"
 #include "../common/ConsoleSource.h"
 
+#undef USE_PANTILTUNIT
 #ifdef USE_PANTILTUNIT
+
 
 #include <ptuDll.h>
 #pragma comment(lib,"ptudlld")

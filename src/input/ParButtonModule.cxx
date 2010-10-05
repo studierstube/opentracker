@@ -127,7 +127,7 @@ namespace ot {
 
         if (pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_PRIV_INSTRUCTION)
         {
-            pExPtrs->ContextRecord->Eip ++; // Skip the OUT or IN instruction that caused the exception
+            //pExPtrs->ContextRecord->Eip ++; // Skip the OUT or IN instruction that caused the exception
             bPrivException = TRUE;
             return EXCEPTION_CONTINUE_EXECUTION;
         }

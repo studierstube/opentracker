@@ -195,7 +195,7 @@ add_subdirectory(standalones)
 include_directories(../extras/intersense)
 
 if(WIN32 AND BUILD_SHARED_LIBS)
-  add_definitions(-DOPENTRACKER_EXPORTS)
+  add_definitions(-DOPENTRACKER_EXPORTS -DOT_NO_GPS_SUPPORT -DOT_NO_PARBUTTON_SUPPORT)
 endif(WIN32 AND BUILD_SHARED_LIBS)
 
 if(OT_USE_OTQT)
@@ -225,7 +225,7 @@ endif(OT_USE_ARTOOLKITPLUS)
 if(XERCESC_FOUND)
   target_link_libraries(opentracker ${XERCESC_LIBRARY})
 else(XERCESC_FOUND)
-  target_link_libraries(opentracker ${TINY_XML_MOD_LIBRARIES})
+  target_link_libraries(opentracker ${TINY_XML_MOD_LIBRARIES} ${TINY_XML_MOD_LIBRARY_DIR})
 endif(XERCESC_FOUND)
 
 if(OT_USE_PYTHON)

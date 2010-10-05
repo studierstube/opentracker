@@ -53,10 +53,10 @@ const int NMEABUFSZ = 1024;
 #include <OpenTracker/input/GPSParser.h>
 
 #include <OpenTracker/misc/WGS84Geoid.h>
-#include <ace/Tokenizer_T.h>
+
 
 #ifndef OT_NO_GPS_SUPPORT
-
+#include <ace/Tokenizer_T.h>
 /* False easting for transformation from GK_M34 to BMN 34 format  */
 static double TranMerc_False_Easting_BMN = 750000.0;        /* False easting in meters */
 

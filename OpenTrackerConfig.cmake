@@ -24,27 +24,28 @@ else(OPENTRACKER_INCLUDE_DIRS AND OPENTRACKER_LIBRARY_DIRS)
   endif(NOT EXISTS ${OPENTRACKER_ROOT}/CMakeLists.txt)
 
   set(OPENTRACKER_INCLUDE_DIRS "${OPENTRACKER_ROOT}/include" CACHE STRING "OpenTracker include directories")
-  set(OPENTRACKER_LIBRARIES "opentracker" CACHE STRING "OpenTracker library name")
+  #set(OPENTRACKER_LIBRARIES "opentracker" CACHE STRING "OpenTracker library name")
   set(OPENTRACKER_DEFINITIONS "-DUSE_OT_2_0" CACHE STRING "OpenTracker definitions")
 
   # search for the library (if we are in the source tree, it might not exist):
-  find_library(OPENTRACKER_LIBRARY_PATH "${OPENTRACKER_LIBRARIES}" PATHS
+  find_library(OPENTRACKER_LIBRARIES NAMES opentracker PATH
     "${OPENTRACKER_ROOT}/src"
     "${OPENTRACKER_ROOT}/lib"
     "${OPENTRACKER_ROOT}/lib/Release"
     "${OPENTRACKER_ROOT}/lib${LIBSUFFIX}"
     "${OPENTRACKER_ROOT}/lib64"
     "${OPENTRACKER_ROOT}/lib/win32"
+    "${OPENTRACKER_ROOT}/lib/win32/${CMAKE_CFG_INTDIR}"
     # make sure not to mix locally installed headers with globally installed binaries:
     NO_DEFAULT_PATH
     )
 
-  if(OPENTRACKER_LIBRARY_PATH)
+  if(OPENTRACKER_LIBRARIES)
     # store library directories in cache:
-    get_filename_component(OPENTRACKER_LIBRARY_DIRS "${OPENTRACKER_LIBRARY_PATH}" PATH)
-    set(OPENTRACKER_LIBRARY_DIRS "${OPENTRACKER_LIBRARY_DIRS}" CACHE STRING "OpenTracker library directories")
+    get_filename_component(OPENTRACKER_LIBRARIES "${OPENTRACKER_LIBRARY_PATH}" PATH)
+    set(OPENTRACKER_LIBRARY_DIRS "${OPENTRACKER_LIBRARY_PATH}" CACHE STRING "OpenTracker library directories")
     set(OPENTRACKER_FOUND TRUE)
-  endif(OPENTRACKER_LIBRARY_PATH)
+  endif(OPENTRACKER_LIBRARIES)
 
   if(OPENTRACKER_FOUND)
     if(NOT OpenTracker_FIND_QUIETLY)

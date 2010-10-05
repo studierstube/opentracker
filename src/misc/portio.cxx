@@ -1,6 +1,7 @@
 #ifdef WIN32
 
 #include <Windows.h>
+#ifdef _M_IX86
 
 BYTE inportb(UINT portid)
 {
@@ -18,7 +19,8 @@ void outportb(UINT portid, BYTE value)
     __asm out dx,al
 }
 
-#endif
+#endif //_M_IX86
+#endif //WIN32
 
 /* 
  * ------------------------------------------------------------
