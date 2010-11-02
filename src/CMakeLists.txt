@@ -9,6 +9,7 @@ file(GLOB_RECURSE OPENTRACKER_SOURCES
   tool/*.cxx
   ubitrack/*.cxx
   prop/rigidTransform/*.cxx
+  ../include/OpenTracker/svd/*.cpp
 )
 
 file(GLOB_RECURSE OPENTRACKER_HEADERS
