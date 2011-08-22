@@ -48,8 +48,8 @@
 * @li @c ovSink: name of the video sink which provides the tracking image
 * An example configuration element looks like this :
 * @verbatim
- <NFTrackerConfig camera-calib="calibfile.xyz" /> 
- <NFTrackerSource ovSink="VideoStream" target="multiset/target_*.var" configDb="multiset/multiset.var"/> @endverbatim
+ <NFTrackerConfig ovSink="Stb4VideoSink" featureset="./jakomini/jakomini.xml" cameraCalib="../../../cameraCal/QuickCamS7500.cal"/>
+ <NFTrackerSource targetName="Jakomini"/> @endverbatim
  */
 
 #ifndef _NFTRACKERMODULE_H
@@ -66,6 +66,31 @@
 
 #ifdef USE_NFTRACKER
 
+#include <ace/OS.h>
+#include <NFT3/NFT3_Tracker.h>
+#include <StbCore/Image.h>
+#include <StbCore/OS.h>
+#include <StbCore/Logger.h>
+#include <StbCore/FileSystem.h>
+#include <StbCore/InFile.h>
+
+#include <StbCore/Window.h>
+
+#include <conio.h>
+
+#if (defined(_DEBUG))
+#      pragma comment(lib, "NFT3d.lib")
+#      pragma comment(lib, "StbCVd.lib")
+#      pragma comment(lib, "StbCored.lib")
+#      pragma comment(lib, "StbMathd.lib")
+#      pragma comment(lib, "StbIOd.lib")
+#    else
+#      pragma comment(lib, "NFT3.lib")
+#      pragma comment(lib, "StbCV.lib")
+#      pragma comment(lib, "StbCore.lib")
+#      pragma comment(lib, "StbMath.lib")
+#      pragma comment(lib, "StbIO.lib")
+#    endif
 
 namespace ot
 {
@@ -79,17 +104,8 @@ typedef std::vector<Node::Ptr> NodeVector;
 * Source nodes via the NodeFactory interface and pushes events into
 * the tracker tree according to the nodes configuration.
 */
-class OPENTRACKER_API NFTrackerModule : public NodeFactory, public ThreadModule
+class OPENTRACKER_API NFTrackerModule : public ThreadModule, public NodeFactory,  public VideoUser
 {
-  // Members
-protected:
-
-	/// list of TestSource nodes in the tree
-	NodeVector sources;
-	std::string cameraCalib;
-
-
-  // Methods
 public:
  
 	/** constructor method. */
@@ -97,6 +113,10 @@ public:
 
 	/** Destructor method, clears nodes member. */
 	virtual ~NFTrackerModule();
+
+	//StbCV::Window debugWindow;
+
+	void newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat, void* trackingData);
 
 	void init(StringTable& attributes, ConfigNode * localTree);
 
@@ -107,7 +127,32 @@ public:
 	/**
 	* pushes events into the tracker tree. 
 	*/
-	virtual void pushEvent(); 
+	virtual void pushEvent();
+
+protected:
+
+	/// list of TestSource nodes in the tree
+	NodeVector sources;
+
+    /// stores the list of all markers that were visible during the last update
+    NodeVector visibleMarkers;
+
+
+private:
+
+	std::string featureset;
+	std::string cameraCalib;
+
+	NFT3::Tracker	*tracker;
+	StbCore::Image *coreImageBuffer;
+	//unsigned char* lumBuffer;
+	StbCV::Image cameraGray;
+	bool noTracking;
+	bool initialized;
+
+	void createTracker();
+
+	void process();
 
 };
 

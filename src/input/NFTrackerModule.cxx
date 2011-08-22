@@ -52,7 +52,6 @@
 
 #include <OpenTracker/OpenTracker.h>
 #include <OpenTracker/core/OtLogger.h>
-#include <OpenTracker/tool/OT_ACE_Log.h>
 
 #ifdef USE_NFTRACKER
 
@@ -62,17 +61,7 @@
 
 #include <OpenTracker/core/Context.h>
 
-#if (defined(_DEBUG))
-#      pragma comment(lib, "StbCVd.lib")
-#      pragma comment(lib, "StbCored.lib")
-#      pragma comment(lib, "StbMathd.lib")
-#      pragma comment(lib, "StbIOd.lib")
-#    else
-#      pragma comment(lib, "StbCV.lib")
-#      pragma comment(lib, "StbCore.lib")
-#      pragma comment(lib, "StbMath.lib")
-#      pragma comment(lib, "StbIO.lib")
-#    endif
+
 
 
 namespace ot {
@@ -80,14 +69,21 @@ namespace ot {
         NFTrackerModule *nftTrack = new NFTrackerModule;
         context->addFactory( * nftTrack );
         context->addModule( "NFTrackerConfig", *nftTrack );
+		context->registerVideoUser(nftTrack);
     }
 
     NFTrackerModule::NFTrackerModule() : NodeFactory()
     {
+		coreImageBuffer = StbCore::Image::create();
+		initialized = false;
+		noTracking = false;
     }
 
 	void NFTrackerModule::init(StringTable& attributes, ConfigNode * localTree)
 	{
+		featureset = attributes.get("featureset");
+		cameraCalib = attributes.get("cameraCalib");
+		openVideoSinkName = attributes.get("ovSink");
 	}
 
     NFTrackerModule::~NFTrackerModule()
@@ -97,25 +93,205 @@ namespace ot {
 
     // This method is called to construct a new Node.
     Node* 
-    NFTrackerModule::createNode( const std::string& name, const StringTable& attributes)
+	NFTrackerModule::createNode( const std::string& name, const StringTable& attributes)
     {
         if(name.compare("NFTrackerSource") == 0 )
         {
 			NFTrackerSource* source = new NFTrackerSource();
 
-            if ( !attributes.get("ovSink").empty() )
-                source->openVideoSinkName = attributes.get("ovSink").c_str();
-			if ( !attributes.get("featureset").empty() )
-                source->featureset = attributes.get("featureset").c_str();
-			if ( !attributes.get("cameraCalib").empty() )
-				source->cameraCalib = attributes.get("cameraCalib");
+            if ( !attributes.get("targetName").empty() )
+                source->targetName = attributes.get("targetName").c_str();
   
             sources.push_back( source );
-			context->registerVideoUser(source);
             return source;
         }
 
         return NULL;
+    }
+
+	void NFTrackerModule::createTracker()
+	{
+		StbCV::Camera camera;
+
+		StbCore::StringW fullCamPath = cameraCalib.c_str();
+		if(!camera.load(fullCamPath))
+		{
+			StbCore::Logger::getInstance()->logError("Failed loading camera setting. Can't initialize tracking.");
+			return;
+		}
+		
+
+		StbCore::StringW featureName = featureset.c_str();
+		if(StbCore::InFileAutoPtr file = StbCore::FileSystem::getInstance()->openFileForReading(featureName))
+		{
+			tracker = new NFT3::Tracker;
+
+			if(!tracker->loadSetup(file))
+			{
+				StbCore::Logger::getInstance()->logError("Failed loading NFT3 tracking setup.");
+				delete tracker;
+				tracker = NULL;
+				return;
+			}
+			tracker->setCamera(camera);
+		}
+		else
+		{
+			StbCore::Logger::getInstance()->logError("Application parameter 'featureset' missing. Can't initialize NFT3 tracking.");
+			return;
+		}
+#ifdef _DEBUG
+		//debugWindow.create(640,480);
+#endif
+		initialized = true;
+	}
+
+	void NFTrackerModule::newVideoFrame(const unsigned char* frameData, int newSizeX, int newSizeY, PIXEL_FORMAT imgFormat, void* trackingData)
+	{
+		if( !initialized ) createTracker();
+		coreImageBuffer->setPixels((void*)frameData, newSizeX, newSizeY, StbCore::PIXEL_FORMAT_BGR);
+		process();
+		return;
+	}
+
+	void NFTrackerModule::process()
+    {
+  //  	int key(0);
+		//while( _kbhit() )
+  //      {
+  //          key = _getch();
+  //          if( key == 0 || key == 0xE0 )
+  //          {
+  //              key = 0xE0 << 8;
+  //              key |= _getch();
+  //          }
+		//}
+		//if( key == 0xe03f ) //f5
+		//{
+		//	if(noTracking){
+		//		noTracking=false;
+		//		tracker->clearFlags(NFT3::Tracker::NO_TRACKING);
+		//	}else{
+		//		noTracking=true;
+		//		tracker->setFlags(NFT3::Tracker::NO_TRACKING);
+		//	}
+		//}
+
+		// convert to lum image
+
+
+        static bool initAlloc = false;
+        if(!initAlloc)
+        {
+		    cameraGray.allocPixels(coreImageBuffer->getWidth(), coreImageBuffer->getHeight());
+            initAlloc = true;
+        }
+		const unsigned char* srcPixels = (const unsigned char*)coreImageBuffer->getPixels();
+		unsigned char* dstPixels = cameraGray.getPixels();
+		int numPixels = coreImageBuffer->getWidth()*coreImageBuffer->getHeight();
+		while(--numPixels)
+		{
+			unsigned int grey = srcPixels[0] + (srcPixels[1]<<1) + srcPixels[2];
+			*dstPixels++ = (unsigned char)(grey>>2);
+			srcPixels += 3;
+		}
+
+
+
+		//FILE* fp = fopen("camera.raw", "wb");
+		//fwrite(lumBuffer, 1, coreImageBuffer->getWidth()*coreImageBuffer->getHeight(), fp);
+		//fclose(fp);
+
+
+
+		tracker->update(cameraGray);
+
+        // reset all markers from last grab, then clear list
+        //
+        for(NodeVector::iterator it=visibleMarkers.begin(); it!=visibleMarkers.end(); it++)
+        {
+            Node* source = ((Node *)*it);
+
+            //if(source->getType()=="ARToolKitPlusSource")
+            //{
+            NFTrackerSource *smSource = (NFTrackerSource *)source;
+
+            Event & event = smSource->buffer;
+            /*if (event.getConfidence() > 0.00000001f) 
+            {*/
+                event.getConfidence() = 0.0f;
+                event.timeStamp();
+                smSource->modified = 1;
+            //}
+        }
+        visibleMarkers.clear();
+
+
+
+		const NFT3::TargetVector& targets = tracker->getTargets();
+
+		if(targets.size()>0)
+		{
+			for(int i(0); i<targets.size(); i++)
+			{
+				if(targets[i].getStatus()!=NFT3::Target::INACTIVE)
+				{
+					const StbCV::PoseF& pose1 = targets[i].getPose();
+                    StbCV::PoseF pose = pose1;
+                    pose.translation()(0) = pose1.translation()(0);
+                    pose.translation()(1) = -1.0f * pose1.translation()(1);
+                    pose.translation()(2) = -1.0f * pose1.translation()(2); 
+
+          
+
+					for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+					{
+						NFTrackerSource * source = (NFTrackerSource *)((Node *)*it);
+					
+						if( !(source->targetName).compare(targets[i].getName().c_str()) )
+						{
+                            Event &event = source->buffer;
+                            
+              
+							for(int i(0);i<3;i++)
+								event.getPosition()[i] = pose.translation()(i);
+							MathUtils::Matrix4x4 mOri =  { {pose.rotation().matrix()(0), pose.rotation().matrix()(1), pose.rotation().matrix()(2), 0},
+							{-pose.rotation().matrix()(3),-pose.rotation().matrix()(4),-pose.rotation().matrix()(5), 0},
+							{-pose.rotation().matrix()(6),-pose.rotation().matrix()(7),-pose.rotation().matrix()(8), 0},
+							{0, 0, 0, 1} };
+
+         
+              
+							double qOriRes1[4];
+                            double qOriRes[4] = {0,0,0,1};
+
+							MathUtils::matrixToQuaternion(mOri, qOriRes1);
+              
+              
+							for (int i(0);i<4;i++) event.getOrientation()[i]=(float)qOriRes1[i];
+
+                            event.timeStamp();
+                            source->modified = 1;
+                            
+							//source->event.timeStamp();
+							//source->newEvent=true;
+						}
+					}
+				}
+			}
+		}
+
+
+		//if(noTracking)
+		//{
+		//	StbCore::String str;
+		//	str = tracker->createDetectionReport();
+		//	logPrintS("%s\n", str.c_str());
+		//}else{
+		//	StbCore::String str;
+		//	str = tracker->createTrackingReport();
+		//	logPrintS("%s\n", str.c_str());
+		//}
     }
 
 
@@ -127,24 +303,40 @@ namespace ot {
         }
     }
 
- 
-    void 
-	NFTrackerModule::pushEvent()
+    void NFTrackerModule::pushEvent()
     {
-    //    for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
-    //    {
-    //        NFTrackerSource * source = (NFTrackerSource *)((Node *)*it);
-
-    //        if( source->modified == 1 )
-    //        {
-				//source->lockLoop();
-				//source->modified = 0;
-
-				//source->updateObservers( source->event );
-				//source->unlockLoop();
-    //        }
-    //    }
+        for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+        {
+            NFTrackerSource * source = (NFTrackerSource *)((Node *)*it);
+            //if( TRUE ) 
+            if( source->modified == 1 )
+            {
+                source->event = source->buffer;
+                source->modified = 0;
+                source->updateObservers( source->event );
+            }
+        }
     }
+ 
+ //   void 
+	//NFTrackerModule::pushEvent()
+ //   {
+ //       for( NodeVector::iterator it = sources.begin(); it != sources.end(); it ++ )
+ //       {
+ //           NFTrackerSource * source = (NFTrackerSource *)((Node *)*it);
+
+ //           if( source->modified == 1 )
+ //           {
+	//			source->lockLoop();
+	//			source->modified = 0;
+
+	//			source->updateObservers( source->event );
+	//			source->unlockLoop();
+ //           }
+ //       }
+
+ //     
+ //   }
 } //namespace ot
 
 
