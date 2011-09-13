@@ -139,6 +139,7 @@
 #include <OpenTracker/otpy/PythonModule.h>
 #include <OpenTracker/input/VideoLocationModule.h>
 #include <OpenTracker/input/NFTrackerModule.h>
+#include <OpenTracker/input/HydraModule.h>
 
 
 #include <OpenTracker/input/PhantomModule.h>
@@ -425,6 +426,12 @@ namespace ot {
 
 #ifdef USE_P5GLOVE
         OT_REGISTER_MODULE(P5GloveModule, NULL);
+#endif
+
+#ifdef USE_HYDRA
+#ifdef WIN32
+        OT_REGISTER_MODULE(HydraModule, NULL);
+#endif
 #endif
 
 #ifndef OT_NO_GPS_SUPPORT

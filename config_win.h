@@ -167,7 +167,7 @@
     why it is disabled by default)
  */
 
-#define EXCLUDE_MOBILAB_SUPPORT 1
+//#define EXCLUDE_MOBILAB_SUPPORT 1
 
 /** umcomment the following line to to direct console output to the MSDev debug console */
 //#define USE_MSDEV_DEBUGOUTPUT 1
@@ -194,7 +194,7 @@
 
 /** uncomment the following line to compile support for Pan Tilt Units.
  * Support for this is only available on windows at the moment. */
-#define USE_PANTILTUNIT 1
+//#define USE_PANTILTUNIT 1
 
 /**
  * uncomment the following to add the CalibModule to open tracker.
@@ -213,6 +213,10 @@
 /** uncomment the following line to compile support for Essentialreality's P5 glove.
  * Support for this is only available on windows yet. Linux support is in development.*/
 // #define USE_P5GLOVE 1
+
+/** uncomment the following line to compile support for Razer Hydra.
+ * Support for this is only available on windows. */
+// #define USE_HYDRA 1
 
 /** uncomment the following line to compile support for the DWARF.
  */
